@@ -9,38 +9,410 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkRouteImport } from './routes/work'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkIndexRouteImport } from './routes/work.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as WorkIdRouteImport } from './routes/work.$id'
+import { Route as BlogIdRouteImport } from './routes/blog.$id'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
+import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
+import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
+import { Route as AdminSiteSocialRouteImport } from './routes/admin.site.social'
+import { Route as AdminSiteHeroRouteImport } from './routes/admin.site.hero'
+import { Route as AdminSiteContactRouteImport } from './routes/admin.site.contact'
+import { Route as AdminSiteAboutRouteImport } from './routes/admin.site.about'
+import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
+import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
+import { Route as AdminBlogNewRouteImport } from './routes/admin.blog.new'
+import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
 
+const WorkRoute = WorkRouteImport.update({
+  id: '/work',
+  path: '/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkIndexRoute = WorkIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WorkRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const WorkIdRoute = WorkIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => WorkRoute,
+} as any)
+const BlogIdRoute = BlogIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => BlogRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSystemDemoRoute = AdminSystemDemoRouteImport.update({
+  id: '/system/demo',
+  path: '/system/demo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteSocialRoute = AdminSiteSocialRouteImport.update({
+  id: '/site/social',
+  path: '/site/social',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteHeroRoute = AdminSiteHeroRouteImport.update({
+  id: '/site/hero',
+  path: '/site/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteContactRoute = AdminSiteContactRouteImport.update({
+  id: '/site/contact',
+  path: '/site/contact',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteAboutRoute = AdminSiteAboutRouteImport.update({
+  id: '/site/about',
+  path: '/site/about',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
+  id: '/projects/new',
+  path: '/projects/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsIdRoute = AdminProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogNewRoute = AdminBlogNewRouteImport.update({
+  id: '/blog/new',
+  path: '/blog/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
+  id: '/blog/$id',
+  path: '/blog/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/work': typeof WorkRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$id': typeof BlogIdRoute
+  '/work/$id': typeof WorkIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/blog/new': typeof AdminBlogNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$id': typeof BlogIdRoute
+  '/work/$id': typeof WorkIdRoute
+  '/admin': typeof AdminIndexRoute
+  '/work': typeof WorkIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/blog/new': typeof AdminBlogNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/blog': typeof AdminBlogIndexRoute
+  '/admin/projects': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/blog': typeof BlogRouteWithChildren
+  '/contact': typeof ContactRoute
+  '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
+  '/signup': typeof SignupRoute
+  '/terms': typeof TermsRoute
+  '/work': typeof WorkRouteWithChildren
+  '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$id': typeof BlogIdRoute
+  '/work/$id': typeof WorkIdRoute
+  '/admin/': typeof AdminIndexRoute
+  '/work/': typeof WorkIndexRoute
+  '/admin/blog/$id': typeof AdminBlogIdRoute
+  '/admin/blog/new': typeof AdminBlogNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/blog/': typeof AdminBlogIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/blog'
+    | '/contact'
+    | '/login'
+    | '/privacy'
+    | '/signup'
+    | '/terms'
+    | '/work'
+    | '/admin/settings'
+    | '/blog/$id'
+    | '/work/$id'
+    | '/admin/'
+    | '/work/'
+    | '/admin/blog/$id'
+    | '/admin/blog/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
+    | '/admin/blog/'
+    | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/contact'
+    | '/login'
+    | '/privacy'
+    | '/signup'
+    | '/terms'
+    | '/admin/settings'
+    | '/blog/$id'
+    | '/work/$id'
+    | '/admin'
+    | '/work'
+    | '/admin/blog/$id'
+    | '/admin/blog/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
+    | '/admin/blog'
+    | '/admin/projects'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/blog'
+    | '/contact'
+    | '/login'
+    | '/privacy'
+    | '/signup'
+    | '/terms'
+    | '/work'
+    | '/admin/settings'
+    | '/blog/$id'
+    | '/work/$id'
+    | '/admin/'
+    | '/work/'
+    | '/admin/blog/$id'
+    | '/admin/blog/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
+    | '/admin/blog/'
+    | '/admin/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  BlogRoute: typeof BlogRouteWithChildren
+  ContactRoute: typeof ContactRoute
+  LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
+  SignupRoute: typeof SignupRoute
+  TermsRoute: typeof TermsRoute
+  WorkRoute: typeof WorkRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/work': {
+      id: '/work'
+      path: '/work'
+      fullPath: '/work'
+      preLoaderRoute: typeof WorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +420,189 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/work/': {
+      id: '/work/'
+      path: '/'
+      fullPath: '/work/'
+      preLoaderRoute: typeof WorkIndexRouteImport
+      parentRoute: typeof WorkRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/work/$id': {
+      id: '/work/$id'
+      path: '/$id'
+      fullPath: '/work/$id'
+      preLoaderRoute: typeof WorkIdRouteImport
+      parentRoute: typeof WorkRoute
+    }
+    '/blog/$id': {
+      id: '/blog/$id'
+      path: '/$id'
+      fullPath: '/blog/$id'
+      preLoaderRoute: typeof BlogIdRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/': {
+      id: '/admin/projects/'
+      path: '/projects'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminProjectsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blog/': {
+      id: '/admin/blog/'
+      path: '/blog'
+      fullPath: '/admin/blog/'
+      preLoaderRoute: typeof AdminBlogIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/system/demo': {
+      id: '/admin/system/demo'
+      path: '/system/demo'
+      fullPath: '/admin/system/demo'
+      preLoaderRoute: typeof AdminSystemDemoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/social': {
+      id: '/admin/site/social'
+      path: '/site/social'
+      fullPath: '/admin/site/social'
+      preLoaderRoute: typeof AdminSiteSocialRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/hero': {
+      id: '/admin/site/hero'
+      path: '/site/hero'
+      fullPath: '/admin/site/hero'
+      preLoaderRoute: typeof AdminSiteHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/contact': {
+      id: '/admin/site/contact'
+      path: '/site/contact'
+      fullPath: '/admin/site/contact'
+      preLoaderRoute: typeof AdminSiteContactRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/about': {
+      id: '/admin/site/about'
+      path: '/site/about'
+      fullPath: '/admin/site/about'
+      preLoaderRoute: typeof AdminSiteAboutRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/new': {
+      id: '/admin/projects/new'
+      path: '/projects/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminProjectsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/$id': {
+      id: '/admin/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/admin/projects/$id'
+      preLoaderRoute: typeof AdminProjectsIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blog/new': {
+      id: '/admin/blog/new'
+      path: '/blog/new'
+      fullPath: '/admin/blog/new'
+      preLoaderRoute: typeof AdminBlogNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blog/$id': {
+      id: '/admin/blog/$id'
+      path: '/blog/$id'
+      fullPath: '/admin/blog/$id'
+      preLoaderRoute: typeof AdminBlogIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminBlogIdRoute: typeof AdminBlogIdRoute
+  AdminBlogNewRoute: typeof AdminBlogNewRoute
+  AdminProjectsIdRoute: typeof AdminProjectsIdRoute
+  AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+  AdminSiteAboutRoute: typeof AdminSiteAboutRoute
+  AdminSiteContactRoute: typeof AdminSiteContactRoute
+  AdminSiteHeroRoute: typeof AdminSiteHeroRoute
+  AdminSiteSocialRoute: typeof AdminSiteSocialRoute
+  AdminSystemDemoRoute: typeof AdminSystemDemoRoute
+  AdminBlogIndexRoute: typeof AdminBlogIndexRoute
+  AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminBlogIdRoute: AdminBlogIdRoute,
+  AdminBlogNewRoute: AdminBlogNewRoute,
+  AdminProjectsIdRoute: AdminProjectsIdRoute,
+  AdminProjectsNewRoute: AdminProjectsNewRoute,
+  AdminSiteAboutRoute: AdminSiteAboutRoute,
+  AdminSiteContactRoute: AdminSiteContactRoute,
+  AdminSiteHeroRoute: AdminSiteHeroRoute,
+  AdminSiteSocialRoute: AdminSiteSocialRoute,
+  AdminSystemDemoRoute: AdminSystemDemoRoute,
+  AdminBlogIndexRoute: AdminBlogIndexRoute,
+  AdminProjectsIndexRoute: AdminProjectsIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface BlogRouteChildren {
+  BlogIdRoute: typeof BlogIdRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogIdRoute: BlogIdRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
+interface WorkRouteChildren {
+  WorkIdRoute: typeof WorkIdRoute
+  WorkIndexRoute: typeof WorkIndexRoute
+}
+
+const WorkRouteChildren: WorkRouteChildren = {
+  WorkIdRoute: WorkIdRoute,
+  WorkIndexRoute: WorkIndexRoute,
+}
+
+const WorkRouteWithChildren = WorkRoute._addFileChildren(WorkRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  BlogRoute: BlogRouteWithChildren,
+  ContactRoute: ContactRoute,
+  LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
+  SignupRoute: SignupRoute,
+  TermsRoute: TermsRoute,
+  WorkRoute: WorkRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
