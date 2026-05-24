@@ -26,6 +26,11 @@ import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
+import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
+import { Route as AdminSiteSocialRouteImport } from './routes/admin.site.social'
+import { Route as AdminSiteHeroRouteImport } from './routes/admin.site.hero'
+import { Route as AdminSiteContactRouteImport } from './routes/admin.site.contact'
+import { Route as AdminSiteAboutRouteImport } from './routes/admin.site.about'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
 import { Route as AdminBlogNewRouteImport } from './routes/admin.blog.new'
@@ -116,6 +121,31 @@ const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSystemDemoRoute = AdminSystemDemoRouteImport.update({
+  id: '/system/demo',
+  path: '/system/demo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteSocialRoute = AdminSiteSocialRouteImport.update({
+  id: '/site/social',
+  path: '/site/social',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteHeroRoute = AdminSiteHeroRouteImport.update({
+  id: '/site/hero',
+  path: '/site/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteContactRoute = AdminSiteContactRouteImport.update({
+  id: '/site/contact',
+  path: '/site/contact',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteAboutRoute = AdminSiteAboutRouteImport.update({
+  id: '/site/about',
+  path: '/site/about',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
   id: '/projects/new',
   path: '/projects/new',
@@ -157,6 +187,11 @@ export interface FileRoutesByFullPath {
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
 }
@@ -178,6 +213,11 @@ export interface FileRoutesByTo {
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
 }
@@ -202,6 +242,11 @@ export interface FileRoutesById {
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
+  '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
 }
@@ -227,6 +272,11 @@ export interface FileRouteTypes {
     | '/admin/blog/new'
     | '/admin/projects/$id'
     | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
@@ -248,6 +298,11 @@ export interface FileRouteTypes {
     | '/admin/blog/new'
     | '/admin/projects/$id'
     | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
     | '/admin/blog'
     | '/admin/projects'
   id:
@@ -271,6 +326,11 @@ export interface FileRouteTypes {
     | '/admin/blog/new'
     | '/admin/projects/$id'
     | '/admin/projects/new'
+    | '/admin/site/about'
+    | '/admin/site/contact'
+    | '/admin/site/hero'
+    | '/admin/site/social'
+    | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
   fileRoutesById: FileRoutesById
@@ -409,6 +469,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/system/demo': {
+      id: '/admin/system/demo'
+      path: '/system/demo'
+      fullPath: '/admin/system/demo'
+      preLoaderRoute: typeof AdminSystemDemoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/social': {
+      id: '/admin/site/social'
+      path: '/site/social'
+      fullPath: '/admin/site/social'
+      preLoaderRoute: typeof AdminSiteSocialRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/hero': {
+      id: '/admin/site/hero'
+      path: '/site/hero'
+      fullPath: '/admin/site/hero'
+      preLoaderRoute: typeof AdminSiteHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/contact': {
+      id: '/admin/site/contact'
+      path: '/site/contact'
+      fullPath: '/admin/site/contact'
+      preLoaderRoute: typeof AdminSiteContactRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/about': {
+      id: '/admin/site/about'
+      path: '/site/about'
+      fullPath: '/admin/site/about'
+      preLoaderRoute: typeof AdminSiteAboutRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/projects/new': {
       id: '/admin/projects/new'
       path: '/projects/new'
@@ -447,6 +542,11 @@ interface AdminRouteChildren {
   AdminBlogNewRoute: typeof AdminBlogNewRoute
   AdminProjectsIdRoute: typeof AdminProjectsIdRoute
   AdminProjectsNewRoute: typeof AdminProjectsNewRoute
+  AdminSiteAboutRoute: typeof AdminSiteAboutRoute
+  AdminSiteContactRoute: typeof AdminSiteContactRoute
+  AdminSiteHeroRoute: typeof AdminSiteHeroRoute
+  AdminSiteSocialRoute: typeof AdminSiteSocialRoute
+  AdminSystemDemoRoute: typeof AdminSystemDemoRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
 }
@@ -458,6 +558,11 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminBlogNewRoute: AdminBlogNewRoute,
   AdminProjectsIdRoute: AdminProjectsIdRoute,
   AdminProjectsNewRoute: AdminProjectsNewRoute,
+  AdminSiteAboutRoute: AdminSiteAboutRoute,
+  AdminSiteContactRoute: AdminSiteContactRoute,
+  AdminSiteHeroRoute: AdminSiteHeroRoute,
+  AdminSiteSocialRoute: AdminSiteSocialRoute,
+  AdminSystemDemoRoute: AdminSystemDemoRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminProjectsIndexRoute: AdminProjectsIndexRoute,
 }
