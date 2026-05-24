@@ -694,21 +694,25 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
           </div>
 
           {/* Profile Avatar */}
-          <div className="flex items-center pl-1.5 pr-1.5 sm:pl-2 sm:pr-2">
-             <motion.div 
-               whileHover={{ scale: 1.05 }}
-               className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-white/20 shadow-xl cursor-pointer"
-             >
-                <img 
-                  src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=2574" 
-                  alt="Profile" 
-                  className="w-full h-full object-cover transition-all duration-500"
-                />
-             </motion.div>
-          </div>
+          {avatarEnabled && (
+            <>
+              <div className="flex items-center pl-1.5 pr-1.5 sm:pl-2 sm:pr-2">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-white/20 shadow-xl cursor-pointer"
+                >
+                  <img
+                    src={avatarUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover transition-all duration-500"
+                  />
+                </motion.div>
+              </div>
 
-          {/* Section Divider */}
-          <div className={`hidden sm:block w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
+              {/* Section Divider */}
+              <div className={`hidden sm:block w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
+            </>
+          )}
 
           {/* Navigation Items */}
           <div className="flex items-center px-1">
