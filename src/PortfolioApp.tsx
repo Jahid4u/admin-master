@@ -2308,7 +2308,7 @@ const MinimalWork = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: Hom
   );
 };
 
-const MinimalBlog = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalBlog = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const hairline = isDark ? 'bg-white/10' : 'bg-black/10';
   const posts = blogPosts.slice(0, 3);
@@ -2321,26 +2321,26 @@ const MinimalBlog = ({ theme }: { theme: 'dark' | 'light' }) => {
             <div className="flex items-center gap-4 mb-5">
               <span className={`h-px w-10 ${hairline}`} />
               <span className={`text-[10px] font-mono uppercase tracking-[0.35em] ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                Journal — Notes & Essays
+                {home.blog_eyebrow || 'Journal — Notes & Essays'}
               </span>
             </div>
             <h2 className={`font-display font-medium tracking-[-0.04em] leading-[1.02] text-3xl md:text-4xl lg:text-[2.75rem] ${isDark ? 'text-white' : 'text-black'}`}>
-              Writing on{' '}
-              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>craft</span>
+              {home.blog_headline_pre || 'Writing on'}{' '}
+              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>{home.blog_headline_italic || 'craft'}</span>
               <span className="text-blue-500">.</span>
             </h2>
           </div>
-          <Link
-            to="/blog"
+          <a
+            href={home.blog_button_url || '/blog'}
             className={`group flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-medium border rounded-full px-5 py-3 transition-all ${
               isDark
                 ? 'border-white/15 text-zinc-300 hover:bg-white hover:text-black hover:border-white'
                 : 'border-black/15 text-zinc-700 hover:bg-black hover:text-white hover:border-black'
             }`}
           >
-            All Writing
+            {home.blog_button_label || 'All Writing'}
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
+          </a>
         </div>
 
         {/* Compact 3-up: small thumbnail cards in a tight row */}
