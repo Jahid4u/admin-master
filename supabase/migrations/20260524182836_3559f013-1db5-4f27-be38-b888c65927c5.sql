@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "public can subscribe" ON public.newsletter_subscribers;
