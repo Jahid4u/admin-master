@@ -16,6 +16,7 @@ import {
   Share2,
   Database,
   Server,
+  Image as ImageIcon,
   LogOut,
   ChevronRight,
   ChevronsLeft,
@@ -34,6 +35,7 @@ const groups: Group[] = [
       { title: "Dashboard", url: "/admin", icon: LayoutDashboard, exact: true },
       { title: "Inbox", url: "/admin/inbox", icon: Mail },
       { title: "Newsletter", url: "/admin/newsletter", icon: Newspaper },
+      { title: "Media", url: "/admin/media", icon: ImageIcon },
     ],
   },
   {
