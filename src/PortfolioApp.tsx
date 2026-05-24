@@ -1694,8 +1694,10 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
     copyright?: string;
     privacy_enabled?: boolean;
     privacy_label?: string;
+    privacy_url?: string;
     terms_enabled?: boolean;
     terms_label?: string;
+    terms_url?: string;
   };
   const newsletterEnabled = footerSettings.newsletter_enabled !== false;
   const newsletterTitle = footerSettings.newsletter_title || 'Stay in the Loop';
@@ -1711,8 +1713,11 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
     `© ${new Date().getFullYear()} JAHID HASAN. CRAFTED WITH SOUL.`;
   const privacyEnabled = footerSettings.privacy_enabled !== false;
   const privacyLabel = footerSettings.privacy_label || 'PRIVACY POLICY';
+  const privacyUrl = footerSettings.privacy_url || '/privacy';
   const termsEnabled = footerSettings.terms_enabled !== false;
   const termsLabel = footerSettings.terms_label || 'TERMS OF SERVICE';
+  const termsUrl = footerSettings.terms_url || '/terms';
+
 
   useEffect(() => {
     // Fallback timer to ensure overflow-visible is set even if viewport observers are delayed
