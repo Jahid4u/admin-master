@@ -2129,6 +2129,27 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
   const emailPh = home.contact_email_placeholder || 'john@example.com';
   const subjectPh = home.contact_subject_placeholder || 'What is this regarding?';
   const messagePh = home.contact_message_placeholder || 'Tell me about your project...';
+
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [sending, setSending] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) return;
+    setSending(true);
+    try {
+      await submitContact({ data: { ...form, source: 'home' } });
+      toast.success('Message sent. I will get back to you soon.');
+      setDone(true);
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to send.');
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <section className={`py-24 md:py-32 px-6 md:px-12 lg:px-24 flex flex-col items-center justify-center border-t relative overflow-hidden ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
       <div className="absolute inset-0 pointer-events-none">
@@ -2155,20 +2176,33 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
 
         <div className={`w-full max-w-2xl text-left p-6 sm:p-10 md:p-14 rounded-2xl sm:rounded-[2rem] border shadow-2xl relative overflow-hidden ${theme === 'dark' ? 'bg-zinc-900 border-white/5 shadow-black/50' : 'bg-white border-black/5 shadow-zinc-200/50'}`}>
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
-          <form className="flex flex-col gap-10" onSubmit={(e) => e.preventDefault()}>
+          {done ? (
+            <div className="text-center py-10">
+              <Check className={`w-12 h-12 mx-auto mb-4 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
+              <p className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Message received</p>
+              <button onClick={() => setDone(false)} className={`mt-6 text-xs font-mono uppercase tracking-[0.2em] underline underline-offset-4 ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'}`}>Send another</button>
+            </div>
+          ) : (
+          <form className="flex flex-col gap-10" onSubmit={onSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <div className="flex flex-col gap-3 group">
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder={namePh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
               </div>
               <div className="flex flex-col gap-3 group">
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Email</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder={emailPh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
@@ -2176,15 +2210,20 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
             </div>
             <div className="flex flex-col gap-3 group">
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Subject</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
+                value={form.subject}
+                onChange={(e) => setForm({ ...form, subject: e.target.value })}
                 placeholder={subjectPh}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
               />
             </div>
             <div className="flex flex-col gap-3 group">
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Message</label>
-              <textarea 
+              <textarea
+                required
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
                 placeholder={messagePh}
                 rows={4}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium resize-none transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
@@ -2196,11 +2235,12 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
                    <a href={social.url || '#'} key={social.label} className={`text-[11px] font-mono font-bold uppercase tracking-[0.1em] ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'} transition-colors`}>{social.label}</a>
                 ))}
               </div>
-              <button className={`px-10 py-4 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] ${theme === 'dark' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'} transition-transform hover:scale-105 active:scale-95`}>
-                {sendLabel}
+              <button type="submit" disabled={sending} className={`px-10 py-4 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] disabled:opacity-50 ${theme === 'dark' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'} transition-transform hover:scale-105 active:scale-95`}>
+                {sending ? 'Sending…' : sendLabel}
               </button>
             </div>
           </form>
+          )}
         </div>
       </div>
     </section>
