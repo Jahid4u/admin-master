@@ -9,6 +9,14 @@ import {
   Share2,
   Database,
   LogOut,
+  Search,
+  Navigation,
+  PanelBottom,
+  Briefcase,
+  Newspaper,
+  Sparkles,
+  Shield,
+  ScrollText,
 } from "lucide-react";
 import {
   Sidebar,
@@ -38,12 +46,30 @@ const groups = [
     ],
   },
   {
-    label: "Site content",
+    label: "Home page",
     items: [
       { title: "Hero section", url: "/admin/site/hero", icon: User },
+      { title: "Services", url: "/admin/site/services", icon: Sparkles },
       { title: "About section", url: "/admin/site/about", icon: Info },
+    ],
+  },
+  {
+    label: "Other pages",
+    items: [
+      { title: "Work header", url: "/admin/site/work_header", icon: Briefcase },
+      { title: "Blog header", url: "/admin/site/blog_header", icon: Newspaper },
+      { title: "Privacy policy", url: "/admin/site/privacy", icon: Shield },
+      { title: "Terms of service", url: "/admin/site/terms", icon: ScrollText },
+    ],
+  },
+  {
+    label: "Global",
+    items: [
+      { title: "Navigation", url: "/admin/site/navigation", icon: Navigation },
+      { title: "Footer", url: "/admin/site/footer", icon: PanelBottom },
       { title: "Contact info", url: "/admin/site/contact", icon: Mail },
       { title: "Social links", url: "/admin/site/social", icon: Share2 },
+      { title: "SEO & meta", url: "/admin/site/seo", icon: Search },
     ],
   },
   {
