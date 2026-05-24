@@ -1667,6 +1667,7 @@ const contactSocialIconFor = (label: string) => {
 export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const { data: settings } = useQuery({
     queryKey: ['site-settings'],
@@ -1679,10 +1680,17 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
     { label: 'GitHub', url: '#', enabled: true },
   ]).filter((s) => s.enabled !== false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
+    if (!formData.name || !formData.email || !formData.message) return;
+    setSubmitting(true);
+    try {
+      await submitContact({ data: { ...formData, source: 'contact' } });
       setIsSubmitted(true);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Failed to send. Try again.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
