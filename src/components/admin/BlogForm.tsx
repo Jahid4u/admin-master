@@ -12,8 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { ImageUploader } from "./ImageUploader";
-import { ImagePlus, Eye, Pencil } from "lucide-react";
+import {
+  ImagePlus, Eye, Pencil, Bold, Italic, Heading1, Heading2, Heading3,
+  List, ListOrdered, Quote, Code, Link2, Minus,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export type PostFormValues = {
@@ -95,6 +99,57 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
     });
   }
 
+  // Wrap the current selection with `before`/`after`. If nothing selected,
+  // inserts `placeholder` between them and selects it so the user can type.
+  function wrapSelection(before: string, after: string, placeholder = "text") {
+    const el = contentRef.current;
+    const current = v.content ?? "";
+    if (!el) {
+      set("content", current + before + placeholder + after);
+      return;
+    }
+    const start = el.selectionStart ?? current.length;
+    const end = el.selectionEnd ?? current.length;
+    const selected = current.slice(start, end) || placeholder;
+    const next = current.slice(0, start) + before + selected + after + current.slice(end);
+    set("content", next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(start + before.length, start + before.length + selected.length);
+    });
+  }
+
+  // Prefix every line in the current selection (or the current line) with `prefix`.
+  function prefixLines(prefix: string | ((i: number) => string)) {
+    const el = contentRef.current;
+    const current = v.content ?? "";
+    if (!el) return;
+    const start = el.selectionStart ?? 0;
+    const end = el.selectionEnd ?? 0;
+    const lineStart = current.lastIndexOf("\n", start - 1) + 1;
+    const lineEnd = current.indexOf("\n", end);
+    const blockEnd = lineEnd === -1 ? current.length : lineEnd;
+    const block = current.slice(lineStart, blockEnd);
+    const updated = block
+      .split("\n")
+      .map((l, i) => (typeof prefix === "string" ? prefix : prefix(i)) + l)
+      .join("\n");
+    const next = current.slice(0, lineStart) + updated + current.slice(blockEnd);
+    set("content", next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(lineStart, lineStart + updated.length);
+    });
+  }
+
+  function insertLink() {
+    const el = contentRef.current;
+    const selected = el ? (v.content ?? "").slice(el.selectionStart ?? 0, el.selectionEnd ?? 0) : "";
+    const url = window.prompt("Link URL", "https://");
+    if (!url) return;
+    wrapSelection("[", `](${url})`, selected || "link text");
+  }
+
   async function handleInlineImage(file: File) {
     setInserting(true);
     try {
@@ -158,23 +213,8 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader>
           <CardTitle className="text-base">Content</CardTitle>
-          <label className="inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer border rounded-md px-2.5 py-1.5 hover:bg-muted">
-            <ImagePlus className="size-4" />
-            {inserting ? "Uploading…" : "Insert image"}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              disabled={inserting}
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) handleInlineImage(f);
-                e.target.value = "";
-              }}
-            />
-          </label>
         </CardHeader>
         <CardContent className="space-y-2">
           <Tabs defaultValue="write">
@@ -182,17 +222,49 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
               <TabsTrigger value="write"><Pencil className="size-3.5 mr-1.5" />Write</TabsTrigger>
               <TabsTrigger value="preview"><Eye className="size-3.5 mr-1.5" />Preview</TabsTrigger>
             </TabsList>
-            <TabsContent value="write" className="mt-3">
+            <TabsContent value="write" className="mt-3 space-y-2">
+              <div className="flex flex-wrap items-center gap-1 border rounded-md p-1 bg-muted/40">
+                <ToolbarBtn title="Heading 1" onClick={() => prefixLines("# ")}><Heading1 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Heading 2" onClick={() => prefixLines("## ")}><Heading2 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Heading 3" onClick={() => prefixLines("### ")}><Heading3 className="size-4" /></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Bold" onClick={() => wrapSelection("**", "**", "bold text")}><Bold className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Italic" onClick={() => wrapSelection("*", "*", "italic text")}><Italic className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Inline code" onClick={() => wrapSelection("`", "`", "code")}><Code className="size-4" /></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Bullet list" onClick={() => prefixLines("- ")}><List className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Numbered list" onClick={() => prefixLines((i) => `${i + 1}. `)}><ListOrdered className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Quote" onClick={() => prefixLines("> ")}><Quote className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Code block" onClick={() => wrapSelection("\n```\n", "\n```\n", "your code here")}><span className="text-xs font-mono">{`{}`}</span></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Link" onClick={insertLink}><Link2 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Divider" onClick={() => insertAtCursor("\n\n---\n\n")}><Minus className="size-4" /></ToolbarBtn>
+                <label className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer border rounded-md px-2.5 py-1 hover:bg-background bg-background">
+                  <ImagePlus className="size-4" />
+                  {inserting ? "Uploading…" : "Image"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    disabled={inserting}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleInlineImage(f);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
               <Textarea
                 ref={contentRef}
                 rows={20}
                 value={v.content}
                 onChange={(e) => set("content", e.target.value)}
-                placeholder={"Write your post in Markdown.\n\n## Heading\n\nParagraph with **bold** and [a link](https://example.com).\n\n![alt](https://image.url)"}
+                placeholder={"Just start writing…\n\nSelect any text and use the toolbar above to make it bold, add a heading, insert a link, and more. Click Preview to see the result."}
                 className="font-mono text-sm"
               />
-              <p className="text-xs text-muted-foreground mt-2">
-                Supports Markdown: <code>##</code> headings, <code>**bold**</code>, <code>`code`</code>, <code>```fenced blocks```</code>, lists, links, and images.
+              <p className="text-xs text-muted-foreground">
+                Tip: select text first, then click a toolbar button to format it.
               </p>
             </TabsContent>
             <TabsContent value="preview" className="mt-3">
@@ -213,5 +285,27 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
         <Button type="button" variant="outline" onClick={() => navigate({ to: "/admin/blog" })}>Cancel</Button>
       </div>
     </form>
+  );
+}
+
+function ToolbarBtn({
+  title,
+  onClick,
+  children,
+}: {
+  title: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      title={title}
+      aria-label={title}
+      onClick={onClick}
+      className="inline-flex items-center justify-center size-8 rounded hover:bg-background text-muted-foreground hover:text-foreground transition-colors"
+    >
+      {children}
+    </button>
   );
 }
