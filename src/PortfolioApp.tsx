@@ -1801,7 +1801,7 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
             viewport={{ once: true, margin: "-80px" }}
             className={`text-[11.5vw] sm:text-[12vw] lg:text-[12.5vw] leading-[0.85] font-black font-display uppercase tracking-[-0.04em] w-full text-center whitespace-nowrap transition-colors ${isDark ? 'text-white' : 'text-zinc-950'} flex justify-center items-center ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}
           >
-            {"JAHID HASAN".split("").map((char, index) => (
+            {bigName.split("").map((char, index) => (
               <span key={index} className={`inline-block py-6 -my-6 ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}>
                 <motion.span
                   variants={letterVariants}
@@ -1822,6 +1822,7 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
             ))}
           </motion.div>
         </div>
+        )}
 
         {/* Dynamic sweeping Separator Line */}
         <motion.div 
