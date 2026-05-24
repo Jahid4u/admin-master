@@ -27,9 +27,17 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
+import { Route as AdminSiteWork_headerRouteImport } from './routes/admin.site.work_header'
+import { Route as AdminSiteTermsRouteImport } from './routes/admin.site.terms'
 import { Route as AdminSiteSocialRouteImport } from './routes/admin.site.social'
+import { Route as AdminSiteServicesRouteImport } from './routes/admin.site.services'
+import { Route as AdminSiteSeoRouteImport } from './routes/admin.site.seo'
+import { Route as AdminSitePrivacyRouteImport } from './routes/admin.site.privacy'
+import { Route as AdminSiteNavigationRouteImport } from './routes/admin.site.navigation'
 import { Route as AdminSiteHeroRouteImport } from './routes/admin.site.hero'
+import { Route as AdminSiteFooterRouteImport } from './routes/admin.site.footer'
 import { Route as AdminSiteContactRouteImport } from './routes/admin.site.contact'
+import { Route as AdminSiteBlog_headerRouteImport } from './routes/admin.site.blog_header'
 import { Route as AdminSiteAboutRouteImport } from './routes/admin.site.about'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
@@ -126,9 +134,39 @@ const AdminSystemDemoRoute = AdminSystemDemoRouteImport.update({
   path: '/system/demo',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSiteWork_headerRoute = AdminSiteWork_headerRouteImport.update({
+  id: '/site/work_header',
+  path: '/site/work_header',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteTermsRoute = AdminSiteTermsRouteImport.update({
+  id: '/site/terms',
+  path: '/site/terms',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSiteSocialRoute = AdminSiteSocialRouteImport.update({
   id: '/site/social',
   path: '/site/social',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteServicesRoute = AdminSiteServicesRouteImport.update({
+  id: '/site/services',
+  path: '/site/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteSeoRoute = AdminSiteSeoRouteImport.update({
+  id: '/site/seo',
+  path: '/site/seo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSitePrivacyRoute = AdminSitePrivacyRouteImport.update({
+  id: '/site/privacy',
+  path: '/site/privacy',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteNavigationRoute = AdminSiteNavigationRouteImport.update({
+  id: '/site/navigation',
+  path: '/site/navigation',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSiteHeroRoute = AdminSiteHeroRouteImport.update({
@@ -136,9 +174,19 @@ const AdminSiteHeroRoute = AdminSiteHeroRouteImport.update({
   path: '/site/hero',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSiteFooterRoute = AdminSiteFooterRouteImport.update({
+  id: '/site/footer',
+  path: '/site/footer',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSiteContactRoute = AdminSiteContactRouteImport.update({
   id: '/site/contact',
   path: '/site/contact',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSiteBlog_headerRoute = AdminSiteBlog_headerRouteImport.update({
+  id: '/site/blog_header',
+  path: '/site/blog_header',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSiteAboutRoute = AdminSiteAboutRouteImport.update({
@@ -188,9 +236,17 @@ export interface FileRoutesByFullPath {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/navigation': typeof AdminSiteNavigationRoute
+  '/admin/site/privacy': typeof AdminSitePrivacyRoute
+  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/site/terms': typeof AdminSiteTermsRoute
+  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -214,9 +270,17 @@ export interface FileRoutesByTo {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/navigation': typeof AdminSiteNavigationRoute
+  '/admin/site/privacy': typeof AdminSitePrivacyRoute
+  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/site/terms': typeof AdminSiteTermsRoute
+  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
@@ -243,9 +307,17 @@ export interface FileRoutesById {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
+  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
+  '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/navigation': typeof AdminSiteNavigationRoute
+  '/admin/site/privacy': typeof AdminSitePrivacyRoute
+  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
+  '/admin/site/terms': typeof AdminSiteTermsRoute
+  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -273,9 +345,17 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
+    | '/admin/site/blog_header'
     | '/admin/site/contact'
+    | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/navigation'
+    | '/admin/site/privacy'
+    | '/admin/site/seo'
+    | '/admin/site/services'
     | '/admin/site/social'
+    | '/admin/site/terms'
+    | '/admin/site/work_header'
     | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
@@ -299,9 +379,17 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
+    | '/admin/site/blog_header'
     | '/admin/site/contact'
+    | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/navigation'
+    | '/admin/site/privacy'
+    | '/admin/site/seo'
+    | '/admin/site/services'
     | '/admin/site/social'
+    | '/admin/site/terms'
+    | '/admin/site/work_header'
     | '/admin/system/demo'
     | '/admin/blog'
     | '/admin/projects'
@@ -327,9 +415,17 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
+    | '/admin/site/blog_header'
     | '/admin/site/contact'
+    | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/navigation'
+    | '/admin/site/privacy'
+    | '/admin/site/seo'
+    | '/admin/site/services'
     | '/admin/site/social'
+    | '/admin/site/terms'
+    | '/admin/site/work_header'
     | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
@@ -476,11 +572,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSystemDemoRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/site/work_header': {
+      id: '/admin/site/work_header'
+      path: '/site/work_header'
+      fullPath: '/admin/site/work_header'
+      preLoaderRoute: typeof AdminSiteWork_headerRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/terms': {
+      id: '/admin/site/terms'
+      path: '/site/terms'
+      fullPath: '/admin/site/terms'
+      preLoaderRoute: typeof AdminSiteTermsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/site/social': {
       id: '/admin/site/social'
       path: '/site/social'
       fullPath: '/admin/site/social'
       preLoaderRoute: typeof AdminSiteSocialRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/services': {
+      id: '/admin/site/services'
+      path: '/site/services'
+      fullPath: '/admin/site/services'
+      preLoaderRoute: typeof AdminSiteServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/seo': {
+      id: '/admin/site/seo'
+      path: '/site/seo'
+      fullPath: '/admin/site/seo'
+      preLoaderRoute: typeof AdminSiteSeoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/privacy': {
+      id: '/admin/site/privacy'
+      path: '/site/privacy'
+      fullPath: '/admin/site/privacy'
+      preLoaderRoute: typeof AdminSitePrivacyRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/navigation': {
+      id: '/admin/site/navigation'
+      path: '/site/navigation'
+      fullPath: '/admin/site/navigation'
+      preLoaderRoute: typeof AdminSiteNavigationRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/site/hero': {
@@ -490,11 +628,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSiteHeroRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/site/footer': {
+      id: '/admin/site/footer'
+      path: '/site/footer'
+      fullPath: '/admin/site/footer'
+      preLoaderRoute: typeof AdminSiteFooterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/site/contact': {
       id: '/admin/site/contact'
       path: '/site/contact'
       fullPath: '/admin/site/contact'
       preLoaderRoute: typeof AdminSiteContactRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/site/blog_header': {
+      id: '/admin/site/blog_header'
+      path: '/site/blog_header'
+      fullPath: '/admin/site/blog_header'
+      preLoaderRoute: typeof AdminSiteBlog_headerRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/site/about': {
@@ -543,9 +695,17 @@ interface AdminRouteChildren {
   AdminProjectsIdRoute: typeof AdminProjectsIdRoute
   AdminProjectsNewRoute: typeof AdminProjectsNewRoute
   AdminSiteAboutRoute: typeof AdminSiteAboutRoute
+  AdminSiteBlog_headerRoute: typeof AdminSiteBlog_headerRoute
   AdminSiteContactRoute: typeof AdminSiteContactRoute
+  AdminSiteFooterRoute: typeof AdminSiteFooterRoute
   AdminSiteHeroRoute: typeof AdminSiteHeroRoute
+  AdminSiteNavigationRoute: typeof AdminSiteNavigationRoute
+  AdminSitePrivacyRoute: typeof AdminSitePrivacyRoute
+  AdminSiteSeoRoute: typeof AdminSiteSeoRoute
+  AdminSiteServicesRoute: typeof AdminSiteServicesRoute
   AdminSiteSocialRoute: typeof AdminSiteSocialRoute
+  AdminSiteTermsRoute: typeof AdminSiteTermsRoute
+  AdminSiteWork_headerRoute: typeof AdminSiteWork_headerRoute
   AdminSystemDemoRoute: typeof AdminSystemDemoRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
@@ -559,9 +719,17 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminProjectsIdRoute: AdminProjectsIdRoute,
   AdminProjectsNewRoute: AdminProjectsNewRoute,
   AdminSiteAboutRoute: AdminSiteAboutRoute,
+  AdminSiteBlog_headerRoute: AdminSiteBlog_headerRoute,
   AdminSiteContactRoute: AdminSiteContactRoute,
+  AdminSiteFooterRoute: AdminSiteFooterRoute,
   AdminSiteHeroRoute: AdminSiteHeroRoute,
+  AdminSiteNavigationRoute: AdminSiteNavigationRoute,
+  AdminSitePrivacyRoute: AdminSitePrivacyRoute,
+  AdminSiteSeoRoute: AdminSiteSeoRoute,
+  AdminSiteServicesRoute: AdminSiteServicesRoute,
   AdminSiteSocialRoute: AdminSiteSocialRoute,
+  AdminSiteTermsRoute: AdminSiteTermsRoute,
+  AdminSiteWork_headerRoute: AdminSiteWork_headerRoute,
   AdminSystemDemoRoute: AdminSystemDemoRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminProjectsIndexRoute: AdminProjectsIndexRoute,

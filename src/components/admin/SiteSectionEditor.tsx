@@ -19,7 +19,7 @@ export function Field({ label, children }: { label: string; children: ReactNode 
 type Props<T> = {
   title: string;
   description: string;
-  settingKey: "hero" | "about" | "contact" | "social";
+  settingKey: string;
   defaults: T;
   render: (value: T, setValue: (v: T) => void) => ReactNode;
 };
