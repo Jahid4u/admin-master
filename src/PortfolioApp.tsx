@@ -602,18 +602,18 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
           timeZone: timeTimezone,
           hour: '2-digit',
           minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
+          ...(timeShowSeconds ? { second: '2-digit' as const } : {}),
+          hour12: timeHour12,
         });
         setCurrentTime(t);
       } catch {
-        setCurrentTime(new Date().toLocaleTimeString('en-US', { hour12: false }));
+        setCurrentTime(new Date().toLocaleTimeString('en-US', { hour12: timeHour12 }));
       }
     };
     setTime();
     const timer = setInterval(setTime, 1000);
     return () => clearInterval(timer);
-  }, [timeTimezone]);
+  }, [timeTimezone, timeHour12, timeShowSeconds]);
 
   return (
     <>
