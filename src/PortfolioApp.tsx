@@ -1873,6 +1873,9 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
 export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   const isDark = theme === 'dark';
   const [isRevealed, setIsRevealed] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
+  const [newsletterDone, setNewsletterDone] = useState(false);
   const { data: settings } = useQuery({
     queryKey: ['site-settings'],
     queryFn: () => getSiteSettings(),
