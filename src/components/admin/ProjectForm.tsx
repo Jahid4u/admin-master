@@ -173,6 +173,21 @@ export function ProjectForm({ id, initial }: { id?: string; initial: ProjectForm
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader><CardTitle className="text-base">SEO</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <Field label="Meta title" hint="Defaults to project title if blank. ~60 chars.">
+            <Input maxLength={200} value={v.meta_title} onChange={(e) => set("meta_title", e.target.value)} />
+          </Field>
+          <Field label="Meta description" hint="~155 chars for best Google snippet.">
+            <Textarea rows={2} maxLength={500} value={v.meta_description} onChange={(e) => set("meta_description", e.target.value)} />
+          </Field>
+          <ImageUploader label="Share image (Open Graph)" value={v.og_image} onChange={(u) => set("og_image", u)} />
+        </CardContent>
+      </Card>
+
+
+
       <div className="flex gap-2">
         <Button type="submit" disabled={mut.isPending}>{mut.isPending ? "Saving…" : "Save project"}</Button>
         <Button type="button" variant="outline" onClick={() => navigate({ to: "/admin/projects" })}>Cancel</Button>
