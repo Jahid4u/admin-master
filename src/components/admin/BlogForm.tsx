@@ -99,6 +99,57 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
     });
   }
 
+  // Wrap the current selection with `before`/`after`. If nothing selected,
+  // inserts `placeholder` between them and selects it so the user can type.
+  function wrapSelection(before: string, after: string, placeholder = "text") {
+    const el = contentRef.current;
+    const current = v.content ?? "";
+    if (!el) {
+      set("content", current + before + placeholder + after);
+      return;
+    }
+    const start = el.selectionStart ?? current.length;
+    const end = el.selectionEnd ?? current.length;
+    const selected = current.slice(start, end) || placeholder;
+    const next = current.slice(0, start) + before + selected + after + current.slice(end);
+    set("content", next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(start + before.length, start + before.length + selected.length);
+    });
+  }
+
+  // Prefix every line in the current selection (or the current line) with `prefix`.
+  function prefixLines(prefix: string | ((i: number) => string)) {
+    const el = contentRef.current;
+    const current = v.content ?? "";
+    if (!el) return;
+    const start = el.selectionStart ?? 0;
+    const end = el.selectionEnd ?? 0;
+    const lineStart = current.lastIndexOf("\n", start - 1) + 1;
+    const lineEnd = current.indexOf("\n", end);
+    const blockEnd = lineEnd === -1 ? current.length : lineEnd;
+    const block = current.slice(lineStart, blockEnd);
+    const updated = block
+      .split("\n")
+      .map((l, i) => (typeof prefix === "string" ? prefix : prefix(i)) + l)
+      .join("\n");
+    const next = current.slice(0, lineStart) + updated + current.slice(blockEnd);
+    set("content", next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(lineStart, lineStart + updated.length);
+    });
+  }
+
+  function insertLink() {
+    const el = contentRef.current;
+    const selected = el ? (v.content ?? "").slice(el.selectionStart ?? 0, el.selectionEnd ?? 0) : "";
+    const url = window.prompt("Link URL", "https://");
+    if (!url) return;
+    wrapSelection("[", `](${url})`, selected || "link text");
+  }
+
   async function handleInlineImage(file: File) {
     setInserting(true);
     try {
