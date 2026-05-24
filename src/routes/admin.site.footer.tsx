@@ -84,24 +84,20 @@ function FooterPage() {
               />
             }
           >
-            {v.newsletter_enabled !== false && (
-              <>
-                <Field label="Title">
-                  <Input value={v.newsletter_title} onChange={(e) => set({ ...v, newsletter_title: e.target.value })} />
-                </Field>
-                <Field label="Description">
-                  <Textarea rows={2} value={v.newsletter_desc} onChange={(e) => set({ ...v, newsletter_desc: e.target.value })} />
-                </Field>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Email placeholder">
-                    <Input value={v.newsletter_placeholder} onChange={(e) => set({ ...v, newsletter_placeholder: e.target.value })} />
-                  </Field>
-                  <Field label="Button label">
-                    <Input value={v.newsletter_button} onChange={(e) => set({ ...v, newsletter_button: e.target.value })} />
-                  </Field>
-                </div>
-              </>
-            )}
+            <Field label="Title">
+              <Input value={v.newsletter_title} onChange={(e) => set({ ...v, newsletter_title: e.target.value })} />
+            </Field>
+            <Field label="Description">
+              <Textarea rows={2} value={v.newsletter_desc} onChange={(e) => set({ ...v, newsletter_desc: e.target.value })} />
+            </Field>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label="Email placeholder">
+                <Input value={v.newsletter_placeholder} onChange={(e) => set({ ...v, newsletter_placeholder: e.target.value })} />
+              </Field>
+              <Field label="Button label">
+                <Input value={v.newsletter_button} onChange={(e) => set({ ...v, newsletter_button: e.target.value })} />
+              </Field>
+            </div>
           </Section>
 
           <Section
@@ -114,15 +110,13 @@ function FooterPage() {
               />
             }
           >
-            {v.big_name_enabled !== false && (
-              <Field label="Display text">
-                <Input
-                  value={v.big_name}
-                  onChange={(e) => set({ ...v, big_name: e.target.value })}
-                  placeholder="JAHID HASAN"
-                />
-              </Field>
-            )}
+            <Field label="Display text">
+              <Input
+                value={v.big_name}
+                onChange={(e) => set({ ...v, big_name: e.target.value })}
+                placeholder="JAHID HASAN"
+              />
+            </Field>
           </Section>
 
           <Section title="Copyright">
