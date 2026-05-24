@@ -8,6 +8,8 @@ import { Link, useLocation, useParams } from '@/lib/router-compat';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { projects as sharedProjects } from '@/lib/projects-data';
+import { useQuery } from '@tanstack/react-query';
+import { getSiteSettings } from '@/lib/content.functions';
 
 export const blogPosts = [
   {
