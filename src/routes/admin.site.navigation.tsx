@@ -104,6 +104,25 @@ function SectionCard({
 
 const switchCls = "border border-border data-[state=unchecked]:bg-muted";
 
+const TZ_PRESETS: { value: string; label: string }[] = [
+  { value: "Asia/Dhaka", label: "Dhaka (GMT+6)" },
+  { value: "Asia/Kolkata", label: "Kolkata (GMT+5:30)" },
+  { value: "Asia/Karachi", label: "Karachi (GMT+5)" },
+  { value: "Asia/Dubai", label: "Dubai (GMT+4)" },
+  { value: "Asia/Singapore", label: "Singapore (GMT+8)" },
+  { value: "Asia/Tokyo", label: "Tokyo (GMT+9)" },
+  { value: "Australia/Sydney", label: "Sydney (GMT+10/11)" },
+  { value: "Europe/London", label: "London (GMT+0/1)" },
+  { value: "Europe/Berlin", label: "Berlin (GMT+1/2)" },
+  { value: "Europe/Istanbul", label: "Istanbul (GMT+3)" },
+  { value: "America/New_York", label: "New York (GMT-5/-4)" },
+  { value: "America/Chicago", label: "Chicago (GMT-6/-5)" },
+  { value: "America/Denver", label: "Denver (GMT-7/-6)" },
+  { value: "America/Los_Angeles", label: "Los Angeles (GMT-8/-7)" },
+  { value: "America/Sao_Paulo", label: "São Paulo (GMT-3)" },
+  { value: "UTC", label: "UTC" },
+];
+
 function NavPage() {
   const qc = useQueryClient();
   const getAll = useServerFn(adminGetAllSettings);
