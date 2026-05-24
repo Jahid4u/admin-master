@@ -45,7 +45,7 @@ const groups: Group[] = [
       { title: "Home", url: "/admin/site/home", icon: Home },
       { title: "About", url: "/admin/site/about", icon: Info },
       { title: "Work", url: "/admin/site/work", icon: Briefcase },
-      { title: "Blog header", url: "/admin/site/blog_header", icon: Newspaper },
+      { title: "Blog", url: "/admin/site/blog", icon: Newspaper },
       { title: "Contact info", url: "/admin/site/contact", icon: Mail },
       { title: "Privacy policy", url: "/admin/site/privacy", icon: Shield },
       { title: "Terms of service", url: "/admin/site/terms", icon: Shield },

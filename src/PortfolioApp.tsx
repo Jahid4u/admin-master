@@ -1436,8 +1436,26 @@ export const DetailedProjects = ({ theme }: { theme: 'dark' | 'light' }) => {
 
 
 
+type BlogPageSettings = {
+  badge_enabled?: boolean;
+  badge_text?: string;
+  headline_enabled?: boolean;
+  headline_pre?: string;
+  headline_accent?: string;
+  description_enabled?: boolean;
+  description?: string;
+};
+
 export const BlogHighlights = ({ theme }: { theme: 'dark' | 'light' }) => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+  });
+  const b = (settings?.blog_page ?? {}) as BlogPageSettings;
+  const badgeEnabled = b.badge_enabled !== false;
+  const headlineEnabled = b.headline_enabled !== false;
+  const descEnabled = b.description_enabled !== false;
 
   return (
     <section className={`py-32 md:py-40 px-4 md:px-8 lg:px-16 transition-colors duration-700 relative overflow-hidden `} id="blog">
@@ -1445,15 +1463,21 @@ export const BlogHighlights = ({ theme }: { theme: 'dark' | 'light' }) => {
       <div className={`absolute top-0 right-0 w-[800px] h-[800px] rounded-full blur-[120px] opacity-10 pointer-events-none ${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-300'}`} />
 
       <div className="max-w-[1280px] mx-auto relative z-10 flex flex-col items-center">
-        <div className={`inline-flex items-center justify-center gap-3 px-4 py-2 rounded-full mb-6 transition-colors duration-700 ${theme === 'dark' ? 'bg-white/5 border border-white/10 text-blue-500' : 'bg-blue-500/10 border border-blue-500/20 text-blue-600'} text-[12px] font-bold uppercase tracking-wider`}>
-           Our Blog
-        </div>
-        <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight leading-[1.1] mb-6 text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-          Insights & <span className="text-blue-500">Ideas</span>
-        </h2>
-        <p className={`text-lg md:text-xl font-medium max-w-2xl leading-relaxed text-center mb-12 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
-          Stay updated with the latest trends, tips, and insights from our team of digital experts.
-        </p>
+        {badgeEnabled && (
+          <div className={`inline-flex items-center justify-center gap-3 px-4 py-2 rounded-full mb-6 transition-colors duration-700 ${theme === 'dark' ? 'bg-white/5 border border-white/10 text-blue-500' : 'bg-blue-500/10 border border-blue-500/20 text-blue-600'} text-[12px] font-bold uppercase tracking-wider`}>
+            {b.badge_text || 'Our Blog'}
+          </div>
+        )}
+        {headlineEnabled && (
+          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-bold font-display tracking-tight leading-[1.1] mb-6 text-center ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+            {b.headline_pre || 'Insights &'} <span className="text-blue-500">{b.headline_accent || 'Ideas'}</span>
+          </h2>
+        )}
+        {descEnabled && (
+          <p className={`text-lg md:text-xl font-medium max-w-2xl leading-relaxed text-center mb-12 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
+            {b.description || 'Stay updated with the latest trends, tips, and insights from our team of digital experts.'}
+          </p>
+        )}
 
         {/* Inputs / Filters row */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-10 max-w-4xl">
