@@ -287,6 +287,25 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader><CardTitle className="text-base">SEO</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-1.5">
+            <Label>Meta title</Label>
+            <Input maxLength={200} value={v.meta_title} onChange={(e) => set("meta_title", e.target.value)} />
+            <p className="text-xs text-muted-foreground">Defaults to post title if blank. ~60 chars.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Meta description</Label>
+            <Textarea rows={2} maxLength={500} value={v.meta_description} onChange={(e) => set("meta_description", e.target.value)} />
+            <p className="text-xs text-muted-foreground">Defaults to short description. ~155 chars.</p>
+          </div>
+          <ImageUploader label="Share image (Open Graph)" value={v.og_image} onChange={(u) => set("og_image", u)} />
+        </CardContent>
+      </Card>
+
+
+
       <div className="flex gap-2">
         <Button type="submit" disabled={mut.isPending}>{mut.isPending ? "Saving…" : "Save post"}</Button>
         <Button type="button" variant="outline" onClick={() => navigate({ to: "/admin/blog" })}>Cancel</Button>
