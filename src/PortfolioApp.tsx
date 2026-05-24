@@ -1636,9 +1636,48 @@ export const BlogHighlights = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
+type ContactSocialItem = { label: string; url: string; enabled?: boolean };
+type ContactPageSettings = {
+  eyebrow_enabled?: boolean; eyebrow_text?: string;
+  headline_enabled?: boolean; headline_text?: string; headline_description?: string;
+  side_headline_enabled?: boolean; side_headline_pre?: string; side_headline_italic?: string;
+  email_enabled?: boolean; email_label?: string; email_value?: string;
+  phone_enabled?: boolean; phone_label?: string; phone_value?: string;
+  location_enabled?: boolean; location_label?: string; location_value?: string;
+  socials_enabled?: boolean; socials?: ContactSocialItem[];
+  form_enabled?: boolean;
+  form_send_label?: string;
+  form_name_label?: string; form_name_placeholder?: string;
+  form_email_label?: string; form_email_placeholder?: string;
+  form_subject_label?: string; form_subject_placeholder?: string;
+  form_message_label?: string; form_message_placeholder?: string;
+  form_success_title?: string; form_success_message?: string;
+  map_enabled?: boolean; map_embed_url?: string;
+};
+
+const contactSocialIconFor = (label: string) => {
+  const k = (label || '').toLowerCase();
+  if (k.includes('linkedin')) return <Linkedin className="w-5 h-5" />;
+  if (k.includes('twitter') || k.includes('x')) return <Twitter className="w-5 h-5" />;
+  if (k.includes('github')) return <Github className="w-5 h-5" />;
+  if (k.includes('instagram')) return <Instagram className="w-5 h-5" />;
+  return <Globe className="w-5 h-5" />;
+};
+
 export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+  });
+  const c = (settings?.contact_page ?? {}) as ContactPageSettings;
+  const socials = (c.socials ?? [
+    { label: 'LinkedIn', url: '#', enabled: true },
+    { label: 'Twitter', url: '#', enabled: true },
+    { label: 'GitHub', url: '#', enabled: true },
+  ]).filter((s) => s.enabled !== false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1647,146 +1686,130 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
     }
   };
 
+  const inputCls = `w-full rounded-2xl px-5 py-4 text-base outline-none transition-all duration-300 ${theme === 'dark' ? 'bg-[#151515] border border-white/10 hover:border-white/20 focus:border-blue-500 focus:bg-[#1a1a1a] text-white placeholder:text-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : 'bg-zinc-50/50 border border-black/10 hover:border-black/20 focus:border-blue-600 focus:bg-white text-black placeholder:text-zinc-400 focus:shadow-[0_0_40px_-10px_rgba(37,99,235,0.15)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]'}`;
+  const labelCls = `text-[11px] font-bold uppercase tracking-[0.2em] pl-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`;
+  const infoIconCls = `mt-1 flex-shrink-0 w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 ${theme === 'dark' ? 'bg-[#111] border-white/10 text-white group-hover:bg-blue-500 group-hover:border-blue-500' : 'bg-white border-black/10 text-black group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'}`;
+  const infoLabelCls = `text-[10px] font-bold uppercase tracking-[0.2em] mb-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`;
+
   return (
-    <section 
-      className={`min-h-screen py-24 flex flex-col items-center justify-center relative ${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-700`} 
+    <section
+      className={`min-h-screen py-24 flex flex-col items-center justify-center relative ${theme === 'dark' ? 'text-white' : 'text-black'} transition-colors duration-700`}
       id="contact"
     >
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
-        
+
         {/* Header Section */}
-        <div className="flex flex-col items-center text-center mb-16 px-4">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-100 text-blue-600'}`}>
-              <Mail className="w-4 h-4" />
-            </div>
-            <span className={`font-mono text-xs uppercase tracking-[0.2em] font-bold ${theme === 'dark' ? 'text-blue-500' : 'text-blue-600'}`}>Contact</span>
+        {(c.eyebrow_enabled !== false || c.headline_enabled !== false) && (
+          <div className="flex flex-col items-center text-center mb-16 px-4">
+            {c.eyebrow_enabled !== false && (
+              <div className="flex items-center gap-3 mb-6">
+                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-100 text-blue-600'}`}>
+                  <Mail className="w-4 h-4" />
+                </div>
+                <span className={`font-mono text-xs uppercase tracking-[0.2em] font-bold ${theme === 'dark' ? 'text-blue-500' : 'text-blue-600'}`}>{c.eyebrow_text || 'Contact'}</span>
+              </div>
+            )}
+            {c.headline_enabled !== false && (
+              <>
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight mb-4">
+                  {c.headline_text || 'Get In Touch'}
+                </h2>
+                <p className={`text-lg md:text-xl font-medium max-w-xl ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                  {c.headline_description || "Have a project in mind or want to explore a collaboration? Let's talk."}
+                </p>
+              </>
+            )}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight mb-4">
-            Get In Touch
-          </h2>
-          <p className={`text-lg md:text-xl font-medium max-w-xl ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
-            Have a project in mind or want to explore a collaboration? Let's talk.
-          </p>
-        </div>
+        )}
 
         {/* Two Columns Container */}
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 w-full mb-12">
-          
+
           {/* Left Column - Contact Info */}
           <div className="w-full lg:w-[45%] flex flex-col justify-between">
             <div>
-               <h3 className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] font-display font-medium tracking-tight mb-8">
-                 Let's start a <br/> <span className="text-blue-500 italic">conversation</span>
-               </h3>
-               
+               {c.side_headline_enabled !== false && (
+                 <h3 className="text-4xl md:text-5xl lg:text-[3.5rem] leading-[1.1] font-display font-medium tracking-tight mb-8">
+                   {c.side_headline_pre || "Let's start a"} <br/> <span className="text-blue-500 italic">{c.side_headline_italic || 'conversation'}</span>
+                 </h3>
+               )}
+
                <div className="flex flex-col gap-10 mt-16 md:mt-24">
-                 <div className="group flex gap-6 items-start">
-                    <div className={`mt-1 flex-shrink-0 w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 ${theme === 'dark' ? 'bg-[#111] border-white/10 text-white group-hover:bg-blue-500 group-hover:border-blue-500' : 'bg-white border-black/10 text-black group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'}`}>
-                      <Mail className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" />
-                    </div>
-                    <div className="flex flex-col justify-center min-h-[3.5rem]">
-                      <h5 className={`text-[10px] font-bold uppercase tracking-[0.2em] mb-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Email</h5>
-                      <a href="mailto:jahidmail2020@gmail.com" className="text-xl font-medium hover:text-blue-500 transition-colors">jahidmail2020@gmail.com</a>
-                    </div>
-                 </div>
+                 {c.email_enabled !== false && (
+                   <div className="group flex gap-6 items-start">
+                      <div className={infoIconCls}><Mail className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" /></div>
+                      <div className="flex flex-col justify-center min-h-[3.5rem]">
+                        <h5 className={infoLabelCls}>{c.email_label || 'Email'}</h5>
+                        <a href={`mailto:${c.email_value || ''}`} className="text-xl font-medium hover:text-blue-500 transition-colors">{c.email_value || 'jahidmail2020@gmail.com'}</a>
+                      </div>
+                   </div>
+                 )}
 
-                 <div className="group flex gap-6 items-start">
-                    <div className={`mt-1 flex-shrink-0 w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 ${theme === 'dark' ? 'bg-[#111] border-white/10 text-white group-hover:bg-blue-500 group-hover:border-blue-500' : 'bg-white border-black/10 text-black group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'}`}>
-                      <Phone className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" />
-                    </div>
-                    <div className="flex flex-col justify-center min-h-[3.5rem]">
-                      <h5 className={`text-[10px] font-bold uppercase tracking-[0.2em] mb-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Phone</h5>
-                      <a href="tel:+8801234567890" className="text-xl font-medium hover:text-blue-500 transition-colors">+880 1234 567890</a>
-                    </div>
-                 </div>
+                 {c.phone_enabled !== false && (
+                   <div className="group flex gap-6 items-start">
+                      <div className={infoIconCls}><Phone className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" /></div>
+                      <div className="flex flex-col justify-center min-h-[3.5rem]">
+                        <h5 className={infoLabelCls}>{c.phone_label || 'Phone'}</h5>
+                        <a href={`tel:${(c.phone_value || '').replace(/\s+/g, '')}`} className="text-xl font-medium hover:text-blue-500 transition-colors">{c.phone_value || '+880 1234 567890'}</a>
+                      </div>
+                   </div>
+                 )}
 
-                 <div className="group flex gap-6 items-start">
-                    <div className={`mt-1 flex-shrink-0 w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 ${theme === 'dark' ? 'bg-[#111] border-white/10 text-white group-hover:bg-blue-500 group-hover:border-blue-500' : 'bg-white border-black/10 text-black group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'}`}>
-                      <MapPin className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" />
-                    </div>
-                    <div className="flex flex-col justify-center min-h-[3.5rem]">
-                      <h5 className={`text-[10px] font-bold uppercase tracking-[0.2em] mb-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Location</h5>
-                      <span className="text-xl font-medium">Dhaka, Bangladesh</span>
-                    </div>
-                 </div>
+                 {c.location_enabled !== false && (
+                   <div className="group flex gap-6 items-start">
+                      <div className={infoIconCls}><MapPin className="w-5 h-5 transition-transform duration-500 group-hover:scale-110" /></div>
+                      <div className="flex flex-col justify-center min-h-[3.5rem]">
+                        <h5 className={infoLabelCls}>{c.location_label || 'Location'}</h5>
+                        <span className="text-xl font-medium">{c.location_value || 'Dhaka, Bangladesh'}</span>
+                      </div>
+                   </div>
+                 )}
                </div>
             </div>
 
-            <div className={`w-full h-[1px] my-12 max-w-[200px] ${theme === 'dark' ? 'bg-gradient-to-r from-white/10 to-transparent' : 'bg-gradient-to-r from-black/10 to-transparent'}`}></div>
-
-            <div className="flex items-center gap-4">
-              <a href="#" className={`w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 hover:-translate-y-1 ${theme === 'dark' ? 'border-white/10 text-zinc-400 hover:bg-white hover:text-black hover:border-white' : 'border-black/10 text-zinc-500 hover:bg-black hover:text-white hover:border-black'}`}>
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className={`w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 hover:-translate-y-1 ${theme === 'dark' ? 'border-white/10 text-zinc-400 hover:bg-white hover:text-black hover:border-white' : 'border-black/10 text-zinc-500 hover:bg-black hover:text-white hover:border-black'}`}>
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className={`w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 hover:-translate-y-1 ${theme === 'dark' ? 'border-white/10 text-zinc-400 hover:bg-white hover:text-black hover:border-white' : 'border-black/10 text-zinc-500 hover:bg-black hover:text-white hover:border-black'}`}>
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
+            {c.socials_enabled !== false && socials.length > 0 && (
+              <>
+                <div className={`w-full h-[1px] my-12 max-w-[200px] ${theme === 'dark' ? 'bg-gradient-to-r from-white/10 to-transparent' : 'bg-gradient-to-r from-black/10 to-transparent'}`}></div>
+                <div className="flex items-center gap-4">
+                  {socials.map((s, i) => (
+                    <a key={i} href={s.url || '#'} className={`w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-500 hover:-translate-y-1 ${theme === 'dark' ? 'border-white/10 text-zinc-400 hover:bg-white hover:text-black hover:border-white' : 'border-black/10 text-zinc-500 hover:bg-black hover:text-white hover:border-black'}`}>
+                      {contactSocialIconFor(s.label)}
+                    </a>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Right Column - Form Container */}
+          {c.form_enabled !== false && (
           <div className="w-full lg:w-[55%]">
             {!isSubmitted ? (
                <div className={`p-8 sm:p-12 lg:p-16 rounded-[2.5rem] relative overflow-hidden ${theme === 'dark' ? 'bg-[#111] shadow-2xl' : 'bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-black/[0.03]'}`}>
-                 {/* Decorative background element */}
                  <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-                 
+
                  <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10 w-full mt-4">
                     <div className="flex flex-col sm:flex-row gap-6">
                       <div className="flex flex-col gap-2.5 w-full">
-                        <label className={`text-[11px] font-bold uppercase tracking-[0.2em] pl-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Name</label>
-                        <input 
-                          type="text" 
-                          required
-                          value={formData.name}
-                          onChange={e => setFormData({...formData, name: e.target.value})}
-                          placeholder="John Doe"
-                          className={`w-full rounded-2xl px-5 py-4 text-base outline-none transition-all duration-300 ${theme === 'dark' ? 'bg-[#151515] border border-white/10 hover:border-white/20 focus:border-blue-500 focus:bg-[#1a1a1a] text-white placeholder:text-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : 'bg-zinc-50/50 border border-black/10 hover:border-black/20 focus:border-blue-600 focus:bg-white text-black placeholder:text-zinc-400 focus:shadow-[0_0_40px_-10px_rgba(37,99,235,0.15)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]'}`}
-                        />
+                        <label className={labelCls}>{c.form_name_label || 'Name'}</label>
+                        <input type="text" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} placeholder={c.form_name_placeholder || 'John Doe'} className={inputCls} />
                       </div>
                       <div className="flex flex-col gap-2.5 w-full">
-                        <label className={`text-[11px] font-bold uppercase tracking-[0.2em] pl-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Email</label>
-                        <input 
-                          type="email" 
-                          required
-                          value={formData.email}
-                          onChange={e => setFormData({...formData, email: e.target.value})}
-                          placeholder="john@example.com"
-                          className={`w-full rounded-2xl px-5 py-4 text-base outline-none transition-all duration-300 ${theme === 'dark' ? 'bg-[#151515] border border-white/10 hover:border-white/20 focus:border-blue-500 focus:bg-[#1a1a1a] text-white placeholder:text-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : 'bg-zinc-50/50 border border-black/10 hover:border-black/20 focus:border-blue-600 focus:bg-white text-black placeholder:text-zinc-400 focus:shadow-[0_0_40px_-10px_rgba(37,99,235,0.15)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]'}`}
-                        />
+                        <label className={labelCls}>{c.form_email_label || 'Email'}</label>
+                        <input type="email" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} placeholder={c.form_email_placeholder || 'john@example.com'} className={inputCls} />
                       </div>
                     </div>
                     <div className="flex flex-col gap-2.5 w-full">
-                      <label className={`text-[11px] font-bold uppercase tracking-[0.2em] pl-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Subject</label>
-                      <input 
-                        type="text" 
-                        value={formData.subject}
-                        onChange={e => setFormData({...formData, subject: e.target.value})}
-                        placeholder="Web Design Project"
-                        className={`w-full rounded-2xl px-5 py-4 text-base outline-none transition-all duration-300 ${theme === 'dark' ? 'bg-[#151515] border border-white/10 hover:border-white/20 focus:border-blue-500 focus:bg-[#1a1a1a] text-white placeholder:text-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : 'bg-zinc-50/50 border border-black/10 hover:border-black/20 focus:border-blue-600 focus:bg-white text-black placeholder:text-zinc-400 focus:shadow-[0_0_40px_-10px_rgba(37,99,235,0.15)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]'}`}
-                      />
+                      <label className={labelCls}>{c.form_subject_label || 'Subject'}</label>
+                      <input type="text" value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} placeholder={c.form_subject_placeholder || 'Web Design Project'} className={inputCls} />
                     </div>
                     <div className="flex flex-col gap-2.5 w-full">
-                      <label className={`text-[11px] font-bold uppercase tracking-[0.2em] pl-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Message</label>
-                      <textarea 
-                        required
-                        rows={4}
-                        value={formData.message}
-                        onChange={e => setFormData({...formData, message: e.target.value})}
-                        placeholder="Tell me about your project..."
-                        className={`w-full rounded-2xl px-5 py-5 text-base outline-none transition-all duration-300 resize-none ${theme === 'dark' ? 'bg-[#151515] border border-white/10 hover:border-white/20 focus:border-blue-500 focus:bg-[#1a1a1a] text-white placeholder:text-zinc-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]' : 'bg-zinc-50/50 border border-black/10 hover:border-black/20 focus:border-blue-600 focus:bg-white text-black placeholder:text-zinc-400 focus:shadow-[0_0_40px_-10px_rgba(37,99,235,0.15)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]'}`}
-                      />
+                      <label className={labelCls}>{c.form_message_label || 'Message'}</label>
+                      <textarea required rows={4} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} placeholder={c.form_message_placeholder || 'Tell me about your project...'} className={`${inputCls} resize-none`} />
                     </div>
                     <div className="mt-4 flex flex-col items-center gap-6">
-                       <button 
-                         type="submit" 
-                         className="group relative w-full flex items-center justify-end p-2 rounded-full overflow-hidden bg-blue-600 text-white transition-all duration-300 hover:bg-blue-500 focus:ring-4 focus:ring-blue-500/20 active:scale-95 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_50px_-10px_rgba(37,99,235,0.6)]"
-                       >
-                         <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold uppercase tracking-[0.1em]">Send Message</span>
+                       <button type="submit" className="group relative w-full flex items-center justify-end p-2 rounded-full overflow-hidden bg-blue-600 text-white transition-all duration-300 hover:bg-blue-500 focus:ring-4 focus:ring-blue-500/20 active:scale-95 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_50px_-10px_rgba(37,99,235,0.6)]">
+                         <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold uppercase tracking-[0.1em]">{c.form_send_label || 'Send Message'}</span>
                          <span className="w-12 h-12 shrink-0 rounded-full bg-white/20 flex items-center justify-center transition-colors duration-500 group-hover:bg-white group-hover:text-blue-600 relative z-10 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]">
                            <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-500 group-hover:translate-x-0.5" />
                          </span>
@@ -1795,7 +1818,7 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
                  </form>
                </div>
             ) : (
-              <motion.div 
+              <motion.div
                  initial={{ opacity: 0, scale: 0.95 }}
                  animate={{ opacity: 1, scale: 1 }}
                  className={`flex flex-col items-center justify-center text-center h-full min-h-[500px] rounded-[2.5rem] ${theme === 'dark' ? 'bg-[#111111] shadow-2xl border border-white/5' : 'bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-black/5'}`}
@@ -1803,9 +1826,9 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
                  <div className="w-24 h-24 mb-10 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center shadow-xl shadow-blue-500/10">
                    <Check className="w-10 h-10" />
                  </div>
-                 <h3 className={`text-4xl md:text-5xl font-display font-medium tracking-tight mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Message Sent</h3>
+                 <h3 className={`text-4xl md:text-5xl font-display font-medium tracking-tight mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{c.form_success_title || 'Message Sent'}</h3>
                  <p className={`text-xl max-w-sm ml-auto mr-auto font-light leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                   Thanks <span className="text-blue-500 font-medium">{formData.name.split(' ')[0]}</span>. I will get back to you within 24 hours.
+                   {c.form_success_message || `Thanks ${formData.name.split(' ')[0]}. I will get back to you within 24 hours.`}
                  </p>
                  <button onClick={() => setIsSubmitted(false)} className={`mt-12 font-bold tracking-widest text-[11px] uppercase underline underline-offset-8 transition-colors ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'}`}>
                    Send another message
@@ -1813,24 +1836,28 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
               </motion.div>
             )}
           </div>
+          )}
         </div>
 
         {/* Google Maps Embed */}
-        <div className={`mt-16 w-full h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border filter transition-all duration-700 ${theme === 'dark' ? 'border-white/5 shadow-2xl grayscale-[0.8] hover:grayscale-0' : 'border-black/5 shadow-xl grayscale-[0.3] hover:grayscale-0'}`}>
-          <iframe 
-             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14611.3963402434!2d90.39572979207865!3d23.71711200427387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8e99e28cfa3%3A0xc3dc15904fc498a4!2sKeraniganj%20Upazila!5e0!3m2!1sen!2sbd!4v1716654271830!5m2!1sen!2sbd" 
-             width="100%" 
-             height="100%" 
-             style={{border:0}} 
-             allowFullScreen 
-             loading="lazy" 
-             referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
+        {c.map_enabled !== false && c.map_embed_url && (
+          <div className={`mt-16 w-full h-[350px] md:h-[450px] rounded-[2rem] overflow-hidden border filter transition-all duration-700 ${theme === 'dark' ? 'border-white/5 shadow-2xl grayscale-[0.8] hover:grayscale-0' : 'border-black/5 shadow-xl grayscale-[0.3] hover:grayscale-0'}`}>
+            <iframe
+               src={c.map_embed_url}
+               width="100%"
+               height="100%"
+               style={{border:0}}
+               allowFullScreen
+               loading="lazy"
+               referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        )}
       </div>
     </section>
   );
 };
+
 
 export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   const isDark = theme === 'dark';
