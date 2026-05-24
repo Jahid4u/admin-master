@@ -56,6 +56,9 @@ const projectSchema = z.object({
   repo_url: z.string().max(500).optional().nullable(),
   sort_order: z.number().int().default(0),
   published: z.boolean().default(true),
+  meta_title: z.string().max(200).optional().nullable(),
+  meta_description: z.string().max(500).optional().nullable(),
+  og_image: z.string().max(2000).optional().nullable(),
 });
 
 export const adminListProjects = createServerFn({ method: "GET" })
@@ -132,6 +135,9 @@ const postSchema = z.object({
   read_time: z.string().max(50).optional().nullable(),
   published: z.boolean().default(true),
   published_at: z.string().datetime().optional().nullable(),
+  meta_title: z.string().max(200).optional().nullable(),
+  meta_description: z.string().max(500).optional().nullable(),
+  og_image: z.string().max(2000).optional().nullable(),
 });
 
 export const adminListPosts = createServerFn({ method: "GET" })
