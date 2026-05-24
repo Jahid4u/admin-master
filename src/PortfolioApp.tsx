@@ -1818,8 +1818,8 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
                       <textarea required rows={4} value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} placeholder={c.form_message_placeholder || 'Tell me about your project...'} className={`${inputCls} resize-none`} />
                     </div>
                     <div className="mt-4 flex flex-col items-center gap-6">
-                       <button type="submit" className="group relative w-full flex items-center justify-end p-2 rounded-full overflow-hidden bg-blue-600 text-white transition-all duration-300 hover:bg-blue-500 focus:ring-4 focus:ring-blue-500/20 active:scale-95 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_50px_-10px_rgba(37,99,235,0.6)]">
-                         <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold uppercase tracking-[0.1em]">{c.form_send_label || 'Send Message'}</span>
+                       <button type="submit" disabled={submitting} className="group relative w-full flex items-center justify-end p-2 rounded-full overflow-hidden bg-blue-600 text-white transition-all duration-300 hover:bg-blue-500 focus:ring-4 focus:ring-blue-500/20 active:scale-95 disabled:opacity-60 shadow-[0_10px_40px_-10px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_50px_-10px_rgba(37,99,235,0.6)]">
+                         <span className="absolute left-1/2 -translate-x-1/2 text-[15px] font-bold uppercase tracking-[0.1em]">{submitting ? 'Sending…' : (c.form_send_label || 'Send Message')}</span>
                          <span className="w-12 h-12 shrink-0 rounded-full bg-white/20 flex items-center justify-center transition-colors duration-500 group-hover:bg-white group-hover:text-blue-600 relative z-10 group-hover:shadow-[0_0_15px_rgba(255,255,255,0.5)]">
                            <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-500 group-hover:translate-x-0.5" />
                          </span>
