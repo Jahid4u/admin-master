@@ -1687,12 +1687,32 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
     newsletter_enabled?: boolean;
     newsletter_title?: string;
     newsletter_desc?: string;
+    newsletter_placeholder?: string;
+    newsletter_button?: string;
+    big_name_enabled?: boolean;
+    big_name?: string;
+    copyright?: string;
+    privacy_enabled?: boolean;
+    privacy_label?: string;
+    terms_enabled?: boolean;
+    terms_label?: string;
   };
   const newsletterEnabled = footerSettings.newsletter_enabled !== false;
   const newsletterTitle = footerSettings.newsletter_title || 'Stay in the Loop';
   const newsletterDesc =
     footerSettings.newsletter_desc ||
     'Get the latest insights, trends, and updates delivered to your inbox.';
+  const newsletterPlaceholder = footerSettings.newsletter_placeholder || 'Enter your email';
+  const newsletterButton = footerSettings.newsletter_button || 'Subscribe';
+  const bigNameEnabled = footerSettings.big_name_enabled !== false;
+  const bigName = (footerSettings.big_name || 'JAHID HASAN').toUpperCase();
+  const copyrightText =
+    footerSettings.copyright ||
+    `© ${new Date().getFullYear()} JAHID HASAN. CRAFTED WITH SOUL.`;
+  const privacyEnabled = footerSettings.privacy_enabled !== false;
+  const privacyLabel = footerSettings.privacy_label || 'PRIVACY POLICY';
+  const termsEnabled = footerSettings.terms_enabled !== false;
+  const termsLabel = footerSettings.terms_label || 'TERMS OF SERVICE';
 
   useEffect(() => {
     // Fallback timer to ensure overflow-visible is set even if viewport observers are delayed
@@ -1753,18 +1773,19 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
               <div className="relative flex-1">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={newsletterPlaceholder}
                   className={`w-full px-6 py-4 rounded-xl outline-none font-medium transition-all border ${isDark ? 'bg-[#151515] border-white/5 text-white placeholder-zinc-500 focus:border-blue-500' : 'bg-white border-black/5 text-black placeholder-zinc-400 focus:border-blue-500'}`}
                 />
               </div>
               <button type="submit" className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white">
-                <Send className="w-4 h-4" /> Subscribe
+                <Send className="w-4 h-4" /> {newsletterButton}
               </button>
             </form>
           </motion.div>
         )}
 
-        {/* Massive Name Typography with stagger-reveal kinetic typography mask & bouncy individual interactions */}
+        {/* Massive Name Typography */}
+        {bigNameEnabled && (
         <div className={`w-full relative py-8 select-none ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}>
 
           <motion.div 
@@ -1780,7 +1801,7 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
             viewport={{ once: true, margin: "-80px" }}
             className={`text-[11.5vw] sm:text-[12vw] lg:text-[12.5vw] leading-[0.85] font-black font-display uppercase tracking-[-0.04em] w-full text-center whitespace-nowrap transition-colors ${isDark ? 'text-white' : 'text-zinc-950'} flex justify-center items-center ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}
           >
-            {"JAHID HASAN".split("").map((char, index) => (
+            {bigName.split("").map((char, index) => (
               <span key={index} className={`inline-block py-6 -my-6 ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}>
                 <motion.span
                   variants={letterVariants}
@@ -1801,6 +1822,7 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
             ))}
           </motion.div>
         </div>
+        )}
 
         {/* Dynamic sweeping Separator Line */}
         <motion.div 
@@ -1825,20 +1847,24 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
             whileHover={{ scale: 1.02 }}
             className={`${isDark ? 'text-zinc-400' : 'text-zinc-500'} cursor-default select-none transition-colors duration-300`}
           >
-            © {new Date().getFullYear()} JAHID HASAN. CRAFTED WITH SOUL.
+            {copyrightText}
           </motion.div>
 
           {/* Right items: Links & Magnetic Up button */}
           <div className="flex items-center gap-6 sm:gap-8 flex-wrap justify-center md:justify-end">
             <div className={`flex items-center gap-6 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-               <Link to="/privacy" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
-                 PRIVACY POLICY
-                 <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
-               </Link>
-               <Link to="/terms" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
-                 TERMS OF SERVICE
-                 <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
-               </Link>
+               {privacyEnabled && (
+                 <Link to="/privacy" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
+                   {privacyLabel}
+                   <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
+                 </Link>
+               )}
+               {termsEnabled && (
+                 <Link to="/terms" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
+                   {termsLabel}
+                   <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
+                 </Link>
+               )}
             </div>
           </div>
         </motion.div>
