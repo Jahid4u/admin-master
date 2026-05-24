@@ -1859,16 +1859,16 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
           <div className="flex items-center gap-6 sm:gap-8 flex-wrap justify-center md:justify-end">
             <div className={`flex items-center gap-6 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
                {privacyEnabled && (
-                 <Link to="/privacy" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
+                 <a href={privacyUrl} className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
                    {privacyLabel}
                    <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
-                 </Link>
+                 </a>
                )}
                {termsEnabled && (
-                 <Link to="/terms" className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
+                 <a href={termsUrl} className={`relative py-1 transition-colors duration-300 ${isDark ? 'hover:text-blue-400' : 'hover:text-blue-600'} group`}>
                    {termsLabel}
                    <span className={`absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#3b82f6] transition-all duration-300 group-hover:w-full`} />
-                 </Link>
+                 </a>
                )}
             </div>
           </div>
