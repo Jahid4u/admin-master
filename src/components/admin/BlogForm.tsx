@@ -12,8 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 import { ImageUploader } from "./ImageUploader";
-import { ImagePlus, Eye, Pencil } from "lucide-react";
+import {
+  ImagePlus, Eye, Pencil, Bold, Italic, Heading1, Heading2, Heading3,
+  List, ListOrdered, Quote, Code, Link2, Minus,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export type PostFormValues = {
