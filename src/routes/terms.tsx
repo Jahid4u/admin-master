@@ -2,15 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, FileText } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getSiteSettings } from "@/lib/content.functions";
+import { loadPageSeo, buildHeadMeta } from "@/lib/page-seo";
 
 export const Route = createFileRoute("/terms")({
   component: TermsPage,
-  head: () => ({
-    meta: [
-      { title: "Terms of Service — JAHID." },
-      { name: "description", content: "The terms governing the use of this site and engagement with Jahid Hasan." },
-    ],
-  }),
+  loader: async () => ({ seo: await loadPageSeo("terms") }),
+  head: ({ loaderData }) =>
+    buildHeadMeta(loaderData?.seo, {
+      title: "Terms of Service — JAHID.",
+      description: "The terms governing the use of this site and engagement with Jahid Hasan.",
+      url: "/terms",
+    }),
 });
 
 type Section = { heading: string; body: string; enabled?: boolean };

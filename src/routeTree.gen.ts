@@ -48,6 +48,7 @@ import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.ne
 import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
 import { Route as AdminBlogNewRouteImport } from './routes/admin.blog.new'
 import { Route as AdminBlogIdRouteImport } from './routes/admin.blog.$id'
+import { Route as AdminSiteSeoPagesRouteImport } from './routes/admin.site.seo.pages'
 
 const WorkRoute = WorkRouteImport.update({
   id: '/work',
@@ -244,6 +245,11 @@ const AdminBlogIdRoute = AdminBlogIdRouteImport.update({
   path: '/blog/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSiteSeoPagesRoute = AdminSiteSeoPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AdminSiteSeoRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -276,7 +282,7 @@ export interface FileRoutesByFullPath {
   '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
-  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/seo': typeof AdminSiteSeoRouteWithChildren
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
@@ -285,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/site/seo/pages': typeof AdminSiteSeoPagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -315,7 +322,7 @@ export interface FileRoutesByTo {
   '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
-  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/seo': typeof AdminSiteSeoRouteWithChildren
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
@@ -324,6 +331,7 @@ export interface FileRoutesByTo {
   '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
+  '/admin/site/seo/pages': typeof AdminSiteSeoPagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -357,7 +365,7 @@ export interface FileRoutesById {
   '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
-  '/admin/site/seo': typeof AdminSiteSeoRoute
+  '/admin/site/seo': typeof AdminSiteSeoRouteWithChildren
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
@@ -366,6 +374,7 @@ export interface FileRoutesById {
   '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
+  '/admin/site/seo/pages': typeof AdminSiteSeoPagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -409,6 +418,7 @@ export interface FileRouteTypes {
     | '/admin/system/smtp'
     | '/admin/blog/'
     | '/admin/projects/'
+    | '/admin/site/seo/pages'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -448,6 +458,7 @@ export interface FileRouteTypes {
     | '/admin/system/smtp'
     | '/admin/blog'
     | '/admin/projects'
+    | '/admin/site/seo/pages'
   id:
     | '__root__'
     | '/'
@@ -489,6 +500,7 @@ export interface FileRouteTypes {
     | '/admin/system/smtp'
     | '/admin/blog/'
     | '/admin/projects/'
+    | '/admin/site/seo/pages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -779,8 +791,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/site/seo/pages': {
+      id: '/admin/site/seo/pages'
+      path: '/pages'
+      fullPath: '/admin/site/seo/pages'
+      preLoaderRoute: typeof AdminSiteSeoPagesRouteImport
+      parentRoute: typeof AdminSiteSeoRoute
+    }
   }
 }
+
+interface AdminSiteSeoRouteChildren {
+  AdminSiteSeoPagesRoute: typeof AdminSiteSeoPagesRoute
+}
+
+const AdminSiteSeoRouteChildren: AdminSiteSeoRouteChildren = {
+  AdminSiteSeoPagesRoute: AdminSiteSeoPagesRoute,
+}
+
+const AdminSiteSeoRouteWithChildren = AdminSiteSeoRoute._addFileChildren(
+  AdminSiteSeoRouteChildren,
+)
 
 interface AdminRouteChildren {
   AdminInboxRoute: typeof AdminInboxRoute
@@ -800,7 +831,7 @@ interface AdminRouteChildren {
   AdminSiteHomeRoute: typeof AdminSiteHomeRoute
   AdminSiteNavigationRoute: typeof AdminSiteNavigationRoute
   AdminSitePrivacyRoute: typeof AdminSitePrivacyRoute
-  AdminSiteSeoRoute: typeof AdminSiteSeoRoute
+  AdminSiteSeoRoute: typeof AdminSiteSeoRouteWithChildren
   AdminSiteServicesRoute: typeof AdminSiteServicesRoute
   AdminSiteSocialRoute: typeof AdminSiteSocialRoute
   AdminSiteTermsRoute: typeof AdminSiteTermsRoute
@@ -829,7 +860,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSiteHomeRoute: AdminSiteHomeRoute,
   AdminSiteNavigationRoute: AdminSiteNavigationRoute,
   AdminSitePrivacyRoute: AdminSitePrivacyRoute,
-  AdminSiteSeoRoute: AdminSiteSeoRoute,
+  AdminSiteSeoRoute: AdminSiteSeoRouteWithChildren,
   AdminSiteServicesRoute: AdminSiteServicesRoute,
   AdminSiteSocialRoute: AdminSiteSocialRoute,
   AdminSiteTermsRoute: AdminSiteTermsRoute,

@@ -2,15 +2,17 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Shield } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getSiteSettings } from "@/lib/content.functions";
+import { loadPageSeo, buildHeadMeta } from "@/lib/page-seo";
 
 export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy — JAHID." },
-      { name: "description", content: "How Jahid Hasan collects, uses, and protects your data." },
-    ],
-  }),
+  loader: async () => ({ seo: await loadPageSeo("privacy") }),
+  head: ({ loaderData }) =>
+    buildHeadMeta(loaderData?.seo, {
+      title: "Privacy Policy — JAHID.",
+      description: "How Jahid Hasan collects, uses, and protects your data.",
+      url: "/privacy",
+    }),
 });
 
 type Section = { heading: string; body: string; enabled?: boolean };

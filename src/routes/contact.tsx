@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Contact } from "@/PortfolioApp";
 import { useTheme } from "@/lib/theme-context";
+import { loadPageSeo, buildHeadMeta } from "@/lib/page-seo";
 
 export const Route = createFileRoute("/contact")({
   component: Page,
-  head: () => ({ meta: [{ title: "Contact — JAHID." }, { name: "description", content: "Get in touch to start a project." }] }),
+  loader: async () => ({ seo: await loadPageSeo("contact") }),
+  head: ({ loaderData }) =>
+    buildHeadMeta(loaderData?.seo, {
+      title: "Contact — JAHID.",
+      description: "Get in touch to start a project.",
+      url: "/contact",
+    }),
 });
 
 function Page() {
