@@ -1940,7 +1940,62 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
-const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
+type HomeSettings = {
+  hero_enabled?: boolean;
+  status_enabled?: boolean;
+  status_text?: string;
+  kicker?: string;
+  headline_line1?: string;
+  headline_line2?: string;
+  tagline?: string;
+  stats_enabled?: boolean;
+  stats?: { value: string; label: string; enabled?: boolean }[];
+  cta_primary_enabled?: boolean;
+  cta_primary_label?: string;
+  cta_primary_url?: string;
+  cta_secondary_enabled?: boolean;
+  cta_secondary_label?: string;
+  cta_secondary_url?: string;
+  work_enabled?: boolean;
+  work_eyebrow?: string;
+  work_headline_pre?: string;
+  work_headline_italic?: string;
+  work_button_label?: string;
+  work_button_url?: string;
+  blog_enabled?: boolean;
+  blog_eyebrow?: string;
+  blog_headline_pre?: string;
+  blog_headline_italic?: string;
+  blog_button_label?: string;
+  blog_button_url?: string;
+  contact_enabled?: boolean;
+  contact_headline_line1?: string;
+  contact_headline_line2?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  contact_socials?: { label: string; url: string; enabled?: boolean }[];
+  contact_send_label?: string;
+  contact_name_placeholder?: string;
+  contact_email_placeholder?: string;
+  contact_subject_placeholder?: string;
+  contact_message_placeholder?: string;
+};
+
+const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
+  const headline1 = home.contact_headline_line1 || 'Have an idea?';
+  const headline2 = home.contact_headline_line2 || "Let's connect.";
+  const email = home.contact_email || 'hello@jahid.com';
+  const phone = home.contact_phone || '+880 123 456 789';
+  const socials = (home.contact_socials ?? [
+    { label: 'Twitter', url: '#', enabled: true },
+    { label: 'LinkedIn', url: '#', enabled: true },
+    { label: 'GitHub', url: '#', enabled: true },
+  ]).filter((s) => s.enabled !== false);
+  const sendLabel = home.contact_send_label || 'Send Message';
+  const namePh = home.contact_name_placeholder || 'John Doe';
+  const emailPh = home.contact_email_placeholder || 'john@example.com';
+  const subjectPh = home.contact_subject_placeholder || 'What is this regarding?';
+  const messagePh = home.contact_message_placeholder || 'Tell me about your project...';
   return (
     <section className={`py-24 md:py-32 px-6 md:px-12 lg:px-24 flex flex-col items-center justify-center border-t relative overflow-hidden ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
       <div className="absolute inset-0 pointer-events-none">
