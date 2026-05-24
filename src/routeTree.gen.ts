@@ -24,6 +24,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WorkIdRouteImport } from './routes/work.$id'
 import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminInboxRouteImport } from './routes/admin.inbox'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
@@ -120,6 +121,11 @@ const BlogIdRoute = BlogIdRouteImport.update({
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminInboxRoute = AdminInboxRouteImport.update({
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/work': typeof WorkRouteWithChildren
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -322,6 +330,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/work': typeof WorkRouteWithChildren
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -363,6 +372,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/work'
     | '/admin/inbox'
+    | '/admin/newsletter'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -400,6 +410,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/terms'
     | '/admin/inbox'
+    | '/admin/newsletter'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -439,6 +450,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/work'
     | '/admin/inbox'
+    | '/admin/newsletter'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -585,6 +597,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/inbox': {
@@ -746,6 +765,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminInboxRoute: typeof AdminInboxRoute
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
@@ -773,6 +793,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminInboxRoute: AdminInboxRoute,
+  AdminNewsletterRoute: AdminNewsletterRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,
