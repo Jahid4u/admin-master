@@ -2074,7 +2074,7 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
   );
 };
 
-const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalHero = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -2105,21 +2105,23 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
 
       <div className="relative z-10 max-w-6xl w-full px-6 py-24 md:py-28 flex flex-col items-center text-center">
         {/* Status badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease }}
-          className={`inline-flex items-center gap-3 px-4 py-2 rounded-full ${isDark ? 'bg-zinc-900/40' : 'bg-white/70'} border ${border} backdrop-blur-xl mb-10`}
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-50" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
-          </span>
-          <span className={`h-3.5 w-px ${isDark ? 'bg-zinc-700' : 'bg-black/20'}`} />
-          <span className={`text-[10px] font-mono uppercase tracking-[0.28em] ${muted}`}>
-            Available for collaboration
-          </span>
-        </motion.div>
+        {home.status_enabled !== false && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+            className={`inline-flex items-center gap-3 px-4 py-2 rounded-full ${isDark ? 'bg-zinc-900/40' : 'bg-white/70'} border ${border} backdrop-blur-xl mb-10`}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
+            </span>
+            <span className={`h-3.5 w-px ${isDark ? 'bg-zinc-700' : 'bg-black/20'}`} />
+            <span className={`text-[10px] font-mono uppercase tracking-[0.28em] ${muted}`}>
+              {home.status_text || 'Available for collaboration'}
+            </span>
+          </motion.div>
+        )}
 
         {/* Identity */}
         <motion.p
@@ -2128,7 +2130,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.7, ease, delay: 0.15 }}
           className={`${accent} font-bold tracking-[0.35em] uppercase text-[10px] mb-5`}
         >
-          Jahid Hasan
+          {home.kicker || 'Jahid Hasan'}
         </motion.p>
 
         {/* Headline */}
@@ -2138,7 +2140,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.9, ease, delay: 0.25 }}
           className="font-display font-black tracking-[-0.02em] leading-[1.05] text-[2.25rem] sm:text-[3.25rem] md:text-[4.5rem] lg:text-[5.5rem] mb-8"
         >
-          <span className="block">High-End Digital</span>
+          <span className="block">{home.headline_line1 || 'High-End Digital'}</span>
           <span
             className="block italic font-light text-transparent bg-clip-text pb-[0.15em] pr-[0.1em]"
             style={{
@@ -2148,7 +2150,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
               fontFamily: 'Georgia, serif',
             }}
           >
-            Craft &amp; Engineering.
+            {home.headline_line2 || 'Craft & Engineering.'}
           </span>
         </motion.h1>
 
@@ -2159,34 +2161,39 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.8, ease, delay: 0.4 }}
           className={`max-w-lg text-sm md:text-base leading-relaxed mb-10 font-light ${muted}`}
         >
-          Multidisciplinary <span className={isDark ? 'text-zinc-100' : 'text-black'}>Graphic Designer</span> &amp;{' '}
-          <span className={isDark ? 'text-zinc-100' : 'text-black'}>Web Developer</span> based in Dhaka.
-          Shaping premium digital identities for over six years.
+          {home.tagline || 'Multidisciplinary Graphic Designer & Web Developer based in Dhaka. Shaping premium digital identities for over six years.'}
         </motion.p>
 
         {/* Stats dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease, delay: 0.55 }}
-          className={`w-full max-w-2xl grid grid-cols-3 gap-0.5 ${statsShell} border ${border} rounded-2xl overflow-hidden mb-14 backdrop-blur-sm`}
-        >
-          {[
-            { value: '06+', label: 'Years Exp' },
-            { value: '120+', label: 'Projects' },
-            { value: 'Dhaka', label: 'Location' },
-          ].map((s, i) => (
-            <div
-              key={s.label}
-              className={`group flex flex-col items-center justify-center py-7 px-4 ${cardBg} ${cardHover} transition-colors duration-500 ${i === 1 ? `border-x ${divider}` : ''}`}
+        {home.stats_enabled !== false && (() => {
+          const stats = (home.stats ?? [
+            { value: '06+', label: 'Years Exp', enabled: true },
+            { value: '120+', label: 'Projects', enabled: true },
+            { value: 'Dhaka', label: 'Location', enabled: true },
+          ]).filter((s) => s.enabled !== false);
+          if (stats.length === 0) return null;
+          const cols = stats.length === 1 ? 'grid-cols-1' : stats.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease, delay: 0.55 }}
+              className={`w-full max-w-2xl grid ${cols} gap-0.5 ${statsShell} border ${border} rounded-2xl overflow-hidden mb-14 backdrop-blur-sm`}
             >
-              <span className="text-xl md:text-2xl font-display font-bold mb-1 transition-transform duration-500 group-hover:scale-110">
-                {s.value}
-              </span>
-              <span className={`text-[10px] uppercase tracking-[0.2em] font-medium ${dim}`}>{s.label}</span>
-            </div>
-          ))}
-        </motion.div>
+              {stats.map((s, i) => (
+                <div
+                  key={`${s.label}-${i}`}
+                  className={`group flex flex-col items-center justify-center py-7 px-4 ${cardBg} ${cardHover} transition-colors duration-500 ${i > 0 && i < stats.length - 0 ? `border-l ${divider}` : ''}`}
+                >
+                  <span className="text-xl md:text-2xl font-display font-bold mb-1 transition-transform duration-500 group-hover:scale-110">
+                    {s.value}
+                  </span>
+                  <span className={`text-[10px] uppercase tracking-[0.2em] font-medium ${dim}`}>{s.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          );
+        })()}
 
         {/* CTAs */}
         <motion.div
@@ -2195,22 +2202,26 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.8, ease, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-8"
         >
-          <Link to="/work" className="group relative">
-            <span className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-30 group-hover:opacity-80 transition duration-700" />
-            <span
-              className={`relative inline-flex items-center gap-3 px-9 py-4 rounded-full font-semibold transition-all duration-300 group-hover:-translate-y-0.5 ${
-                isDark ? 'bg-white text-black' : 'bg-black text-white'
-              }`}
-            >
-              <span className="text-sm">View Projects</span>
-              <span className="inline-block transition-transform duration-300 group-hover:rotate-45">→</span>
-            </span>
-          </Link>
+          {home.cta_primary_enabled !== false && (
+            <a href={home.cta_primary_url || '/work'} className="group relative">
+              <span className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-30 group-hover:opacity-80 transition duration-700" />
+              <span
+                className={`relative inline-flex items-center gap-3 px-9 py-4 rounded-full font-semibold transition-all duration-300 group-hover:-translate-y-0.5 ${
+                  isDark ? 'bg-white text-black' : 'bg-black text-white'
+                }`}
+              >
+                <span className="text-sm">{home.cta_primary_label || 'View Projects'}</span>
+                <span className="inline-block transition-transform duration-300 group-hover:rotate-45">→</span>
+              </span>
+            </a>
+          )}
 
-          <Link to="/contact" className={`group flex items-center gap-3 ${dim} ${textHover} transition-colors`}>
-            <span className="text-[11px] font-bold uppercase tracking-[0.25em]">Start a Conversation</span>
-            <span className={`block w-8 h-px ${isDark ? 'bg-zinc-700' : 'bg-black/30'} transition-all duration-500 group-hover:w-14 group-hover:bg-blue-500`} />
-          </Link>
+          {home.cta_secondary_enabled !== false && (
+            <a href={home.cta_secondary_url || '/contact'} className={`group flex items-center gap-3 ${dim} ${textHover} transition-colors`}>
+              <span className="text-[11px] font-bold uppercase tracking-[0.25em]">{home.cta_secondary_label || 'Start a Conversation'}</span>
+              <span className={`block w-8 h-px ${isDark ? 'bg-zinc-700' : 'bg-black/30'} transition-all duration-500 group-hover:w-14 group-hover:bg-blue-500`} />
+            </a>
+          )}
         </motion.div>
       </div>
 
