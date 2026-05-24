@@ -1972,16 +1972,41 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
               </h3>
               <p className="text-[17px] text-zinc-400">{newsletterDesc}</p>
             </div>
-            <form className="w-full max-w-xl z-10 flex flex-col sm:flex-row gap-3 pt-2" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="w-full max-w-xl z-10 flex flex-col sm:flex-row gap-3 pt-2"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!newsletterEmail || newsletterSubmitting) return;
+                setNewsletterSubmitting(true);
+                try {
+                  const res = await subscribeNewsletter({ data: { email: newsletterEmail, source: 'footer' } });
+                  setNewsletterDone(true);
+                  setNewsletterEmail('');
+                  toast.success(res.alreadySubscribed ? "You're already subscribed!" : 'Subscribed — thank you!');
+                } catch (err: any) {
+                  toast.error(err?.message ?? 'Subscription failed');
+                } finally {
+                  setNewsletterSubmitting(false);
+                }
+              }}
+            >
               <div className="relative flex-1">
                 <input
                   type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   placeholder={newsletterPlaceholder}
                   className={`w-full px-6 py-4 rounded-xl outline-none font-medium transition-all border ${isDark ? 'bg-[#151515] border-white/5 text-white placeholder-zinc-500 focus:border-blue-500' : 'bg-white border-black/5 text-black placeholder-zinc-400 focus:border-blue-500'}`}
                 />
               </div>
-              <button type="submit" className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white">
-                <Send className="w-4 h-4" /> {newsletterButton}
+              <button
+                type="submit"
+                disabled={newsletterSubmitting}
+                className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white disabled:opacity-60"
+              >
+                <Send className="w-4 h-4" />
+                {newsletterSubmitting ? 'Subscribing…' : newsletterDone ? 'Subscribed!' : newsletterButton}
               </button>
             </form>
           </motion.div>
