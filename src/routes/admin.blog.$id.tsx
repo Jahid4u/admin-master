@@ -23,6 +23,9 @@ function toForm(row: Record<string, unknown>): PostFormValues {
     read_time: (r.read_time as string) ?? "",
     published: (r.published as boolean) ?? true,
     published_at: pubAt ? pubAt.slice(0, 10) : emptyPost.published_at,
+    meta_title: (r.meta_title as string) ?? "",
+    meta_description: (r.meta_description as string) ?? "",
+    og_image: (r.og_image as string) ?? null,
   };
 }
 
