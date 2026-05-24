@@ -1,92 +1,45 @@
 ## Goal
 
-1. **Newsletter section** ke Blog page theke shoriye **Footer er top e** boshabo, ar admin panel theke **on/off** kora jabe (with editable title/description).
-2. Admin panel er **UI ekdom professional vabe** redesign korbo — ekhon sidebar e 11+ group ache, dekhte cluttered. Notun design e clean grouping, proper header, breadcrumbs, ar refined typography thakbe.
+Rebuild the **Header / Nav** admin page (`/admin/site/navigation`) so every visible element of the live header is editable — each option in its **own card container**, all inside the existing header admin page (no new sidebar items). Then wire the Navbar in `src/PortfolioApp.tsx` to read these settings.
 
----
+Reference: the uploaded header image shows brand text + location (left), avatar + nav pills + theme toggle + Connect CTA (center pill), and clock + "LOCAL TIME (GMT+6)" (right).
 
-## Part 1 — Newsletter → Footer (with toggle)
+## Cards on `/admin/site/navigation`
 
-### Public site changes
-- **Remove** newsletter block (lines ~1475–1503) from Blog section in `src/PortfolioApp.tsx`.
-- **Footer component** (line 1705) e top e notun newsletter block add korbo — same design (rounded-2xl dark card, email input + Subscribe button), bortoman footer er typography er sathe match korbe.
-- Footer e `getSiteSettings` call kore `footer` setting load korbo (TanStack Query, already used pattern). `footer.newsletter_enabled === false` hole block render hobe na.
+Each rendered as its own `Card` (same `SectionCard` pattern as the footer page). Switches always visible; off-state styled with visible border so it can be toggled back on.
 
-### Admin changes
-- `src/routes/admin.site.footer.tsx` e ekta **Switch** add korbo: "Show newsletter section". Plus existing `newsletter_title` / `newsletter_desc` fields already ache.
-- Footer setting shape e notun field: `newsletter_enabled: boolean` (default `true`).
+1. **Brand (left side)** — toggle on/off
+   - Name text (e.g. `JAHID HASAN`)
+   - Location/subtitle text (e.g. `DHAKA, BANGLADESH`)
 
-No DB migration lagbe na — `site_settings.value` ekta JSON, just notun key add korlei hobe.
+2. **Profile avatar** — toggle on/off
+   - `ImageUploader` for avatar image
 
----
+3. **Navigation links** — list editor
+   - Add / remove / reorder rows
+   - Per link: Label, URL, Visible switch
+   - (Icon stays auto-mapped by label to keep scope minimal)
 
-## Part 2 — Admin panel professional redesign
+4. **Theme toggle button** — on/off switch (hide the sun/moon button in the navbar when off)
 
-### Current problem
-Sidebar e 11 ta group, oneker `label` duplicate items (e.g. About section + About content, Projects 2x), icons mishmash, header just "Admin" — flat ar amateurish.
+5. **CTA button (Connect)** — toggle on/off
+   - Label, URL
 
-### New structure
+6. **Local time (right side)** — toggle on/off
+   - Caption text (e.g. `LOCAL TIME (GMT+6)`)
+   - Timezone (e.g. `Asia/Dhaka`)
 
-**Sidebar — 4 clean groups only:**
+No other admin sidebar entries are added. Every field is always rendered regardless of the corresponding switch state.
 
-```text
-WORKSPACE
-  ▸ Dashboard
+## Wire-up in `src/PortfolioApp.tsx` (Navbar only)
 
-CONTENT
-  ▸ Projects
-  ▸ Blog posts
-
-PAGES                ← collapsible accordion items
-  ▸ Home
-  ▸ About
-  ▸ Work
-  ▸ Blog
-  ▸ Contact
-  ▸ Legal
-
-GLOBAL
-  ▸ Header / Nav
-  ▸ Footer
-  ▸ SEO & meta
-  ▸ Social links
-  ▸ Demo data
-```
-
-Proti "Pages" item click korle ekta page editor khulbe jeta tabs hisebe oi page er sub-sections show korbe (e.g. Home → Hero / Services / About tabs). Eta sidebar bloat sorabe but sob option e accessible thakbe.
-
-### New layout chrome
-- **Topbar**: logo + workspace name (left), breadcrumb (center), theme toggle + user avatar dropdown (sign-out menu) (right). Height 56px, subtle border.
-- **Sidebar**: 240px, refined spacing, group labels uppercase `text-[11px] tracking-wider text-muted-foreground`, items with 8px icon gap, active state = soft `bg-muted` + left accent bar (2px primary).
-- **Main content**: max-width container, consistent page header pattern:
-  ```text
-  <PageHeader>
-    Title (text-2xl semibold)
-    Description (text-sm muted)
-    [Actions] (right-aligned: Save / New buttons)
-  </PageHeader>
-  ```
-- **Forms**: each section in `Card` with proper `CardHeader/Content/Footer`, sticky save bar at bottom on long forms, toast on save (already exists).
-- **Empty states**: notun component for "No projects yet" type screens with icon + CTA.
-
-### Components to add/change
-- `src/components/admin/AdminSidebar.tsx` — full rewrite with 4 groups + Pages accordion (use existing shadcn `Collapsible`).
-- `src/components/admin/AdminTopbar.tsx` — **NEW**: breadcrumb + user menu.
-- `src/components/admin/PageHeader.tsx` — **NEW**: reusable title/description/actions row.
-- `src/routes/admin.tsx` — use new Topbar instead of inline header.
-- `src/routes/admin.pages.$page.tsx` — **NEW** tabbed editor route for each page (Home/About/Work/Blog/Contact/Legal) that internally renders existing `SiteSectionEditor` instances in tabs.
-- Old `admin.site.*.tsx` routes redirect to corresponding `admin.pages.*` tab (backward compat).
-- `SiteSectionEditor` e wrapper styling improve — remove duplicate card title.
-
-### Color/typography polish
-- Admin uses semantic tokens only (`bg-background`, `border-border`, `text-foreground`, `text-muted-foreground`) — already mostly correct, just verify no hardcoded colors.
-- Font: keep existing system, but headings get `tracking-tight font-semibold`.
-
----
+- Extend the `navigation` settings type with the new fields: `brand_enabled`, `brand_name`, `brand_location`, `avatar_enabled`, `avatar_url`, `theme_toggle_enabled`, `cta_enabled`, `time_enabled`, `time_label`, `time_timezone`, and per-link `visible` flag.
+- Replace hardcoded strings/avatar URL in `Navbar` with values from settings (fallbacks to current defaults so nothing breaks on first load).
+- Conditionally render the left brand block, avatar, theme toggle, CTA, and right-side time block based on their `*_enabled` flags. Hide individual nav items whose `visible === false`.
+- Use the timezone setting in the `toLocaleTimeString` call.
 
 ## Out of scope
-- No database migration.
-- Public site design beyond the newsletter move stays untouched.
-- Existing Projects/Blog list & form pages keep their current structure (only wrapped in new PageHeader).
 
-Approve korle implement kora shuru korbo.
+- No changes to the sidebar (`AdminSidebar.tsx`).
+- No changes to Footer admin or other admin pages.
+- No business logic / DB schema changes — reuses the existing `adminGetAllSettings` / `adminUpdateSetting` flow under the `navigation` key.
