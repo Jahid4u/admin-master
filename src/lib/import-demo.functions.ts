@@ -2,8 +2,6 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-// Hardcoded demo seed (mirrors the original static data so this file is
-// self-contained even if src/lib/projects-data.ts changes later).
 const DEMO_PROJECTS = [
   {
     slug: "wp-quick-forms",
@@ -19,16 +17,13 @@ const DEMO_PROJECTS = [
       "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2002",
       "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2003",
       "https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=2004",
-      "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=2005",
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2006",
-      "https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2007",
     ],
     overview:
-      "WP Quick Forms is a zero-bloat WordPress plugin that lets creators ship production-ready forms in minutes. Built with a hand-rolled query layer, it stays fast even on shared hosting.",
+      "WP Quick Forms is a zero-bloat WordPress plugin that lets creators ship production-ready forms in minutes.",
     challenge:
-      "Most form plugins ship megabytes of legacy code, hurt page speed, and lock essential features behind paywalls. Small site owners needed something fast, accessible, and honest.",
+      "Most form plugins ship megabytes of legacy code, hurt page speed, and lock essential features behind paywalls.",
     solution:
-      "A modular PHP core (under 80KB), a clean React-based builder for the admin, conditional logic without bloated dependencies, and first-class SMTP plus webhook integrations.",
+      "A modular PHP core (under 80KB), a clean React-based builder, conditional logic, and SMTP plus webhook integrations.",
     tags: ["WordPress", "PHP", "UI/UX"],
     tech: ["PHP 8", "WordPress", "React", "Tailwind", "MySQL", "SMTP"],
     results: [
@@ -40,6 +35,9 @@ const DEMO_PROJECTS = [
     repo_url: "https://github.com/example/wp-quick-forms",
     sort_order: 1,
     published: true,
+    meta_title: "WP Quick Forms — Lightweight WordPress Forms Plugin",
+    meta_description: "Build production-ready WordPress forms in minutes with a 78KB modular plugin, conditional logic and SMTP delivery.",
+    og_image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200",
   },
   {
     slug: "fintrack",
@@ -53,14 +51,13 @@ const DEMO_PROJECTS = [
     gallery: [
       "https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=2001",
       "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2002",
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2003",
     ],
     overview:
-      "FinTrack helps growing finance teams turn noisy bank feeds into clear, actionable dashboards — built for desktop power users who live in numbers.",
+      "FinTrack helps growing finance teams turn noisy bank feeds into clear, actionable dashboards.",
     challenge:
-      "Existing dashboards either oversimplified the data or buried users in raw tables. Teams needed density without chaos and visuals that scale.",
+      "Existing dashboards either oversimplified the data or buried users in raw tables.",
     solution:
-      "A typographic-first layout, hand-tuned D3 charts, a real-time WebSocket layer, and an interaction model designed for keyboard-only navigation.",
+      "A typographic-first layout, hand-tuned D3 charts, a real-time WebSocket layer and keyboard-only navigation.",
     tags: ["Next.js", "Tailwind", "D3.js"],
     tech: ["Next.js", "TypeScript", "Tailwind", "D3.js", "Postgres", "WebSocket"],
     results: [
@@ -72,6 +69,9 @@ const DEMO_PROJECTS = [
     repo_url: null,
     sort_order: 2,
     published: true,
+    meta_title: "FinTrack — Real-time Finance Dashboards",
+    meta_description: "Turn noisy bank feeds into dense, actionable finance dashboards with real-time WebSocket data and D3 charts.",
+    og_image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200",
   },
   {
     slug: "zenfit-studio",
@@ -85,14 +85,11 @@ const DEMO_PROJECTS = [
     gallery: [
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2001",
       "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2002",
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=2003",
     ],
     overview:
-      "A calming, premium identity for a boutique yoga studio — built on a modular grid and a soft, earthy palette that scales from app icons to outdoor signage.",
-    challenge:
-      "The wellness category is crowded and visually generic. ZenFit needed an identity that felt premium, ownable, and quiet — without slipping into cliché.",
-    solution:
-      "A custom wordmark, a 12-token color system, a modular asset library of 30+ templates, and motion guidelines for short-form video.",
+      "A calming, premium identity for a boutique yoga studio — built on a modular grid and a soft, earthy palette.",
+    challenge: "The wellness category is crowded and visually generic.",
+    solution: "A custom wordmark, a 12-token color system, 30+ asset templates and motion guidelines.",
     tags: ["Branding", "Figma", "Social"],
     tech: ["Figma", "Illustrator", "After Effects", "Notion"],
     results: [
@@ -104,6 +101,9 @@ const DEMO_PROJECTS = [
     repo_url: null,
     sort_order: 3,
     published: true,
+    meta_title: "ZenFit Studio — Boutique Wellness Brand Identity",
+    meta_description: "A calm, premium identity system for a boutique yoga studio with a 12-token palette and modular asset library.",
+    og_image: "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=1200",
   },
   {
     slug: "edupulse",
@@ -116,14 +116,10 @@ const DEMO_PROJECTS = [
     cover: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2400",
     gallery: [
       "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2001",
-      "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=2002",
     ],
-    overview:
-      "A research-led rebuild of EduPulse's primary signup funnel — focused on clarity, social proof, and a frictionless first interaction.",
-    challenge:
-      "The existing page tried to say too much, hid the CTA below the fold, and lacked credibility signals. Conversion was flat for 9 months.",
-    solution:
-      "A hierarchy reset around one clear promise, inline social proof, a single primary CTA, and a progressive disclosure pattern for secondary information.",
+    overview: "A research-led rebuild of EduPulse's primary signup funnel.",
+    challenge: "Flat conversion for 9 months despite heavy traffic.",
+    solution: "Hierarchy reset, inline social proof, one primary CTA, progressive disclosure.",
     tags: ["Strategy", "CRO", "Web Design"],
     tech: ["React", "Framer Motion", "Tailwind", "Plausible"],
     results: [
@@ -135,6 +131,9 @@ const DEMO_PROJECTS = [
     repo_url: null,
     sort_order: 4,
     published: true,
+    meta_title: "EduPulse — Conversion-Optimized Landing Page Case Study",
+    meta_description: "How a research-led signup funnel rebuild grew EduPulse conversion by 31% in four weeks.",
+    og_image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200",
   },
 ];
 
@@ -146,8 +145,11 @@ const DEMO_POSTS = [
     category: "Web Dev",
     read_time: "5 min read",
     cover_image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop",
-    content: "Creating a WordPress theme from scratch might seem daunting, but it's the best way to understand the underlying mechanics of the CMS. Start by setting up a local development environment.\n\nOnce you have your local site up, navigate to the `wp-content/themes` directory and create a new folder for your theme. The two essential files you need are `style.css` and `index.php`.",
+    content: "Creating a WordPress theme from scratch might seem daunting, but it's the best way to understand the underlying mechanics of the CMS.\n\nStart by setting up a local development environment, then create `style.css` and `index.php` in your theme folder.",
     published: true,
+    meta_title: "Building WordPress Themes from Scratch — Full Guide",
+    meta_description: "Step-by-step guide to building a custom interactive WordPress theme from a blank folder.",
+    og_image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200",
   },
   {
     slug: "font-systems",
@@ -156,8 +158,11 @@ const DEMO_POSTS = [
     category: "Design",
     read_time: "8 min read",
     cover_image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop",
-    content: "Typography is more than just choosing a nice font; it's about establishing a system that ensures consistency, readability, and hierarchy across your digital product.\n\nA good font system usually relies on a primary and a secondary typeface.",
+    content: "Typography is more than just choosing a nice font; it's about establishing a system that ensures consistency, readability and hierarchy.\n\nA good font system usually relies on a primary and a secondary typeface, plus a defined scale.",
     published: true,
+    meta_title: "Designer's Guide to Font Systems & Typographic Scales",
+    meta_description: "How to pair typefaces and build robust typographic scales that scale across an entire product.",
+    og_image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200",
   },
   {
     slug: "framer-motion",
@@ -166,26 +171,82 @@ const DEMO_POSTS = [
     category: "Animation",
     read_time: "12 min read",
     cover_image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
-    content: "Framer Motion is a production-ready motion library for React that makes creating complex, fluid animations incredibly straightforward.",
+    content: "Framer Motion is a production-ready motion library for React that makes creating complex, fluid animations straightforward.\n\nMaster variants, gestures and layout animations to ship delightful interactions.",
     published: true,
+    meta_title: "Mastering Framer Motion — React Animation Guide",
+    meta_description: "Orchestrate complex, physics-based animations in React with Framer Motion variants, gestures and layout transitions.",
+    og_image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200",
   },
 ];
+
+const DEMO_SUBSCRIBERS = [
+  { email: "alex.morgan@example.com", source: "footer", is_active: true },
+  { email: "priya.shah@example.com", source: "footer", is_active: true },
+  { email: "tomoko.ito@example.com", source: "footer", is_active: true },
+  { email: "luis.fernandez@example.com", source: "footer", is_active: true },
+  { email: "sara.johnson@example.com", source: "footer", is_active: false, unsubscribed_at: new Date(Date.now() - 86400000 * 5).toISOString() },
+  { email: "kenji.takahashi@example.com", source: "footer", is_active: true },
+];
+
+const DEMO_MESSAGES = [
+  {
+    name: "Maya Patel",
+    email: "maya.patel@brightlabs.io",
+    subject: "Landing page redesign — Q3 engagement",
+    message: "Hi Jahid, we're a 12-person SaaS team prepping for a Q3 product launch. Loved the FinTrack case study. Could we book a 30-min intro call next week to scope a landing page redesign?",
+    source: "contact",
+    is_read: false,
+    is_replied: false,
+  },
+  {
+    name: "Daniel Reyes",
+    email: "daniel@reyes-studio.com",
+    subject: "Brand identity collaboration",
+    message: "We're a boutique skincare brand re-launching this autumn. Your ZenFit work is exactly the direction we want. Timeline is ~6 weeks. Budget: $8–12k. Available?",
+    source: "home",
+    is_read: true,
+    is_replied: false,
+  },
+  {
+    name: "Aiko Tanaka",
+    email: "aiko@nomadcoffee.jp",
+    subject: "Quick question about WP Quick Forms",
+    message: "Hello — I run a small coffee shop site on WordPress. Does WP Quick Forms support Stripe-based donations out of the box, or do I need an extension?",
+    source: "contact",
+    is_read: false,
+    is_replied: false,
+  },
+  {
+    name: "Owen Walker",
+    email: "owen@walkerventures.com",
+    subject: "Speaking opportunity — DesignOps Summit",
+    message: "Hi! I'm curating the DesignOps Summit lineup for October. Would love to invite you for a 25-min talk on design systems for solo founders. Travel + honorarium covered.",
+    source: "contact",
+    is_read: true,
+    is_replied: true,
+  },
+];
+
+async function ensureAdmin(userId: string) {
+  const { data, error } = await supabaseAdmin
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "admin")
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error("Forbidden: admin role required");
+}
 
 export const importDemoContent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    // Admin role check
-    const { data: roleRow, error: rErr } = await supabaseAdmin
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", context.userId)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (rErr) throw new Error(rErr.message);
-    if (!roleRow) throw new Error("Forbidden: admin role required");
+    await ensureAdmin(context.userId);
 
     let projectsInserted = 0;
     let postsInserted = 0;
+    let subscribersInserted = 0;
+    let messagesInserted = 0;
 
     for (const p of DEMO_PROJECTS) {
       const { data: existing } = await supabaseAdmin
@@ -209,5 +270,46 @@ export const importDemoContent = createServerFn({ method: "POST" })
       if (!error) postsInserted++;
     }
 
-    return { projectsInserted, postsInserted };
+    for (const s of DEMO_SUBSCRIBERS) {
+      const { data: existing } = await supabaseAdmin
+        .from("newsletter_subscribers")
+        .select("id")
+        .eq("email", s.email)
+        .maybeSingle();
+      if (existing) continue;
+      const { error } = await supabaseAdmin.from("newsletter_subscribers").insert(s as never);
+      if (!error) subscribersInserted++;
+    }
+
+    for (const m of DEMO_MESSAGES) {
+      const { data: existing } = await supabaseAdmin
+        .from("contact_submissions")
+        .select("id")
+        .eq("email", m.email)
+        .eq("subject", m.subject)
+        .maybeSingle();
+      if (existing) continue;
+      const { error } = await supabaseAdmin.from("contact_submissions").insert(m as never);
+      if (!error) messagesInserted++;
+    }
+
+    return { projectsInserted, postsInserted, subscribersInserted, messagesInserted };
+  });
+
+export const clearDemoContent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await ensureAdmin(context.userId);
+
+    const projectSlugs = DEMO_PROJECTS.map((p) => p.slug);
+    const postSlugs = DEMO_POSTS.map((p) => p.slug);
+    const subEmails = DEMO_SUBSCRIBERS.map((s) => s.email);
+    const msgEmails = DEMO_MESSAGES.map((m) => m.email);
+
+    await supabaseAdmin.from("projects").delete().in("slug", projectSlugs);
+    await supabaseAdmin.from("blog_posts").delete().in("slug", postSlugs);
+    await supabaseAdmin.from("newsletter_subscribers").delete().in("email", subEmails);
+    await supabaseAdmin.from("contact_submissions").delete().in("email", msgEmails);
+
+    return { ok: true };
   });
