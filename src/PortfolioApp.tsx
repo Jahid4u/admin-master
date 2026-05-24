@@ -2230,7 +2230,7 @@ const MinimalHero = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: Hom
 };
 
 
-const MinimalWork = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalWork = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const works = sharedProjects.slice(0, 4).map((p) => ({
     name: p.title,
@@ -2250,26 +2250,26 @@ const MinimalWork = ({ theme }: { theme: 'dark' | 'light' }) => {
             <div className="flex items-center gap-4 mb-5">
               <span className={`h-px w-10 ${hairline}`} />
               <span className={`text-[10px] font-mono uppercase tracking-[0.35em] ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                Selected Work — 2023 / 2024
+                {home.work_eyebrow || 'Selected Work — 2023 / 2024'}
               </span>
             </div>
             <h2 className={`font-display font-medium tracking-[-0.04em] leading-[1.02] text-3xl md:text-4xl lg:text-[2.75rem] ${isDark ? 'text-white' : 'text-black'}`}>
-              Work made with{' '}
-              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>care</span>
+              {home.work_headline_pre || 'Work made with'}{' '}
+              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>{home.work_headline_italic || 'care'}</span>
               <span className="text-blue-500">.</span>
             </h2>
           </div>
-          <Link
-            to="/work"
+          <a
+            href={home.work_button_url || '/work'}
             className={`group flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-medium border rounded-full px-5 py-3 transition-all ${
               isDark
                 ? 'border-white/15 text-zinc-300 hover:bg-white hover:text-black hover:border-white'
                 : 'border-black/15 text-zinc-700 hover:bg-black hover:text-white hover:border-black'
             }`}
           >
-            View Archive
+            {home.work_button_label || 'View Archive'}
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7">
