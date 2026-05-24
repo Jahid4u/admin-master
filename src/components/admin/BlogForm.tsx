@@ -29,7 +29,10 @@ export type PostFormValues = {
   content: string;
   read_time: string;
   published: boolean;
-  published_at: string; // ISO date (YYYY-MM-DD) for the <input type="date">
+  published_at: string;
+  meta_title: string;
+  meta_description: string;
+  og_image: string | null;
 };
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
@@ -38,6 +41,7 @@ export const emptyPost: PostFormValues = {
   slug: "", title: "", description: "", category: "",
   cover_image: null, content: "", read_time: "", published: true,
   published_at: todayISO(),
+  meta_title: "", meta_description: "", og_image: null,
 };
 
 export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues }) {
@@ -65,6 +69,9 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
             content: v.content || null,
             read_time: v.read_time || null,
             published_at: publishedAtISO,
+            meta_title: v.meta_title || null,
+            meta_description: v.meta_description || null,
+            og_image: v.og_image || null,
           },
         },
       });

@@ -34,6 +34,9 @@ function toForm(row: Record<string, unknown>): ProjectFormValues {
     repo_url: (r.repo_url as string) ?? "",
     sort_order: (r.sort_order as number) ?? 0,
     published: (r.published as boolean) ?? true,
+    meta_title: (r.meta_title as string) ?? "",
+    meta_description: (r.meta_description as string) ?? "",
+    og_image: (r.og_image as string) ?? null,
   };
 }
 
