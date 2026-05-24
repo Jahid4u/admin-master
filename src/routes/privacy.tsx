@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Shield } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getSiteSettings } from "@/lib/site-settings.functions";
+import { getSiteSettings } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/privacy")({
   component: PrivacyPage,
