@@ -34,6 +34,7 @@ import { Route as AdminSiteServicesRouteImport } from './routes/admin.site.servi
 import { Route as AdminSiteSeoRouteImport } from './routes/admin.site.seo'
 import { Route as AdminSitePrivacyRouteImport } from './routes/admin.site.privacy'
 import { Route as AdminSiteNavigationRouteImport } from './routes/admin.site.navigation'
+import { Route as AdminSiteHomeRouteImport } from './routes/admin.site.home'
 import { Route as AdminSiteHeroRouteImport } from './routes/admin.site.hero'
 import { Route as AdminSiteFooterRouteImport } from './routes/admin.site.footer'
 import { Route as AdminSiteContactRouteImport } from './routes/admin.site.contact'
@@ -169,6 +170,11 @@ const AdminSiteNavigationRoute = AdminSiteNavigationRouteImport.update({
   path: '/site/navigation',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSiteHomeRoute = AdminSiteHomeRouteImport.update({
+  id: '/site/home',
+  path: '/site/home',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSiteHeroRoute = AdminSiteHeroRouteImport.update({
   id: '/site/hero',
   path: '/site/hero',
@@ -240,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
   '/admin/site/seo': typeof AdminSiteSeoRoute
@@ -274,6 +281,7 @@ export interface FileRoutesByTo {
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
   '/admin/site/seo': typeof AdminSiteSeoRoute
@@ -311,6 +319,7 @@ export interface FileRoutesById {
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
+  '/admin/site/home': typeof AdminSiteHomeRoute
   '/admin/site/navigation': typeof AdminSiteNavigationRoute
   '/admin/site/privacy': typeof AdminSitePrivacyRoute
   '/admin/site/seo': typeof AdminSiteSeoRoute
@@ -349,6 +358,7 @@ export interface FileRouteTypes {
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/home'
     | '/admin/site/navigation'
     | '/admin/site/privacy'
     | '/admin/site/seo'
@@ -383,6 +393,7 @@ export interface FileRouteTypes {
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/home'
     | '/admin/site/navigation'
     | '/admin/site/privacy'
     | '/admin/site/seo'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
+    | '/admin/site/home'
     | '/admin/site/navigation'
     | '/admin/site/privacy'
     | '/admin/site/seo'
@@ -621,6 +633,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSiteNavigationRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/site/home': {
+      id: '/admin/site/home'
+      path: '/site/home'
+      fullPath: '/admin/site/home'
+      preLoaderRoute: typeof AdminSiteHomeRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/site/hero': {
       id: '/admin/site/hero'
       path: '/site/hero'
@@ -699,6 +718,7 @@ interface AdminRouteChildren {
   AdminSiteContactRoute: typeof AdminSiteContactRoute
   AdminSiteFooterRoute: typeof AdminSiteFooterRoute
   AdminSiteHeroRoute: typeof AdminSiteHeroRoute
+  AdminSiteHomeRoute: typeof AdminSiteHomeRoute
   AdminSiteNavigationRoute: typeof AdminSiteNavigationRoute
   AdminSitePrivacyRoute: typeof AdminSitePrivacyRoute
   AdminSiteSeoRoute: typeof AdminSiteSeoRoute
@@ -723,6 +743,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSiteContactRoute: AdminSiteContactRoute,
   AdminSiteFooterRoute: AdminSiteFooterRoute,
   AdminSiteHeroRoute: AdminSiteHeroRoute,
+  AdminSiteHomeRoute: AdminSiteHomeRoute,
   AdminSiteNavigationRoute: AdminSiteNavigationRoute,
   AdminSitePrivacyRoute: AdminSitePrivacyRoute,
   AdminSiteSeoRoute: AdminSiteSeoRoute,

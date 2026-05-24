@@ -42,8 +42,7 @@ const groups: Group[] = [
     label: "Pages",
     collapsible: true,
     items: [
-      { title: "Home — Hero", url: "/admin/site/hero", icon: Home },
-      { title: "Home — Services", url: "/admin/site/services", icon: Home },
+      { title: "Home", url: "/admin/site/home", icon: Home },
       { title: "About", url: "/admin/site/about", icon: Info },
       { title: "Work header", url: "/admin/site/work_header", icon: Briefcase },
       { title: "Blog header", url: "/admin/site/blog_header", icon: Newspaper },

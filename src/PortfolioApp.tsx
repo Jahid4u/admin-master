@@ -1940,7 +1940,62 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
-const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
+type HomeSettings = {
+  hero_enabled?: boolean;
+  status_enabled?: boolean;
+  status_text?: string;
+  kicker?: string;
+  headline_line1?: string;
+  headline_line2?: string;
+  tagline?: string;
+  stats_enabled?: boolean;
+  stats?: { value: string; label: string; enabled?: boolean }[];
+  cta_primary_enabled?: boolean;
+  cta_primary_label?: string;
+  cta_primary_url?: string;
+  cta_secondary_enabled?: boolean;
+  cta_secondary_label?: string;
+  cta_secondary_url?: string;
+  work_enabled?: boolean;
+  work_eyebrow?: string;
+  work_headline_pre?: string;
+  work_headline_italic?: string;
+  work_button_label?: string;
+  work_button_url?: string;
+  blog_enabled?: boolean;
+  blog_eyebrow?: string;
+  blog_headline_pre?: string;
+  blog_headline_italic?: string;
+  blog_button_label?: string;
+  blog_button_url?: string;
+  contact_enabled?: boolean;
+  contact_headline_line1?: string;
+  contact_headline_line2?: string;
+  contact_email?: string;
+  contact_phone?: string;
+  contact_socials?: { label: string; url: string; enabled?: boolean }[];
+  contact_send_label?: string;
+  contact_name_placeholder?: string;
+  contact_email_placeholder?: string;
+  contact_subject_placeholder?: string;
+  contact_message_placeholder?: string;
+};
+
+const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
+  const headline1 = home.contact_headline_line1 || 'Have an idea?';
+  const headline2 = home.contact_headline_line2 || "Let's connect.";
+  const email = home.contact_email || 'hello@jahid.com';
+  const phone = home.contact_phone || '+880 123 456 789';
+  const socials = (home.contact_socials ?? [
+    { label: 'Twitter', url: '#', enabled: true },
+    { label: 'LinkedIn', url: '#', enabled: true },
+    { label: 'GitHub', url: '#', enabled: true },
+  ]).filter((s) => s.enabled !== false);
+  const sendLabel = home.contact_send_label || 'Send Message';
+  const namePh = home.contact_name_placeholder || 'John Doe';
+  const emailPh = home.contact_email_placeholder || 'john@example.com';
+  const subjectPh = home.contact_subject_placeholder || 'What is this regarding?';
+  const messagePh = home.contact_message_placeholder || 'Tell me about your project...';
   return (
     <section className={`py-24 md:py-32 px-6 md:px-12 lg:px-24 flex flex-col items-center justify-center border-t relative overflow-hidden ${theme === 'dark' ? 'border-white/5' : 'border-black/5'}`}>
       <div className="absolute inset-0 pointer-events-none">
@@ -1951,17 +2006,17 @@ const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
 
       <div className="max-w-4xl w-full text-center relative z-10 flex flex-col items-center">
         <h2 className={`text-4xl md:text-5xl lg:text-6xl font-black font-display uppercase tracking-tighter leading-[0.9] mb-12 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-          Have an idea? <br/>
-          <span className={`${theme === 'dark' ? 'text-zinc-700' : 'text-zinc-300'}`}>Let's connect.</span>
+          {headline1} <br/>
+          <span className={`${theme === 'dark' ? 'text-zinc-700' : 'text-zinc-300'}`}>{headline2}</span>
         </h2>
         
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-20 w-full mt-4">
-           <a href="mailto:hello@jahid.com" className={`text-base sm:text-xl md:text-2xl font-mono break-all ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
-             hello@jahid.com
+           <a href={`mailto:${email}`} className={`text-base sm:text-xl md:text-2xl font-mono break-all ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
+             {email}
            </a>
            <div className={`hidden md:block w-1.5 h-1.5 rounded-full ${theme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300'}`}></div>
-           <a href="tel:+880123456789" className={`text-base sm:text-xl md:text-2xl font-mono ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
-             +880 123 456 789
+           <a href={`tel:${phone.replace(/\s/g, '')}`} className={`text-base sm:text-xl md:text-2xl font-mono ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
+             {phone}
            </a>
         </div>
 
@@ -1973,7 +2028,7 @@ const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Name</label>
                 <input 
                   type="text" 
-                  placeholder="John Doe" 
+                  placeholder={namePh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
               </div>
@@ -1981,7 +2036,7 @@ const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Email</label>
                 <input 
                   type="email" 
-                  placeholder="john@example.com" 
+                  placeholder={emailPh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
               </div>
@@ -1990,26 +2045,26 @@ const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Subject</label>
               <input 
                 type="text" 
-                placeholder="What is this regarding?" 
+                placeholder={subjectPh}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
               />
             </div>
             <div className="flex flex-col gap-3 group">
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Message</label>
               <textarea 
-                placeholder="Tell me about your project..." 
+                placeholder={messagePh}
                 rows={4}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium resize-none transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
               ></textarea>
             </div>
             <div className="mt-6 flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="flex items-center gap-8">
-                {['Twitter', 'LinkedIn', 'GitHub'].map(social => (
-                   <a href="#" key={social} className={`text-[11px] font-mono font-bold uppercase tracking-[0.1em] ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'} transition-colors`}>{social}</a>
+                {socials.map(social => (
+                   <a href={social.url || '#'} key={social.label} className={`text-[11px] font-mono font-bold uppercase tracking-[0.1em] ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'} transition-colors`}>{social.label}</a>
                 ))}
               </div>
               <button className={`px-10 py-4 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] ${theme === 'dark' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'} transition-transform hover:scale-105 active:scale-95`}>
-                Send Message
+                {sendLabel}
               </button>
             </div>
           </form>
@@ -2019,7 +2074,7 @@ const MinimalContactForm = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
-const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalHero = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -2050,21 +2105,23 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
 
       <div className="relative z-10 max-w-6xl w-full px-6 py-24 md:py-28 flex flex-col items-center text-center">
         {/* Status badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease }}
-          className={`inline-flex items-center gap-3 px-4 py-2 rounded-full ${isDark ? 'bg-zinc-900/40' : 'bg-white/70'} border ${border} backdrop-blur-xl mb-10`}
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-50" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
-          </span>
-          <span className={`h-3.5 w-px ${isDark ? 'bg-zinc-700' : 'bg-black/20'}`} />
-          <span className={`text-[10px] font-mono uppercase tracking-[0.28em] ${muted}`}>
-            Available for collaboration
-          </span>
-        </motion.div>
+        {home.status_enabled !== false && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease }}
+            className={`inline-flex items-center gap-3 px-4 py-2 rounded-full ${isDark ? 'bg-zinc-900/40' : 'bg-white/70'} border ${border} backdrop-blur-xl mb-10`}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.6)]" />
+            </span>
+            <span className={`h-3.5 w-px ${isDark ? 'bg-zinc-700' : 'bg-black/20'}`} />
+            <span className={`text-[10px] font-mono uppercase tracking-[0.28em] ${muted}`}>
+              {home.status_text || 'Available for collaboration'}
+            </span>
+          </motion.div>
+        )}
 
         {/* Identity */}
         <motion.p
@@ -2073,7 +2130,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.7, ease, delay: 0.15 }}
           className={`${accent} font-bold tracking-[0.35em] uppercase text-[10px] mb-5`}
         >
-          Jahid Hasan
+          {home.kicker || 'Jahid Hasan'}
         </motion.p>
 
         {/* Headline */}
@@ -2083,7 +2140,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.9, ease, delay: 0.25 }}
           className="font-display font-black tracking-[-0.02em] leading-[1.05] text-[2.25rem] sm:text-[3.25rem] md:text-[4.5rem] lg:text-[5.5rem] mb-8"
         >
-          <span className="block">High-End Digital</span>
+          <span className="block">{home.headline_line1 || 'High-End Digital'}</span>
           <span
             className="block italic font-light text-transparent bg-clip-text pb-[0.15em] pr-[0.1em]"
             style={{
@@ -2093,7 +2150,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
               fontFamily: 'Georgia, serif',
             }}
           >
-            Craft &amp; Engineering.
+            {home.headline_line2 || 'Craft & Engineering.'}
           </span>
         </motion.h1>
 
@@ -2104,34 +2161,39 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.8, ease, delay: 0.4 }}
           className={`max-w-lg text-sm md:text-base leading-relaxed mb-10 font-light ${muted}`}
         >
-          Multidisciplinary <span className={isDark ? 'text-zinc-100' : 'text-black'}>Graphic Designer</span> &amp;{' '}
-          <span className={isDark ? 'text-zinc-100' : 'text-black'}>Web Developer</span> based in Dhaka.
-          Shaping premium digital identities for over six years.
+          {home.tagline || 'Multidisciplinary Graphic Designer & Web Developer based in Dhaka. Shaping premium digital identities for over six years.'}
         </motion.p>
 
         {/* Stats dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease, delay: 0.55 }}
-          className={`w-full max-w-2xl grid grid-cols-3 gap-0.5 ${statsShell} border ${border} rounded-2xl overflow-hidden mb-14 backdrop-blur-sm`}
-        >
-          {[
-            { value: '06+', label: 'Years Exp' },
-            { value: '120+', label: 'Projects' },
-            { value: 'Dhaka', label: 'Location' },
-          ].map((s, i) => (
-            <div
-              key={s.label}
-              className={`group flex flex-col items-center justify-center py-7 px-4 ${cardBg} ${cardHover} transition-colors duration-500 ${i === 1 ? `border-x ${divider}` : ''}`}
+        {home.stats_enabled !== false && (() => {
+          const stats = (home.stats ?? [
+            { value: '06+', label: 'Years Exp', enabled: true },
+            { value: '120+', label: 'Projects', enabled: true },
+            { value: 'Dhaka', label: 'Location', enabled: true },
+          ]).filter((s) => s.enabled !== false);
+          if (stats.length === 0) return null;
+          const cols = stats.length === 1 ? 'grid-cols-1' : stats.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease, delay: 0.55 }}
+              className={`w-full max-w-2xl grid ${cols} gap-0.5 ${statsShell} border ${border} rounded-2xl overflow-hidden mb-14 backdrop-blur-sm`}
             >
-              <span className="text-xl md:text-2xl font-display font-bold mb-1 transition-transform duration-500 group-hover:scale-110">
-                {s.value}
-              </span>
-              <span className={`text-[10px] uppercase tracking-[0.2em] font-medium ${dim}`}>{s.label}</span>
-            </div>
-          ))}
-        </motion.div>
+              {stats.map((s, i) => (
+                <div
+                  key={`${s.label}-${i}`}
+                  className={`group flex flex-col items-center justify-center py-7 px-4 ${cardBg} ${cardHover} transition-colors duration-500 ${i > 0 && i < stats.length - 0 ? `border-l ${divider}` : ''}`}
+                >
+                  <span className="text-xl md:text-2xl font-display font-bold mb-1 transition-transform duration-500 group-hover:scale-110">
+                    {s.value}
+                  </span>
+                  <span className={`text-[10px] uppercase tracking-[0.2em] font-medium ${dim}`}>{s.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          );
+        })()}
 
         {/* CTAs */}
         <motion.div
@@ -2140,22 +2202,26 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
           transition={{ duration: 0.8, ease, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-8"
         >
-          <Link to="/work" className="group relative">
-            <span className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-30 group-hover:opacity-80 transition duration-700" />
-            <span
-              className={`relative inline-flex items-center gap-3 px-9 py-4 rounded-full font-semibold transition-all duration-300 group-hover:-translate-y-0.5 ${
-                isDark ? 'bg-white text-black' : 'bg-black text-white'
-              }`}
-            >
-              <span className="text-sm">View Projects</span>
-              <span className="inline-block transition-transform duration-300 group-hover:rotate-45">→</span>
-            </span>
-          </Link>
+          {home.cta_primary_enabled !== false && (
+            <a href={home.cta_primary_url || '/work'} className="group relative">
+              <span className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-30 group-hover:opacity-80 transition duration-700" />
+              <span
+                className={`relative inline-flex items-center gap-3 px-9 py-4 rounded-full font-semibold transition-all duration-300 group-hover:-translate-y-0.5 ${
+                  isDark ? 'bg-white text-black' : 'bg-black text-white'
+                }`}
+              >
+                <span className="text-sm">{home.cta_primary_label || 'View Projects'}</span>
+                <span className="inline-block transition-transform duration-300 group-hover:rotate-45">→</span>
+              </span>
+            </a>
+          )}
 
-          <Link to="/contact" className={`group flex items-center gap-3 ${dim} ${textHover} transition-colors`}>
-            <span className="text-[11px] font-bold uppercase tracking-[0.25em]">Start a Conversation</span>
-            <span className={`block w-8 h-px ${isDark ? 'bg-zinc-700' : 'bg-black/30'} transition-all duration-500 group-hover:w-14 group-hover:bg-blue-500`} />
-          </Link>
+          {home.cta_secondary_enabled !== false && (
+            <a href={home.cta_secondary_url || '/contact'} className={`group flex items-center gap-3 ${dim} ${textHover} transition-colors`}>
+              <span className="text-[11px] font-bold uppercase tracking-[0.25em]">{home.cta_secondary_label || 'Start a Conversation'}</span>
+              <span className={`block w-8 h-px ${isDark ? 'bg-zinc-700' : 'bg-black/30'} transition-all duration-500 group-hover:w-14 group-hover:bg-blue-500`} />
+            </a>
+          )}
         </motion.div>
       </div>
 
@@ -2164,7 +2230,7 @@ const MinimalHero = ({ theme }: { theme: 'dark' | 'light' }) => {
 };
 
 
-const MinimalWork = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalWork = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const works = sharedProjects.slice(0, 4).map((p) => ({
     name: p.title,
@@ -2184,26 +2250,26 @@ const MinimalWork = ({ theme }: { theme: 'dark' | 'light' }) => {
             <div className="flex items-center gap-4 mb-5">
               <span className={`h-px w-10 ${hairline}`} />
               <span className={`text-[10px] font-mono uppercase tracking-[0.35em] ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                Selected Work — 2023 / 2024
+                {home.work_eyebrow || 'Selected Work — 2023 / 2024'}
               </span>
             </div>
             <h2 className={`font-display font-medium tracking-[-0.04em] leading-[1.02] text-3xl md:text-4xl lg:text-[2.75rem] ${isDark ? 'text-white' : 'text-black'}`}>
-              Work made with{' '}
-              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>care</span>
+              {home.work_headline_pre || 'Work made with'}{' '}
+              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>{home.work_headline_italic || 'care'}</span>
               <span className="text-blue-500">.</span>
             </h2>
           </div>
-          <Link
-            to="/work"
+          <a
+            href={home.work_button_url || '/work'}
             className={`group flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-medium border rounded-full px-5 py-3 transition-all ${
               isDark
                 ? 'border-white/15 text-zinc-300 hover:bg-white hover:text-black hover:border-white'
                 : 'border-black/15 text-zinc-700 hover:bg-black hover:text-white hover:border-black'
             }`}
           >
-            View Archive
+            {home.work_button_label || 'View Archive'}
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7">
@@ -2242,7 +2308,7 @@ const MinimalWork = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
-const MinimalBlog = ({ theme }: { theme: 'dark' | 'light' }) => {
+const MinimalBlog = ({ theme, home = {} }: { theme: 'dark' | 'light'; home?: HomeSettings }) => {
   const isDark = theme === 'dark';
   const hairline = isDark ? 'bg-white/10' : 'bg-black/10';
   const posts = blogPosts.slice(0, 3);
@@ -2255,26 +2321,26 @@ const MinimalBlog = ({ theme }: { theme: 'dark' | 'light' }) => {
             <div className="flex items-center gap-4 mb-5">
               <span className={`h-px w-10 ${hairline}`} />
               <span className={`text-[10px] font-mono uppercase tracking-[0.35em] ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                Journal — Notes & Essays
+                {home.blog_eyebrow || 'Journal — Notes & Essays'}
               </span>
             </div>
             <h2 className={`font-display font-medium tracking-[-0.04em] leading-[1.02] text-3xl md:text-4xl lg:text-[2.75rem] ${isDark ? 'text-white' : 'text-black'}`}>
-              Writing on{' '}
-              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>craft</span>
+              {home.blog_headline_pre || 'Writing on'}{' '}
+              <span className="italic font-light" style={{ fontFamily: 'Georgia, serif' }}>{home.blog_headline_italic || 'craft'}</span>
               <span className="text-blue-500">.</span>
             </h2>
           </div>
-          <Link
-            to="/blog"
+          <a
+            href={home.blog_button_url || '/blog'}
             className={`group flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-medium border rounded-full px-5 py-3 transition-all ${
               isDark
                 ? 'border-white/15 text-zinc-300 hover:bg-white hover:text-black hover:border-white'
                 : 'border-black/15 text-zinc-700 hover:bg-black hover:text-white hover:border-black'
             }`}
           >
-            All Writing
+            {home.blog_button_label || 'All Writing'}
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
+          </a>
         </div>
 
         {/* Compact 3-up: small thumbnail cards in a tight row */}
@@ -2336,12 +2402,18 @@ const MarqueeStrip = ({ theme }: { theme: 'dark' | 'light' }) => {
 };
 
 export const HomePage = ({ theme }: { theme: 'dark' | 'light' }) => {
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+    staleTime: 60_000,
+  });
+  const home = (settings?.home ?? {}) as HomeSettings;
   return (
     <>
-      <MinimalHero theme={theme} />
-      <MinimalWork theme={theme} />
-      <MinimalBlog theme={theme} />
-      <MinimalContactForm theme={theme} />
+      {home.hero_enabled !== false && <MinimalHero theme={theme} home={home} />}
+      {home.work_enabled !== false && <MinimalWork theme={theme} home={home} />}
+      {home.blog_enabled !== false && <MinimalBlog theme={theme} home={home} />}
+      {home.contact_enabled !== false && <MinimalContactForm theme={theme} home={home} />}
     </>
   );
 };
