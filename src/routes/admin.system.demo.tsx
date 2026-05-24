@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { importDemoContent } from "@/lib/import-demo.functions";
+import { importDemoContent, clearDemoContent } from "@/lib/import-demo.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Trash2, FolderKanban, FileText, Mail, Newspaper } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/system/demo")({
@@ -14,14 +14,26 @@ export const Route = createFileRoute("/admin/system/demo")({
 function DemoPage() {
   const qc = useQueryClient();
   const importFn = useServerFn(importDemoContent);
+  const clearFn = useServerFn(clearDemoContent);
 
   const importMut = useMutation({
     mutationFn: () => importFn(),
     onSuccess: (r) => {
-      toast.success(`Imported ${r.projectsInserted} projects, ${r.postsInserted} posts`);
-      qc.invalidateQueries({ queryKey: ["admin"] });
+      toast.success(
+        `Imported ${r.projectsInserted} projects, ${r.postsInserted} posts, ${r.subscribersInserted} subscribers, ${r.messagesInserted} messages`
+      );
+      qc.invalidateQueries();
     },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Import failed"),
+  });
+
+  const clearMut = useMutation({
+    mutationFn: () => clearFn(),
+    onSuccess: () => {
+      toast.success("Demo content removed");
+      qc.invalidateQueries();
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Clear failed"),
   });
 
   return (
@@ -29,7 +41,7 @@ function DemoPage() {
       <div>
         <h1 className="text-2xl font-semibold">Demo data</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Seed your portfolio with sample projects and blog posts so you can see how everything looks.
+          Seed your site with sample content so you can test every feature end-to-end.
         </p>
       </div>
 
@@ -37,19 +49,52 @@ function DemoPage() {
         <CardHeader>
           <CardTitle className="text-base">Import demo content</CardTitle>
           <CardDescription>
-            Safe to run multiple times — items with existing slugs are skipped, nothing is overwritten.
+            Safe to run multiple times — items with existing slugs/emails are skipped, nothing is overwritten.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            Adds sample projects and posts to your database.
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+            <Stat icon={FolderKanban} label="Projects" value="4" />
+            <Stat icon={FileText} label="Blog posts" value="3" />
+            <Stat icon={Newspaper} label="Subscribers" value="6" />
+            <Stat icon={Mail} label="Inbox messages" value="4" />
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Each project & post includes full SEO metadata (meta title, description, OG image).
           </p>
-          <Button onClick={() => importMut.mutate()} disabled={importMut.isPending}>
-            <Download className="size-4 mr-1" />
-            {importMut.isPending ? "Importing…" : "Import demo"}
-          </Button>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Button onClick={() => importMut.mutate()} disabled={importMut.isPending}>
+              <Download className="size-4 mr-1.5" />
+              {importMut.isPending ? "Importing…" : "Import demo"}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (confirm("Remove all demo content from projects, posts, subscribers and inbox?"))
+                  clearMut.mutate();
+              }}
+              disabled={clearMut.isPending}
+            >
+              <Trash2 className="size-4 mr-1.5" />
+              {clearMut.isPending ? "Removing…" : "Clear demo"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function Stat({ icon: Icon, label, value }: { icon: typeof Mail; label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-border bg-card p-3 flex items-center gap-3">
+      <div className="size-9 rounded-md bg-primary/10 text-primary flex items-center justify-center">
+        <Icon className="size-4" />
+      </div>
+      <div>
+        <div className="text-lg font-semibold leading-none">{value}</div>
+        <div className="text-[11px] text-muted-foreground mt-1">{label}</div>
+      </div>
     </div>
   );
 }
