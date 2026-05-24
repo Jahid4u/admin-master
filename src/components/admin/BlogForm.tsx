@@ -213,23 +213,8 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader>
           <CardTitle className="text-base">Content</CardTitle>
-          <label className="inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer border rounded-md px-2.5 py-1.5 hover:bg-muted">
-            <ImagePlus className="size-4" />
-            {inserting ? "Uploading…" : "Insert image"}
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              disabled={inserting}
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) handleInlineImage(f);
-                e.target.value = "";
-              }}
-            />
-          </label>
         </CardHeader>
         <CardContent className="space-y-2">
           <Tabs defaultValue="write">
@@ -237,17 +222,49 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
               <TabsTrigger value="write"><Pencil className="size-3.5 mr-1.5" />Write</TabsTrigger>
               <TabsTrigger value="preview"><Eye className="size-3.5 mr-1.5" />Preview</TabsTrigger>
             </TabsList>
-            <TabsContent value="write" className="mt-3">
+            <TabsContent value="write" className="mt-3 space-y-2">
+              <div className="flex flex-wrap items-center gap-1 border rounded-md p-1 bg-muted/40">
+                <ToolbarBtn title="Heading 1" onClick={() => prefixLines("# ")}><Heading1 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Heading 2" onClick={() => prefixLines("## ")}><Heading2 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Heading 3" onClick={() => prefixLines("### ")}><Heading3 className="size-4" /></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Bold" onClick={() => wrapSelection("**", "**", "bold text")}><Bold className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Italic" onClick={() => wrapSelection("*", "*", "italic text")}><Italic className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Inline code" onClick={() => wrapSelection("`", "`", "code")}><Code className="size-4" /></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Bullet list" onClick={() => prefixLines("- ")}><List className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Numbered list" onClick={() => prefixLines((i) => `${i + 1}. `)}><ListOrdered className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Quote" onClick={() => prefixLines("> ")}><Quote className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Code block" onClick={() => wrapSelection("\n```\n", "\n```\n", "your code here")}><span className="text-xs font-mono">{`{}`}</span></ToolbarBtn>
+                <Separator orientation="vertical" className="h-6 mx-1" />
+                <ToolbarBtn title="Link" onClick={insertLink}><Link2 className="size-4" /></ToolbarBtn>
+                <ToolbarBtn title="Divider" onClick={() => insertAtCursor("\n\n---\n\n")}><Minus className="size-4" /></ToolbarBtn>
+                <label className="ml-auto inline-flex items-center gap-1.5 text-xs font-medium cursor-pointer border rounded-md px-2.5 py-1 hover:bg-background bg-background">
+                  <ImagePlus className="size-4" />
+                  {inserting ? "Uploading…" : "Image"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    disabled={inserting}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleInlineImage(f);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
               <Textarea
                 ref={contentRef}
                 rows={20}
                 value={v.content}
                 onChange={(e) => set("content", e.target.value)}
-                placeholder={"Write your post in Markdown.\n\n## Heading\n\nParagraph with **bold** and [a link](https://example.com).\n\n![alt](https://image.url)"}
+                placeholder={"Just start writing…\n\nSelect any text and use the toolbar above to make it bold, add a heading, insert a link, and more. Click Preview to see the result."}
                 className="font-mono text-sm"
               />
-              <p className="text-xs text-muted-foreground mt-2">
-                Supports Markdown: <code>##</code> headings, <code>**bold**</code>, <code>`code`</code>, <code>```fenced blocks```</code>, lists, links, and images.
+              <p className="text-xs text-muted-foreground">
+                Tip: select text first, then click a toolbar button to format it.
               </p>
             </TabsContent>
             <TabsContent value="preview" className="mt-3">
