@@ -261,7 +261,7 @@ export const adminUpdateSubmission = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     await assertAdmin(context.userId);
-    const patch: Record<string, unknown> = {};
+    const patch: { is_read?: boolean; is_replied?: boolean } = {};
     if (typeof data.is_read === "boolean") patch.is_read = data.is_read;
     if (typeof data.is_replied === "boolean") patch.is_replied = data.is_replied;
     if (Object.keys(patch).length === 0) return { ok: true };
