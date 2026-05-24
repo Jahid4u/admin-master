@@ -287,3 +287,25 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
     </form>
   );
 }
+
+function ToolbarBtn({
+  title,
+  onClick,
+  children,
+}: {
+  title: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      title={title}
+      aria-label={title}
+      onClick={onClick}
+      className="inline-flex items-center justify-center size-8 rounded hover:bg-background text-muted-foreground hover:text-foreground transition-colors"
+    >
+      {children}
+    </button>
+  );
+}
