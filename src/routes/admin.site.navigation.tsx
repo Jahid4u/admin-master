@@ -36,6 +36,8 @@ type Nav = {
   time_enabled: boolean;
   time_label: string;
   time_timezone: string;
+  time_hour12: boolean;
+  time_show_seconds: boolean;
 
   // legacy (kept so old saved data doesn't break)
   logo_text?: string;
