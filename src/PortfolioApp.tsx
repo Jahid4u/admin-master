@@ -536,6 +536,8 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
   const timeEnabled = nav.time_enabled !== false;
   const timeLabel = nav.time_label || 'LOCAL TIME (GMT+6)';
   const timeTimezone = nav.time_timezone || 'Asia/Dhaka';
+  const timeHour12 = nav.time_hour12 === true;
+  const timeShowSeconds = nav.time_show_seconds !== false;
 
   const iconFor = (label: string) => {
     const k = label.toLowerCase();
