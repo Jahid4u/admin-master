@@ -521,6 +521,7 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
     theme_toggle_enabled?: boolean;
     cta_enabled?: boolean; cta_label?: string; cta_url?: string;
     time_enabled?: boolean; time_label?: string; time_timezone?: string;
+    time_hour12?: boolean; time_show_seconds?: boolean;
   };
 
   const brandEnabled = nav.brand_enabled !== false;
