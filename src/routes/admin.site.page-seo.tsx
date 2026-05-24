@@ -32,7 +32,7 @@ const PAGES: { key: keyof PageSeo; label: string; path: string }[] = [
   { key: "terms", label: "Terms of Service", path: "/terms" },
 ];
 
-export const Route = createFileRoute("/admin/site/seo/pages")({ component: PageSeoPage });
+export const Route = createFileRoute("/admin/site/page-seo")({ component: PageSeoPage });
 
 function PageSeoPage() {
   return (

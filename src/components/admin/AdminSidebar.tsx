@@ -65,7 +65,7 @@ const groups: Group[] = [
       { title: "Footer", url: "/admin/site/footer", icon: PanelBottom },
       { title: "Social links", url: "/admin/site/social", icon: Share2 },
       { title: "SEO & meta", url: "/admin/site/seo", icon: Search },
-      { title: "Per-page SEO", url: "/admin/site/seo/pages", icon: Search },
+      { title: "Per-page SEO", url: "/admin/site/page-seo", icon: Search },
     ],
   },
   {
