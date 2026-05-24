@@ -1676,6 +1676,21 @@ export const Contact = ({ theme }: { theme: 'dark' | 'light' }) => {
 export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   const isDark = theme === 'dark';
   const [isRevealed, setIsRevealed] = useState(false);
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+    staleTime: 60_000,
+  });
+  const footerSettings = (settings?.footer ?? {}) as {
+    newsletter_enabled?: boolean;
+    newsletter_title?: string;
+    newsletter_desc?: string;
+  };
+  const newsletterEnabled = footerSettings.newsletter_enabled !== false;
+  const newsletterTitle = footerSettings.newsletter_title || 'Stay in the Loop';
+  const newsletterDesc =
+    footerSettings.newsletter_desc ||
+    'Get the latest insights, trends, and updates delivered to your inbox.';
 
   useEffect(() => {
     // Fallback timer to ensure overflow-visible is set even if viewport observers are delayed
@@ -1715,11 +1730,41 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
   };
 
   return (
-    <footer id="portfolio-footer" className={`relative pt-24 pb-12 px-6 md:px-12 lg:px-24 border-t transition-colors duration-500 overflow-x-hidden overflow-y-visible ${isDark ? 'border-white/5 text-zinc-100' : 'border-black/5 text-zinc-950'}`}>
+    <footer id="portfolio-footer" className={`relative pt-16 pb-12 px-6 md:px-12 lg:px-24 border-t transition-colors duration-500 overflow-x-hidden overflow-y-visible ${isDark ? 'border-white/5 text-zinc-100' : 'border-black/5 text-zinc-950'}`}>
       <div className="max-w-[1400px] mx-auto w-full flex flex-col gap-10">
-        
+
+        {/* Newsletter — admin-toggleable, shown at the top of the footer only */}
+        {newsletterEnabled && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className={`w-full max-w-5xl mx-auto rounded-[2rem] p-10 md:p-14 lg:p-16 relative overflow-hidden flex flex-col items-center gap-8 ${isDark ? 'bg-[#0a0a0a] border border-white/5' : 'bg-black'} shadow-2xl`}
+          >
+            <div className="flex-1 max-w-2xl z-10 text-center">
+              <h3 className="text-3xl md:text-4xl font-bold font-display tracking-tight mb-4 text-white">
+                {newsletterTitle}
+              </h3>
+              <p className="text-[17px] text-zinc-400">{newsletterDesc}</p>
+            </div>
+            <form className="w-full max-w-xl z-10 flex flex-col sm:flex-row gap-3 pt-2" onSubmit={(e) => e.preventDefault()}>
+              <div className="relative flex-1">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className={`w-full px-6 py-4 rounded-xl outline-none font-medium transition-all border ${isDark ? 'bg-[#151515] border-white/5 text-white placeholder-zinc-500 focus:border-blue-500' : 'bg-white border-black/5 text-black placeholder-zinc-400 focus:border-blue-500'}`}
+                />
+              </div>
+              <button type="submit" className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white">
+                <Send className="w-4 h-4" /> Subscribe
+              </button>
+            </form>
+          </motion.div>
+        )}
+
         {/* Massive Name Typography with stagger-reveal kinetic typography mask & bouncy individual interactions */}
         <div className={`w-full relative py-8 select-none ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}>
+
           <motion.div 
             variants={containerVariants}
             initial="hidden"
