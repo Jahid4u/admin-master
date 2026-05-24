@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Field } from "@/components/admin/SiteSectionEditor";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 
 export const Route = createFileRoute("/admin/site/navigation")({ component: NavPage });
