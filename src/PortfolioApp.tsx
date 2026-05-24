@@ -10,6 +10,8 @@ import ReactMarkdown from 'react-markdown';
 import { projects as sharedProjects } from '@/lib/projects-data';
 import { useQuery } from '@tanstack/react-query';
 import { getSiteSettings } from '@/lib/content.functions';
+import { submitContact } from '@/lib/contact.functions';
+import { toast } from 'sonner';
 
 export const blogPosts = [
   {
