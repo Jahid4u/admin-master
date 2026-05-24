@@ -1773,18 +1773,19 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
               <div className="relative flex-1">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={newsletterPlaceholder}
                   className={`w-full px-6 py-4 rounded-xl outline-none font-medium transition-all border ${isDark ? 'bg-[#151515] border-white/5 text-white placeholder-zinc-500 focus:border-blue-500' : 'bg-white border-black/5 text-black placeholder-zinc-400 focus:border-blue-500'}`}
                 />
               </div>
               <button type="submit" className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white">
-                <Send className="w-4 h-4" /> Subscribe
+                <Send className="w-4 h-4" /> {newsletterButton}
               </button>
             </form>
           </motion.div>
         )}
 
-        {/* Massive Name Typography with stagger-reveal kinetic typography mask & bouncy individual interactions */}
+        {/* Massive Name Typography */}
+        {bigNameEnabled && (
         <div className={`w-full relative py-8 select-none ${isRevealed ? 'overflow-visible' : 'overflow-hidden'}`}>
 
           <motion.div 
