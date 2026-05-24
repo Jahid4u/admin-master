@@ -356,6 +356,26 @@ function NavPage() {
                   placeholder="LOCAL TIME (GMT+6)"
                 />
               </Field>
+              <Field label="Timezone preset">
+                <Select
+                  value={TZ_PRESETS.some((t) => t.value === v.time_timezone) ? v.time_timezone : "__custom"}
+                  onValueChange={(val) => {
+                    if (val !== "__custom") set({ time_timezone: val });
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pick a timezone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TZ_PRESETS.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="__custom">Custom…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
               <Field label="Timezone (IANA)">
                 <Input
                   value={v.time_timezone}
@@ -363,6 +383,31 @@ function NavPage() {
                   placeholder="Asia/Dhaka"
                 />
               </Field>
+              <Field label="Time format">
+                <Select
+                  value={v.time_hour12 ? "12" : "24"}
+                  onValueChange={(val) => set({ time_hour12: val === "12" })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="24">24-hour (14:30)</SelectItem>
+                    <SelectItem value="12">12-hour (2:30 PM)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <div className="sm:col-span-2 flex items-center justify-between rounded-md border border-border p-3">
+                <div>
+                  <div className="text-sm font-medium">Show seconds</div>
+                  <div className="text-xs text-muted-foreground">Include seconds in the clock (e.g. 14:30:45).</div>
+                </div>
+                <Switch
+                  className={switchCls}
+                  checked={v.time_show_seconds !== false}
+                  onCheckedChange={(c) => set({ time_show_seconds: c })}
+                />
+              </div>
             </div>
           </SectionCard>
         </div>
