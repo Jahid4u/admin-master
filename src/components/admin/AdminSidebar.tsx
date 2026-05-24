@@ -54,10 +54,47 @@ const groups = [
     ],
   },
   {
-    label: "Other pages",
+    label: "About page",
+    items: [
+      { title: "About content", url: "/admin/site/about", icon: Info },
+    ],
+  },
+  {
+    label: "Work page",
     items: [
       { title: "Work header", url: "/admin/site/work_header", icon: Briefcase },
+      { title: "Projects", url: "/admin/projects", icon: FolderKanban },
+    ],
+  },
+  {
+    label: "Blog page",
+    items: [
       { title: "Blog header", url: "/admin/site/blog_header", icon: Newspaper },
+      { title: "Blog posts", url: "/admin/blog", icon: FileText },
+    ],
+  },
+  {
+    label: "Contact page",
+    items: [
+      { title: "Contact info", url: "/admin/site/contact", icon: Mail },
+      { title: "Social links", url: "/admin/site/social", icon: Share2 },
+    ],
+  },
+  {
+    label: "Header",
+    items: [
+      { title: "Navigation", url: "/admin/site/navigation", icon: Navigation },
+    ],
+  },
+  {
+    label: "Footer",
+    items: [
+      { title: "Footer", url: "/admin/site/footer", icon: PanelBottom },
+    ],
+  },
+  {
+    label: "Legal pages",
+    items: [
       { title: "Privacy policy", url: "/admin/site/privacy", icon: Shield },
       { title: "Terms of service", url: "/admin/site/terms", icon: ScrollText },
     ],
@@ -65,13 +102,10 @@ const groups = [
   {
     label: "Global",
     items: [
-      { title: "Navigation", url: "/admin/site/navigation", icon: Navigation },
-      { title: "Footer", url: "/admin/site/footer", icon: PanelBottom },
-      { title: "Contact info", url: "/admin/site/contact", icon: Mail },
-      { title: "Social links", url: "/admin/site/social", icon: Share2 },
       { title: "SEO & meta", url: "/admin/site/seo", icon: Search },
     ],
   },
+
   {
     label: "System",
     items: [{ title: "Demo data", url: "/admin/system/demo", icon: Database }],
