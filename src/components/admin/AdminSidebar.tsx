@@ -15,6 +15,7 @@ import {
   Search,
   Share2,
   Database,
+  Server,
   LogOut,
   ChevronRight,
   ChevronsLeft,
