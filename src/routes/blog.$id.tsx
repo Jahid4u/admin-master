@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HomePage } from "@/PortfolioApp";
+import { BlogPost } from "@/PortfolioApp";
 import { useTheme } from "@/lib/theme-context";
 
-export const Route = createFileRoute("/")({ component: Page });
+export const Route = createFileRoute("/blog/$id")({ component: Page });
 
 function Page() {
   const { theme } = useTheme();
-  return <HomePage theme={theme} />;
+  return <BlogPost theme={theme} />;
 }
