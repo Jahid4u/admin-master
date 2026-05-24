@@ -779,7 +779,6 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
           {/* Theme Toggle */}
           {themeToggleEnabled && (
             <>
-              <div className={`w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
               <div className="flex items-center px-2 sm:px-3 group/logo cursor-pointer">
                 <motion.button
                   onClick={toggleTheme}
