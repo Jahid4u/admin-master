@@ -509,11 +509,59 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const navRef = useRef<HTMLDivElement>(null);
 
-  const activeTab = location.pathname === '/' ? 'Home' : 
-                   location.pathname.includes('work') ? 'Work' : 
-                   location.pathname.includes('blog') ? 'Blog' : 
-                   location.pathname.includes('about') ? 'About' : 
-                   location.pathname.includes('contact') ? 'Contact' : 'Home';
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+    staleTime: 60_000,
+  });
+  const nav = (settings?.navigation ?? {}) as {
+    brand_enabled?: boolean; brand_name?: string; brand_location?: string;
+    avatar_enabled?: boolean; avatar_url?: string | null;
+    links?: { label: string; url: string; visible?: boolean }[];
+    theme_toggle_enabled?: boolean;
+    cta_enabled?: boolean; cta_label?: string; cta_url?: string;
+    time_enabled?: boolean; time_label?: string; time_timezone?: string;
+  };
+
+  const brandEnabled = nav.brand_enabled !== false;
+  const brandName = nav.brand_name || 'Jahid Hasan';
+  const brandLocation = nav.brand_location || 'Dhaka, Bangladesh';
+  const avatarEnabled = nav.avatar_enabled !== false;
+  const avatarUrl = nav.avatar_url || 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=2574';
+  const themeToggleEnabled = nav.theme_toggle_enabled !== false;
+  const ctaEnabled = nav.cta_enabled !== false;
+  const ctaLabel = nav.cta_label || 'Connect';
+  const ctaUrl = nav.cta_url || '/contact';
+  const timeEnabled = nav.time_enabled !== false;
+  const timeLabel = nav.time_label || 'LOCAL TIME (GMT+6)';
+  const timeTimezone = nav.time_timezone || 'Asia/Dhaka';
+
+  const iconFor = (label: string) => {
+    const k = label.toLowerCase();
+    if (k.includes('home')) return <Home size={12} strokeWidth={2.5} />;
+    if (k.includes('work')) return <Briefcase size={12} strokeWidth={2.5} />;
+    if (k.includes('blog')) return <FileText size={12} strokeWidth={2.5} />;
+    if (k.includes('about')) return <User size={12} strokeWidth={2.5} />;
+    if (k.includes('contact')) return <Mail size={12} strokeWidth={2.5} />;
+    return <Home size={12} strokeWidth={2.5} />;
+  };
+  const defaultLinks = [
+    { label: 'Home', url: '/', visible: true },
+    { label: 'Work', url: '/work', visible: true },
+    { label: 'Blog', url: '/blog', visible: true },
+    { label: 'About', url: '/about', visible: true },
+    { label: 'Contact', url: '/contact', visible: true },
+  ];
+  const navItems = (nav.links && nav.links.length > 0 ? nav.links : defaultLinks)
+    .filter((l) => l.visible !== false)
+    .map((l) => ({ name: l.label, path: l.url, icon: iconFor(l.label) }));
+
+  const activeTab = (() => {
+    const match = navItems.find((i) =>
+      i.path === '/' ? location.pathname === '/' : location.pathname.startsWith(i.path)
+    );
+    return match?.name ?? '';
+  })();
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!navRef.current) return;
@@ -546,27 +594,23 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
 
   useEffect(() => {
     const setTime = () => {
-      const dhakaTime = new Date().toLocaleTimeString('en-US', { 
-        timeZone: 'Asia/Dhaka', 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-      setCurrentTime(dhakaTime);
+      try {
+        const t = new Date().toLocaleTimeString('en-US', {
+          timeZone: timeTimezone,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        });
+        setCurrentTime(t);
+      } catch {
+        setCurrentTime(new Date().toLocaleTimeString('en-US', { hour12: false }));
+      }
     };
     setTime();
     const timer = setInterval(setTime, 1000);
     return () => clearInterval(timer);
-  }, []);
-
-  const navItems = [
-    { name: 'Home', path: '/', icon: <Home size={12} strokeWidth={2.5} /> },
-    { name: 'Work', path: '/work', icon: <Briefcase size={12} strokeWidth={2.5} /> },
-    { name: 'Blog', path: '/blog', icon: <FileText size={12} strokeWidth={2.5} /> },
-    { name: 'About', path: '/about', icon: <User size={12} strokeWidth={2.5} /> },
-    { name: 'Contact', path: '/contact', icon: <Mail size={12} strokeWidth={2.5} /> }
-  ];
+  }, [timeTimezone]);
 
   return (
     <>
