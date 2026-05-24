@@ -2006,17 +2006,17 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
 
       <div className="max-w-4xl w-full text-center relative z-10 flex flex-col items-center">
         <h2 className={`text-4xl md:text-5xl lg:text-6xl font-black font-display uppercase tracking-tighter leading-[0.9] mb-12 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-          Have an idea? <br/>
-          <span className={`${theme === 'dark' ? 'text-zinc-700' : 'text-zinc-300'}`}>Let's connect.</span>
+          {headline1} <br/>
+          <span className={`${theme === 'dark' ? 'text-zinc-700' : 'text-zinc-300'}`}>{headline2}</span>
         </h2>
         
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-20 w-full mt-4">
-           <a href="mailto:hello@jahid.com" className={`text-base sm:text-xl md:text-2xl font-mono break-all ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
-             hello@jahid.com
+           <a href={`mailto:${email}`} className={`text-base sm:text-xl md:text-2xl font-mono break-all ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
+             {email}
            </a>
            <div className={`hidden md:block w-1.5 h-1.5 rounded-full ${theme === 'dark' ? 'bg-zinc-700' : 'bg-zinc-300'}`}></div>
-           <a href="tel:+880123456789" className={`text-base sm:text-xl md:text-2xl font-mono ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
-             +880 123 456 789
+           <a href={`tel:${phone.replace(/\s/g, '')}`} className={`text-base sm:text-xl md:text-2xl font-mono ${theme === 'dark' ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-black'} transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-current after:origin-right hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300`}>
+             {phone}
            </a>
         </div>
 
@@ -2028,7 +2028,7 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Name</label>
                 <input 
                   type="text" 
-                  placeholder="John Doe" 
+                  placeholder={namePh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
               </div>
@@ -2036,7 +2036,7 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
                 <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Email</label>
                 <input 
                   type="email" 
-                  placeholder="john@example.com" 
+                  placeholder={emailPh}
                   className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
                 />
               </div>
@@ -2045,26 +2045,26 @@ const MinimalContactForm = ({ theme, home = {} }: { theme: 'dark' | 'light'; hom
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Subject</label>
               <input 
                 type="text" 
-                placeholder="What is this regarding?" 
+                placeholder={subjectPh}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
               />
             </div>
             <div className="flex flex-col gap-3 group">
               <label className={`text-[10px] font-mono font-bold uppercase tracking-[0.2em] transition-colors group-focus-within:text-blue-500 ${theme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>Message</label>
               <textarea 
-                placeholder="Tell me about your project..." 
+                placeholder={messagePh}
                 rows={4}
                 className={`w-full bg-transparent border-b outline-none pb-4 text-sm font-medium resize-none transition-colors ${theme === 'dark' ? 'border-white/10 text-white placeholder-white/20 focus:border-blue-500' : 'border-black/10 text-black placeholder-black/20 focus:border-blue-600'}`}
               ></textarea>
             </div>
             <div className="mt-6 flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="flex items-center gap-8">
-                {['Twitter', 'LinkedIn', 'GitHub'].map(social => (
-                   <a href="#" key={social} className={`text-[11px] font-mono font-bold uppercase tracking-[0.1em] ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'} transition-colors`}>{social}</a>
+                {socials.map(social => (
+                   <a href={social.url || '#'} key={social.label} className={`text-[11px] font-mono font-bold uppercase tracking-[0.1em] ${theme === 'dark' ? 'text-zinc-500 hover:text-white' : 'text-zinc-400 hover:text-black'} transition-colors`}>{social.label}</a>
                 ))}
               </div>
               <button className={`px-10 py-4 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] ${theme === 'dark' ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'} transition-transform hover:scale-105 active:scale-95`}>
-                Send Message
+                {sendLabel}
               </button>
             </div>
           </form>
