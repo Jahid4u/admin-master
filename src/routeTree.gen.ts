@@ -38,7 +38,7 @@ import { Route as AdminSiteHomeRouteImport } from './routes/admin.site.home'
 import { Route as AdminSiteHeroRouteImport } from './routes/admin.site.hero'
 import { Route as AdminSiteFooterRouteImport } from './routes/admin.site.footer'
 import { Route as AdminSiteContactRouteImport } from './routes/admin.site.contact'
-import { Route as AdminSiteBlog_headerRouteImport } from './routes/admin.site.blog_header'
+import { Route as AdminSiteBlogRouteImport } from './routes/admin.site.blog'
 import { Route as AdminSiteAboutRouteImport } from './routes/admin.site.about'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects.new'
 import { Route as AdminProjectsIdRouteImport } from './routes/admin.projects.$id'
@@ -190,9 +190,9 @@ const AdminSiteContactRoute = AdminSiteContactRouteImport.update({
   path: '/site/contact',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSiteBlog_headerRoute = AdminSiteBlog_headerRouteImport.update({
-  id: '/site/blog_header',
-  path: '/site/blog_header',
+const AdminSiteBlogRoute = AdminSiteBlogRouteImport.update({
+  id: '/site/blog',
+  path: '/site/blog',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSiteAboutRoute = AdminSiteAboutRouteImport.update({
@@ -242,7 +242,7 @@ export interface FileRoutesByFullPath {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
-  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
+  '/admin/site/blog': typeof AdminSiteBlogRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
@@ -277,7 +277,7 @@ export interface FileRoutesByTo {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
-  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
+  '/admin/site/blog': typeof AdminSiteBlogRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
@@ -315,7 +315,7 @@ export interface FileRoutesById {
   '/admin/projects/$id': typeof AdminProjectsIdRoute
   '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/site/about': typeof AdminSiteAboutRoute
-  '/admin/site/blog_header': typeof AdminSiteBlog_headerRoute
+  '/admin/site/blog': typeof AdminSiteBlogRoute
   '/admin/site/contact': typeof AdminSiteContactRoute
   '/admin/site/footer': typeof AdminSiteFooterRoute
   '/admin/site/hero': typeof AdminSiteHeroRoute
@@ -354,7 +354,7 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
-    | '/admin/site/blog_header'
+    | '/admin/site/blog'
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
@@ -389,7 +389,7 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
-    | '/admin/site/blog_header'
+    | '/admin/site/blog'
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
@@ -426,7 +426,7 @@ export interface FileRouteTypes {
     | '/admin/projects/$id'
     | '/admin/projects/new'
     | '/admin/site/about'
-    | '/admin/site/blog_header'
+    | '/admin/site/blog'
     | '/admin/site/contact'
     | '/admin/site/footer'
     | '/admin/site/hero'
@@ -661,11 +661,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSiteContactRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/site/blog_header': {
-      id: '/admin/site/blog_header'
-      path: '/site/blog_header'
-      fullPath: '/admin/site/blog_header'
-      preLoaderRoute: typeof AdminSiteBlog_headerRouteImport
+    '/admin/site/blog': {
+      id: '/admin/site/blog'
+      path: '/site/blog'
+      fullPath: '/admin/site/blog'
+      preLoaderRoute: typeof AdminSiteBlogRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/site/about': {
@@ -714,7 +714,7 @@ interface AdminRouteChildren {
   AdminProjectsIdRoute: typeof AdminProjectsIdRoute
   AdminProjectsNewRoute: typeof AdminProjectsNewRoute
   AdminSiteAboutRoute: typeof AdminSiteAboutRoute
-  AdminSiteBlog_headerRoute: typeof AdminSiteBlog_headerRoute
+  AdminSiteBlogRoute: typeof AdminSiteBlogRoute
   AdminSiteContactRoute: typeof AdminSiteContactRoute
   AdminSiteFooterRoute: typeof AdminSiteFooterRoute
   AdminSiteHeroRoute: typeof AdminSiteHeroRoute
@@ -739,7 +739,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminProjectsIdRoute: AdminProjectsIdRoute,
   AdminProjectsNewRoute: AdminProjectsNewRoute,
   AdminSiteAboutRoute: AdminSiteAboutRoute,
-  AdminSiteBlog_headerRoute: AdminSiteBlog_headerRoute,
+  AdminSiteBlogRoute: AdminSiteBlogRoute,
   AdminSiteContactRoute: AdminSiteContactRoute,
   AdminSiteFooterRoute: AdminSiteFooterRoute,
   AdminSiteHeroRoute: AdminSiteHeroRoute,
