@@ -15,6 +15,7 @@ import {
   Search,
   Share2,
   Database,
+  Server,
   LogOut,
   ChevronRight,
   ChevronsLeft,
@@ -65,7 +66,10 @@ const groups: Group[] = [
   },
   {
     label: "System",
-    items: [{ title: "Demo data", url: "/admin/system/demo", icon: Database }],
+    items: [
+      { title: "SMTP", url: "/admin/system/smtp", icon: Server },
+      { title: "Demo data", url: "/admin/system/demo", icon: Database },
+    ],
   },
 ];
 

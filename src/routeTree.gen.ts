@@ -27,6 +27,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminInboxRouteImport } from './routes/admin.inbox'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
+import { Route as AdminSystemSmtpRouteImport } from './routes/admin.system.smtp'
 import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
 import { Route as AdminSiteWorkRouteImport } from './routes/admin.site.work'
 import { Route as AdminSiteTermsRouteImport } from './routes/admin.site.terms'
@@ -134,6 +135,11 @@ const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
 const AdminBlogIndexRoute = AdminBlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSystemSmtpRoute = AdminSystemSmtpRouteImport.update({
+  id: '/system/smtp',
+  path: '/system/smtp',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSystemDemoRoute = AdminSystemDemoRouteImport.update({
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/admin/site/terms': typeof AdminSiteTermsRoute
   '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
 }
@@ -298,6 +305,7 @@ export interface FileRoutesByTo {
   '/admin/site/terms': typeof AdminSiteTermsRoute
   '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
 }
@@ -337,6 +345,7 @@ export interface FileRoutesById {
   '/admin/site/terms': typeof AdminSiteTermsRoute
   '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
+  '/admin/system/smtp': typeof AdminSystemSmtpRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
 }
@@ -377,6 +386,7 @@ export interface FileRouteTypes {
     | '/admin/site/terms'
     | '/admin/site/work'
     | '/admin/system/demo'
+    | '/admin/system/smtp'
     | '/admin/blog/'
     | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
@@ -413,6 +423,7 @@ export interface FileRouteTypes {
     | '/admin/site/terms'
     | '/admin/site/work'
     | '/admin/system/demo'
+    | '/admin/system/smtp'
     | '/admin/blog'
     | '/admin/projects'
   id:
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
     | '/admin/site/terms'
     | '/admin/site/work'
     | '/admin/system/demo'
+    | '/admin/system/smtp'
     | '/admin/blog/'
     | '/admin/projects/'
   fileRoutesById: FileRoutesById
@@ -594,6 +606,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/admin/blog/'
       preLoaderRoute: typeof AdminBlogIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/system/smtp': {
+      id: '/admin/system/smtp'
+      path: '/system/smtp'
+      fullPath: '/admin/system/smtp'
+      preLoaderRoute: typeof AdminSystemSmtpRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/system/demo': {
@@ -747,6 +766,7 @@ interface AdminRouteChildren {
   AdminSiteTermsRoute: typeof AdminSiteTermsRoute
   AdminSiteWorkRoute: typeof AdminSiteWorkRoute
   AdminSystemDemoRoute: typeof AdminSystemDemoRoute
+  AdminSystemSmtpRoute: typeof AdminSystemSmtpRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
 }
@@ -773,6 +793,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSiteTermsRoute: AdminSiteTermsRoute,
   AdminSiteWorkRoute: AdminSiteWorkRoute,
   AdminSystemDemoRoute: AdminSystemDemoRoute,
+  AdminSystemSmtpRoute: AdminSystemSmtpRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminProjectsIndexRoute: AdminProjectsIndexRoute,
 }
@@ -816,13 +837,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
