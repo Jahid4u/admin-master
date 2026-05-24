@@ -68,6 +68,8 @@ const defaults: Nav = {
   time_enabled: true,
   time_label: "LOCAL TIME (GMT+6)",
   time_timezone: "Asia/Dhaka",
+  time_hour12: false,
+  time_show_seconds: true,
 };
 
 function SectionCard({
