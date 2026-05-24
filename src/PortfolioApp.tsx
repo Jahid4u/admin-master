@@ -617,28 +617,32 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 sm:pt-6 lg:pt-8 px-3 sm:px-6 pointer-events-none perspective-1000">
         
         {/* Floating Screen Left */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="absolute left-8 top-11 flex-col gap-1 pointer-events-auto hidden lg:flex"
-        >
-           <span className={`text-[9px] font-bold uppercase tracking-[0.3em] ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>Jahid Hasan</span>
-           <span className={`text-[8px] font-medium uppercase tracking-[0.2em] flex items-center gap-1 ${theme === 'dark' ? 'text-white/40' : 'text-zinc-500'}`}>
-             Dhaka, Bangladesh
-           </span>
-        </motion.div>
+        {brandEnabled && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="absolute left-8 top-11 flex-col gap-1 pointer-events-auto hidden lg:flex"
+          >
+            <span className={`text-[9px] font-bold uppercase tracking-[0.3em] ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{brandName}</span>
+            <span className={`text-[8px] font-medium uppercase tracking-[0.2em] flex items-center gap-1 ${theme === 'dark' ? 'text-white/40' : 'text-zinc-500'}`}>
+              {brandLocation}
+            </span>
+          </motion.div>
+        )}
 
         {/* Floating Screen Right */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="absolute right-8 top-11 flex-col items-end gap-1 pointer-events-auto hidden lg:flex"
-        >
-           <span className={`text-[10px] font-bold uppercase tracking-[0.3em] font-mono ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{currentTime || "00:00:00"}</span>
-           <span className={`text-[8px] font-medium uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-white/50' : 'text-zinc-500'}`}>LOCAL TIME (GMT+6)</span>
-        </motion.div>
+        {timeEnabled && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="absolute right-8 top-11 flex-col items-end gap-1 pointer-events-auto hidden lg:flex"
+          >
+            <span className={`text-[10px] font-bold uppercase tracking-[0.3em] font-mono ${theme === 'dark' ? 'text-white' : 'text-zinc-900'}`}>{currentTime || "00:00:00"}</span>
+            <span className={`text-[8px] font-medium uppercase tracking-[0.2em] ${theme === 'dark' ? 'text-white/50' : 'text-zinc-500'}`}>{timeLabel}</span>
+          </motion.div>
+        )}
 
         <motion.div 
           ref={navRef}
