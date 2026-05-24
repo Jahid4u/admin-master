@@ -78,7 +78,7 @@ function FooterPage() {
             title="Newsletter block"
             description="Shown at the very top of the footer on every page."
             toggle={
-              <Switch
+              <Switch className="border border-border data-[state=unchecked]:bg-muted"
                 checked={v.newsletter_enabled !== false}
                 onCheckedChange={(checked) => set({ ...v, newsletter_enabled: checked })}
               />
@@ -104,7 +104,7 @@ function FooterPage() {
             title="Big name display"
             description="The huge animated name shown in the footer."
             toggle={
-              <Switch
+              <Switch className="border border-border data-[state=unchecked]:bg-muted"
                 checked={v.big_name_enabled !== false}
                 onCheckedChange={(checked) => set({ ...v, big_name_enabled: checked })}
               />
@@ -138,7 +138,7 @@ function FooterPage() {
                 />
               </Field>
               <div className="pt-6">
-                <Switch
+                <Switch className="border border-border data-[state=unchecked]:bg-muted"
                   checked={v.privacy_enabled !== false}
                   onCheckedChange={(checked) => set({ ...v, privacy_enabled: checked })}
                 />
@@ -152,7 +152,7 @@ function FooterPage() {
                 />
               </Field>
               <div className="pt-6">
-                <Switch
+                <Switch className="border border-border data-[state=unchecked]:bg-muted"
                   checked={v.terms_enabled !== false}
                   onCheckedChange={(checked) => set({ ...v, terms_enabled: checked })}
                 />
