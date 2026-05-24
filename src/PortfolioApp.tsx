@@ -1084,78 +1084,130 @@ const Hero = ({ theme }: { theme: 'dark' | 'light' }) => {
   );
 };
 
+type AboutSocial = { label?: string; url?: string; enabled?: boolean };
+type AboutExperience = { company: string; period: string; role: string; enabled?: boolean };
+type AboutStudy = { title: string; detail: string; enabled?: boolean };
+type AboutLang = { name: string; enabled?: boolean };
+type AboutTech = { icon: string; name: string; enabled?: boolean };
+type AboutPageSettings = {
+  hero_enabled?: boolean;
+  badge_enabled?: boolean; badge_text?: string;
+  headline_pre?: string; headline_italic?: string; headline_suffix?: string;
+  bio?: string;
+  cta_enabled?: boolean; cta_label?: string; cta_url?: string;
+  socials_enabled?: boolean; socials?: AboutSocial[];
+  profile_enabled?: boolean; profile_image?: string | null; profile_name?: string; profile_role?: string;
+  location_enabled?: boolean; location_line1?: string; location_line2?: string;
+  cv_enabled?: boolean; cv_label?: string; cv_url?: string;
+  experience_enabled?: boolean; experience_title?: string; experiences?: AboutExperience[];
+  studies_enabled?: boolean; studies_title?: string; studies?: AboutStudy[];
+  languages_enabled?: boolean; languages_title?: string; languages?: AboutLang[];
+  tech_enabled?: boolean; tech_title?: string; tech_description?: string; tech_items?: AboutTech[];
+};
+
+const socialIconFor = (label: string) => {
+  const k = label.toLowerCase();
+  if (k.includes('twitter') || k.includes('x')) return <Twitter className="w-4 h-4" />;
+  if (k.includes('linkedin')) return <Linkedin className="w-4 h-4" />;
+  if (k.includes('instagram')) return <Instagram className="w-4 h-4" />;
+  return <Globe className="w-4 h-4" />;
+};
+
 export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+  });
+  const a = (settings?.about_page ?? {}) as AboutPageSettings;
+  const socials = (a.socials ?? [
+    { label: 'Twitter', url: '#', enabled: true },
+    { label: 'LinkedIn', url: '#', enabled: true },
+    { label: 'Instagram', url: '#', enabled: true },
+  ]).filter((s) => s.enabled !== false);
+  const experiences = (a.experiences ?? []).filter((e) => e.enabled !== false);
+  const studies = (a.studies ?? []).filter((s) => s.enabled !== false);
+  const languages = (a.languages ?? []).filter((l) => l.enabled !== false);
+  const techItems = (a.tech_items ?? []).filter((t) => t.enabled !== false);
+
   return (
     <section className={`py-24 md:py-32 px-4 md:px-8 lg:px-16 transition-colors duration-700 min-h-screen ${theme === 'dark' ? 'text-white' : 'text-black'}`} id="about">
       <div className="max-w-[1280px] mx-auto w-full flex flex-col gap-6">
-        
+
         {/* Top Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          
+
           {/* Main Intro Card */}
-          <motion.div 
+          {a.hero_enabled !== false && (
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className={`col-span-1 md:col-span-2 lg:col-span-2 row-span-2 p-8 md:p-12 rounded-[2rem] md:rounded-[3rem] border flex flex-col justify-between transition-all duration-500 ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/5 hover:border-white/10' : 'bg-white border-black/5 hover:shadow-xl hover:border-black/10'}`}
           >
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 text-xs font-bold uppercase tracking-wider text-blue-500 border-blue-500/20 bg-blue-500/10">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
-                Available for work
-              </div>
+              {a.badge_enabled !== false && (
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 text-xs font-bold uppercase tracking-wider text-blue-500 border-blue-500/20 bg-blue-500/10">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  </span>
+                  {a.badge_text || 'Available for work'}
+                </div>
+              )}
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 font-display leading-[1.1] md:leading-[1.1]">
-                Crafting digital experiences with <span className="text-blue-500 italic">purpose</span>.
+                {a.headline_pre || 'Crafting digital experiences with'} <span className="text-blue-500 italic">{a.headline_italic || 'purpose'}</span>{a.headline_suffix ?? '.'}
               </h2>
               <p className={`text-[16px] md:text-[18px] leading-[1.7] max-w-lg ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                I'm Jahid Hasan, founder of Apifel DIGI. I design brands and build websites — combining strong visual thinking with solid development skills to help creators stand out.
+                {a.bio || "I'm Jahid Hasan, founder of Apifel DIGI. I design brands and build websites — combining strong visual thinking with solid development skills to help creators stand out."}
               </p>
             </div>
-            
+
             <div className="mt-10 flex flex-wrap gap-4 items-center">
-              <a href="#contact" className={`px-8 py-4 rounded-full font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}`}>
-                Hire Me Now <ArrowRight className="w-4 h-4 ml-1" />
-              </a>
-              <div className="flex gap-2">
-                {[
-                  { icon: <Twitter className="w-4 h-4" />, url: "#" },
-                  { icon: <Linkedin className="w-4 h-4" />, url: "#" },
-                  { icon: <Instagram className="w-4 h-4" />, url: "#" },
-                ].map((social, i) => (
-                  <a key={i} href={social.url} className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all ${theme === 'dark' ? 'border-white/10 hover:bg-white/10' : 'border-black/10 hover:bg-black/5'}`}>
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
+              {a.cta_enabled !== false && (
+                <a href={a.cta_url || '#contact'} className={`px-8 py-4 rounded-full font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 ${theme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}`}>
+                  {a.cta_label || 'Hire Me Now'} <ArrowRight className="w-4 h-4 ml-1" />
+                </a>
+              )}
+              {a.socials_enabled !== false && (
+                <div className="flex gap-2">
+                  {socials.map((social, i) => (
+                    <a key={i} href={social.url || '#'} className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all ${theme === 'dark' ? 'border-white/10 hover:bg-white/10' : 'border-black/10 hover:bg-black/5'}`}>
+                      {socialIconFor(social.label || '')}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
+          )}
 
           {/* Profile Image Card */}
-          <motion.div 
+          {a.profile_enabled !== false && (
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className={`col-span-1 lg:col-span-1 row-span-2 relative rounded-[2rem] md:rounded-[3rem] overflow-hidden min-h-[300px] md:min-h-full border group ${theme === 'dark' ? 'border-white/5' : 'border-black/5 shadow-lg'}`}
           >
-            <img 
-              src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800" 
-              alt="Jahid Hasan" 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105 grayscale-[0.2] group-hover:grayscale-0" 
+            <img
+              src={a.profile_image || "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800"}
+              alt={a.profile_name || 'Profile'}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105 grayscale-[0.2] group-hover:grayscale-0"
             />
             <div className={`absolute inset-0 bg-gradient-to-t opacity-60 ${theme === 'dark' ? 'from-black to-transparent' : 'from-black/50 to-transparent'}`}></div>
             <div className="absolute bottom-6 left-6 right-6">
-               <h3 className="text-white text-2xl font-bold font-display">Jahid Hasan</h3>
-               <p className="text-white/80 text-sm font-medium">Graphic Designer & Dev</p>
+               <h3 className="text-white text-2xl font-bold font-display">{a.profile_name || 'Jahid Hasan'}</h3>
+               <p className="text-white/80 text-sm font-medium">{a.profile_role || 'Graphic Designer & Dev'}</p>
             </div>
           </motion.div>
+          )}
 
           {/* Location & CV Stack */}
+          {(a.location_enabled !== false || a.cv_enabled !== false) && (
           <div className="col-span-1 md:col-span-3 lg:col-span-1 flex flex-row lg:flex-col gap-4 md:gap-6">
-             <motion.div 
+             {a.location_enabled !== false && (
+             <motion.div
                initial={{ opacity: 0, x: 20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
@@ -1165,9 +1217,12 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
                <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
                  <Globe className="w-6 h-6" />
                </div>
-               <p className="font-bold text-[15px] leading-tight">Based in Dhaka,<br/>Bangladesh</p>
+               <p className="font-bold text-[15px] leading-tight">{a.location_line1 || 'Based in Dhaka,'}<br/>{a.location_line2 || 'Bangladesh'}</p>
              </motion.div>
-             <motion.div 
+             )}
+             {a.cv_enabled !== false && (
+             <motion.a
+               href={a.cv_url || '#'}
                initial={{ opacity: 0, x: 20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
@@ -1175,16 +1230,20 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
                className={`flex-1 p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] border flex flex-col justify-center items-center text-center cursor-pointer group transition-all duration-500 relative overflow-hidden ${theme === 'dark' ? 'bg-blue-600 border-blue-500 hover:bg-blue-500' : 'bg-blue-500 border-blue-600 hover:bg-blue-600 shadow-lg'}`}
              >
                <ArrowRight className="w-10 h-10 mb-4 text-white -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
-               <p className="font-bold text-white text-[15px]">Download CV</p>
-             </motion.div>
+               <p className="font-bold text-white text-[15px]">{a.cv_label || 'Download CV'}</p>
+             </motion.a>
+             )}
           </div>
+          )}
         </div>
 
         {/* Second Row Grid */}
+        {(a.experience_enabled !== false || a.studies_enabled !== false || a.languages_enabled !== false) && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-12">
-          
+
           {/* Work Experience */}
-          <motion.div 
+          {a.experience_enabled !== false && (
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -1192,32 +1251,11 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
           >
             <h3 className="text-2xl font-bold font-display mb-10 flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-              Work Experience
+              {a.experience_title || 'Work Experience'}
             </h3>
             <div className="flex flex-col gap-10 relative">
               <div className={`absolute left-[5px] top-2 bottom-2 w-[2px] rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`}></div>
-              {[
-                 {
-                   company: "Apifel DIGI",
-                   period: "2021 - Present",
-                   role: "Founder — Graphic Designer & Web Developer",
-                 },
-                 {
-                   company: "FreshMind Agency",
-                   period: "2019 - 2021",
-                   role: "Senior Graphic Designer & Web Developer",
-                 },
-                 {
-                   company: "StreamFlow Media",
-                   period: "2018 - 2019",
-                   role: "Graphic Designer",
-                 },
-                 {
-                   company: "Freelance",
-                   period: "2016 - 2018",
-                   role: "Freelance Designer & WordPress Developer",
-                 }
-              ].map((exp, i) => (
+              {experiences.map((exp, i) => (
                 <div key={i} className="pl-8 relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 group">
                   <div className={`absolute left-0 top-2 w-[12px] h-[12px] rounded-full border-[3px] transition-colors ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/20 group-hover:border-blue-500' : 'bg-white border-black/20 group-hover:border-blue-500'}`}></div>
                   <div>
@@ -1231,48 +1269,56 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
               ))}
             </div>
           </motion.div>
+          )}
 
           {/* Education & Languages */}
+          {(a.studies_enabled !== false || a.languages_enabled !== false) && (
           <div className="col-span-1 flex flex-col gap-4 md:gap-6">
-            <motion.div 
+            {a.studies_enabled !== false && (
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className={`flex-1 p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/5' : 'bg-white border-black/5 shadow-sm'}`}
             >
-              <h3 className="text-2xl font-bold font-display mb-8">Studies</h3>
+              <h3 className="text-2xl font-bold font-display mb-8">{a.studies_title || 'Studies'}</h3>
               <div className="flex flex-col gap-6">
-                <div>
-                  <h4 className="text-[16px] font-bold mb-1">Visual Communication</h4>
-                  <p className={`text-[13px] ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Diploma — Graphic Design & Visual Arts (2014 - 2016)</p>
-                </div>
-                <div className={`w-full h-[1px] ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}></div>
-                <div>
-                  <h4 className="text-[16px] font-bold mb-1">Web Development</h4>
-                  <p className={`text-[13px] ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Full-Stack Web Development, WordPress (2016 - Present)</p>
-                </div>
+                {studies.map((s, i) => (
+                  <div key={i}>
+                    {i > 0 && <div className={`w-full h-[1px] mb-6 ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}></div>}
+                    <h4 className="text-[16px] font-bold mb-1">{s.title}</h4>
+                    <p className={`text-[13px] ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>{s.detail}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
+            )}
 
-            <motion.div 
+            {a.languages_enabled !== false && (
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               className={`p-8 md:p-10 rounded-[2rem] md:rounded-[3rem] border flex flex-col justify-center ${theme === 'dark' ? 'bg-[#0a0a0a] border-white/5' : 'bg-white border-black/5 shadow-sm'}`}
             >
-              <h3 className="text-[15px] font-bold uppercase tracking-widest text-zinc-500 mb-4">Languages</h3>
+              <h3 className="text-[15px] font-bold uppercase tracking-widest text-zinc-500 mb-4">{a.languages_title || 'Languages'}</h3>
               <div className="flex flex-wrap gap-2">
-                 <span className={`px-4 py-2 rounded-full text-[13px] font-bold tracking-wide ${theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}>English</span>
-                 <span className={`px-4 py-2 rounded-full text-[13px] font-bold tracking-wide ${theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}>Bengali</span>
+                {languages.map((l, i) => (
+                  <span key={i} className={`px-4 py-2 rounded-full text-[13px] font-bold tracking-wide ${theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'}`}>{l.name}</span>
+                ))}
               </div>
             </motion.div>
+            )}
           </div>
+          )}
         </div>
+        )}
 
         {/* Technical Skills Marquee / Grid */}
-        <motion.div 
+        {a.tech_enabled !== false && (
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -1281,20 +1327,13 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
             <h3 className="text-2xl font-bold font-display flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-              Technical Arsenal
+              {a.tech_title || 'Technical Arsenal'}
             </h3>
-            <p className={`text-[15px] max-w-sm ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>The tools and technologies I use to bring ideas to life.</p>
+            <p className={`text-[15px] max-w-sm ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>{a.tech_description || 'The tools and technologies I use to bring ideas to life.'}</p>
           </div>
-          
+
           <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
-             {[
-                { icon: "Ps", name: "Photoshop" },
-                { icon: "Ai", name: "Illustrator" },
-                { icon: "Fg", name: "Figma" },
-                { icon: "Wp", name: "WordPress" },
-                { icon: "{ }", name: "HTML/CSS" },
-                { icon: "Php", name: "PHP" },
-             ].map((skill, i) => (
+             {techItems.map((skill, i) => (
                <div key={i} className={`flex flex-col items-center justify-center p-6 rounded-[1.5rem] border transition-all hover:-translate-y-1 ${theme === 'dark' ? 'bg-[#151515] border-white/5 hover:border-white/20' : 'bg-zinc-50 border-black/5 hover:border-black/10 hover:shadow-md'}`}>
                  <div className="text-2xl font-bold font-mono text-blue-500 mb-3">{skill.icon}</div>
                  <div className="text-[13px] font-bold tracking-wide">{skill.name}</div>
@@ -1302,11 +1341,13 @@ export const About = ({ theme }: { theme: 'dark' | 'light' }) => {
              ))}
           </div>
         </motion.div>
+        )}
 
       </div>
     </section>
   );
 };
+
 
 const ProjectCard = ({ project, theme, idx }: { project: any, theme: 'dark' | 'light', idx: number }) => {
   const container = useRef(null);
