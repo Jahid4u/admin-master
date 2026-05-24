@@ -1,0 +1,197 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState, type ReactNode } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { adminGetAllSettings, adminUpdateSetting } from "@/lib/admin.functions";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "sonner";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { Field } from "@/components/admin/SiteSectionEditor";
+
+export const Route = createFileRoute("/admin/site/work")({ component: WorkPage });
+
+type WorkSettings = {
+  badge_enabled: boolean;
+  badge_text: string;
+  headline_enabled: boolean;
+  headline_pre: string;
+  headline_italic1: string;
+  headline_mid: string;
+  headline_italic2: string;
+  headline_suffix: string;
+  description_enabled: boolean;
+  description: string;
+};
+
+const defaults: WorkSettings = {
+  badge_enabled: true,
+  badge_text: "Selected Works",
+  headline_enabled: true,
+  headline_pre: "Projects that blend",
+  headline_italic1: "form",
+  headline_mid: "and",
+  headline_italic2: "function",
+  headline_suffix: ".",
+  description_enabled: true,
+  description:
+    "A curated selection of my latest work, spanning web development, custom applications, and digital experiences designed to be simple, unique, and attractive.",
+};
+
+const switchCls = "border border-border data-[state=unchecked]:bg-muted";
+
+function SectionCard({
+  title,
+  description,
+  toggle,
+  children,
+}: {
+  title: string;
+  description?: string;
+  toggle?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <Card className="shadow-sm">
+      <CardContent className="p-6 space-y-5">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-sm font-semibold">{title}</div>
+            {description && (
+              <div className="text-xs text-muted-foreground mt-0.5">{description}</div>
+            )}
+          </div>
+          {toggle}
+        </div>
+        <div className="space-y-4">{children}</div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function WorkPage() {
+  const qc = useQueryClient();
+  const getAll = useServerFn(adminGetAllSettings);
+  const update = useServerFn(adminUpdateSetting);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin", "settings"],
+    queryFn: () => getAll(),
+  });
+
+  const initial = { ...defaults, ...((data?.work_page as object | undefined) ?? {}) } as WorkSettings;
+  const [v, setV] = useState<WorkSettings>(initial);
+
+  useEffect(() => {
+    setV(initial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(initial)]);
+
+  const set = (patch: Partial<WorkSettings>) => setV({ ...v, ...patch });
+
+  const saveMut = useMutation({
+    mutationFn: () => update({ data: { key: "work_page", value: v } }),
+    onSuccess: () => {
+      toast.success("Saved");
+      qc.invalidateQueries({ queryKey: ["admin", "settings"] });
+      qc.invalidateQueries({ queryKey: ["site-settings"] });
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Save failed"),
+  });
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        saveMut.mutate();
+      }}
+      className="max-w-2xl"
+    >
+      <PageHeader
+        title="Work page"
+        description="Edit every element shown at the top of the /work page."
+        actions={
+          <Button type="submit" disabled={saveMut.isPending || isLoading} size="sm">
+            {saveMut.isPending ? "Saving…" : "Save changes"}
+          </Button>
+        }
+      />
+
+      {isLoading ? (
+        <p className="text-sm text-muted-foreground">Loading…</p>
+      ) : (
+        <div className="space-y-6">
+          {/* BADGE */}
+          <SectionCard
+            title="Badge"
+            description="The small pill above the headline (e.g. SELECTED WORKS)."
+            toggle={
+              <Switch
+                className={switchCls}
+                checked={v.badge_enabled !== false}
+                onCheckedChange={(c) => set({ badge_enabled: c })}
+              />
+            }
+          >
+            <Field label="Badge text">
+              <Input value={v.badge_text} onChange={(e) => set({ badge_text: e.target.value })} />
+            </Field>
+          </SectionCard>
+
+          {/* HEADLINE */}
+          <SectionCard
+            title="Headline"
+            description="The big title. Two italic accent words sit between the plain parts."
+            toggle={
+              <Switch
+                className={switchCls}
+                checked={v.headline_enabled !== false}
+                onCheckedChange={(c) => set({ headline_enabled: c })}
+              />
+            }
+          >
+            <Field label="Before first italic">
+              <Input value={v.headline_pre} onChange={(e) => set({ headline_pre: e.target.value })} />
+            </Field>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Field label="First italic word">
+                <Input value={v.headline_italic1} onChange={(e) => set({ headline_italic1: e.target.value })} />
+              </Field>
+              <Field label="Between italics">
+                <Input value={v.headline_mid} onChange={(e) => set({ headline_mid: e.target.value })} />
+              </Field>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Field label="Second italic word">
+                <Input value={v.headline_italic2} onChange={(e) => set({ headline_italic2: e.target.value })} />
+              </Field>
+              <Field label="Trailing punctuation">
+                <Input value={v.headline_suffix} onChange={(e) => set({ headline_suffix: e.target.value })} />
+              </Field>
+            </div>
+          </SectionCard>
+
+          {/* DESCRIPTION */}
+          <SectionCard
+            title="Description"
+            description="The paragraph below the headline."
+            toggle={
+              <Switch
+                className={switchCls}
+                checked={v.description_enabled !== false}
+                onCheckedChange={(c) => set({ description_enabled: c })}
+              />
+            }
+          >
+            <Field label="Description text">
+              <Textarea rows={4} value={v.description} onChange={(e) => set({ description: e.target.value })} />
+            </Field>
+          </SectionCard>
+        </div>
+      )}
+    </form>
+  );
+}

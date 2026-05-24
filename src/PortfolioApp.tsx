@@ -1368,28 +1368,59 @@ const ProjectCard = ({ project, theme, idx }: { project: any, theme: 'dark' | 'l
   );
 };
 
+type WorkPageSettings = {
+  badge_enabled?: boolean;
+  badge_text?: string;
+  headline_enabled?: boolean;
+  headline_pre?: string;
+  headline_italic1?: string;
+  headline_mid?: string;
+  headline_italic2?: string;
+  headline_suffix?: string;
+  description_enabled?: boolean;
+  description?: string;
+};
+
 export const DetailedProjects = ({ theme }: { theme: 'dark' | 'light' }) => {
   const projects = sharedProjects;
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+  });
+  const w = (settings?.work_page ?? {}) as WorkPageSettings;
+  const badgeEnabled = w.badge_enabled !== false;
+  const headlineEnabled = w.headline_enabled !== false;
+  const descEnabled = w.description_enabled !== false;
 
   return (
     <section className={`pt-20 md:pt-28 pb-32 md:pb-32 px-6 md:px-12 lg:px-20 transition-colors duration-700 relative overflow-hidden `} id="work">
       <div className="max-w-[1000px] mx-auto relative z-10">
-        
+
         {/* Minimal Section Header */}
         <div className="flex flex-col items-center text-center mb-10 md:mb-16">
-          <div className={`inline-flex items-center justify-center gap-3 px-5 py-2.5 rounded-full mb-8 transition-colors duration-700 ${theme === 'dark' ? 'bg-white/5 border border-white/10 text-zinc-300' : 'bg-black/5 border border-black/10 text-zinc-600'} text-[10px] md:text-[11px] font-mono font-bold uppercase tracking-[0.2em]`}>
-             <span className="relative flex h-2 w-2">
-               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-             </span>
-             Selected Works
-          </div>
-          <h2 className={`text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
-            Projects that blend <span className="italic font-display text-blue-500">form</span> and <span className="italic font-display text-blue-500">function</span>.
-          </h2>
-          <p className={`text-base md:text-lg max-w-2xl leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
-             A curated selection of my latest work, spanning web development, custom applications, and digital experiences designed to be simple, unique, and attractive.
-          </p>
+          {badgeEnabled && (
+            <div className={`inline-flex items-center justify-center gap-3 px-5 py-2.5 rounded-full mb-8 transition-colors duration-700 ${theme === 'dark' ? 'bg-white/5 border border-white/10 text-zinc-300' : 'bg-black/5 border border-black/10 text-zinc-600'} text-[10px] md:text-[11px] font-mono font-bold uppercase tracking-[0.2em]`}>
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              {w.badge_text || 'Selected Works'}
+            </div>
+          )}
+          {headlineEnabled && (
+            <h2 className={`text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight mb-6 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+              {w.headline_pre || 'Projects that blend'}{' '}
+              <span className="italic font-display text-blue-500">{w.headline_italic1 || 'form'}</span>{' '}
+              {w.headline_mid || 'and'}{' '}
+              <span className="italic font-display text-blue-500">{w.headline_italic2 || 'function'}</span>
+              {w.headline_suffix ?? '.'}
+            </h2>
+          )}
+          {descEnabled && (
+            <p className={`text-base md:text-lg max-w-2xl leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
+              {w.description || 'A curated selection of my latest work, spanning web development, custom applications, and digital experiences designed to be simple, unique, and attractive.'}
+            </p>
+          )}
         </div>
 
         {/* Project List */}

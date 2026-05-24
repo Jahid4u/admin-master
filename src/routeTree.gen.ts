@@ -27,7 +27,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
-import { Route as AdminSiteWork_headerRouteImport } from './routes/admin.site.work_header'
+import { Route as AdminSiteWorkRouteImport } from './routes/admin.site.work'
 import { Route as AdminSiteTermsRouteImport } from './routes/admin.site.terms'
 import { Route as AdminSiteSocialRouteImport } from './routes/admin.site.social'
 import { Route as AdminSiteServicesRouteImport } from './routes/admin.site.services'
@@ -135,9 +135,9 @@ const AdminSystemDemoRoute = AdminSystemDemoRouteImport.update({
   path: '/system/demo',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSiteWork_headerRoute = AdminSiteWork_headerRouteImport.update({
-  id: '/site/work_header',
-  path: '/site/work_header',
+const AdminSiteWorkRoute = AdminSiteWorkRouteImport.update({
+  id: '/site/work',
+  path: '/site/work',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSiteTermsRoute = AdminSiteTermsRouteImport.update({
@@ -253,7 +253,7 @@ export interface FileRoutesByFullPath {
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
-  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
+  '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -288,7 +288,7 @@ export interface FileRoutesByTo {
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
-  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
+  '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
@@ -326,7 +326,7 @@ export interface FileRoutesById {
   '/admin/site/services': typeof AdminSiteServicesRoute
   '/admin/site/social': typeof AdminSiteSocialRoute
   '/admin/site/terms': typeof AdminSiteTermsRoute
-  '/admin/site/work_header': typeof AdminSiteWork_headerRoute
+  '/admin/site/work': typeof AdminSiteWorkRoute
   '/admin/system/demo': typeof AdminSystemDemoRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -365,7 +365,7 @@ export interface FileRouteTypes {
     | '/admin/site/services'
     | '/admin/site/social'
     | '/admin/site/terms'
-    | '/admin/site/work_header'
+    | '/admin/site/work'
     | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
@@ -400,7 +400,7 @@ export interface FileRouteTypes {
     | '/admin/site/services'
     | '/admin/site/social'
     | '/admin/site/terms'
-    | '/admin/site/work_header'
+    | '/admin/site/work'
     | '/admin/system/demo'
     | '/admin/blog'
     | '/admin/projects'
@@ -437,7 +437,7 @@ export interface FileRouteTypes {
     | '/admin/site/services'
     | '/admin/site/social'
     | '/admin/site/terms'
-    | '/admin/site/work_header'
+    | '/admin/site/work'
     | '/admin/system/demo'
     | '/admin/blog/'
     | '/admin/projects/'
@@ -584,11 +584,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSystemDemoRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/site/work_header': {
-      id: '/admin/site/work_header'
-      path: '/site/work_header'
-      fullPath: '/admin/site/work_header'
-      preLoaderRoute: typeof AdminSiteWork_headerRouteImport
+    '/admin/site/work': {
+      id: '/admin/site/work'
+      path: '/site/work'
+      fullPath: '/admin/site/work'
+      preLoaderRoute: typeof AdminSiteWorkRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/site/terms': {
@@ -725,7 +725,7 @@ interface AdminRouteChildren {
   AdminSiteServicesRoute: typeof AdminSiteServicesRoute
   AdminSiteSocialRoute: typeof AdminSiteSocialRoute
   AdminSiteTermsRoute: typeof AdminSiteTermsRoute
-  AdminSiteWork_headerRoute: typeof AdminSiteWork_headerRoute
+  AdminSiteWorkRoute: typeof AdminSiteWorkRoute
   AdminSystemDemoRoute: typeof AdminSystemDemoRoute
   AdminBlogIndexRoute: typeof AdminBlogIndexRoute
   AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
@@ -750,7 +750,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSiteServicesRoute: AdminSiteServicesRoute,
   AdminSiteSocialRoute: AdminSiteSocialRoute,
   AdminSiteTermsRoute: AdminSiteTermsRoute,
-  AdminSiteWork_headerRoute: AdminSiteWork_headerRoute,
+  AdminSiteWorkRoute: AdminSiteWorkRoute,
   AdminSystemDemoRoute: AdminSystemDemoRoute,
   AdminBlogIndexRoute: AdminBlogIndexRoute,
   AdminProjectsIndexRoute: AdminProjectsIndexRoute,
