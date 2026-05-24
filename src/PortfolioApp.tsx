@@ -2336,12 +2336,18 @@ const MarqueeStrip = ({ theme }: { theme: 'dark' | 'light' }) => {
 };
 
 export const HomePage = ({ theme }: { theme: 'dark' | 'light' }) => {
+  const { data: settings } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => getSiteSettings(),
+    staleTime: 60_000,
+  });
+  const home = (settings?.home ?? {}) as HomeSettings;
   return (
     <>
-      <MinimalHero theme={theme} />
-      <MinimalWork theme={theme} />
-      <MinimalBlog theme={theme} />
-      <MinimalContactForm theme={theme} />
+      {home.hero_enabled !== false && <MinimalHero theme={theme} home={home} />}
+      {home.work_enabled !== false && <MinimalWork theme={theme} home={home} />}
+      {home.blog_enabled !== false && <MinimalBlog theme={theme} home={home} />}
+      {home.contact_enabled !== false && <MinimalContactForm theme={theme} home={home} />}
     </>
   );
 };
