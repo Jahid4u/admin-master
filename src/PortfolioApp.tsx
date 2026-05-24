@@ -776,53 +776,60 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
           {/* Section Divider */}
           <div className={`w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
 
-          {/* Theme Toggle (Simplified) - Moved after Menu */}
-          <div className="flex items-center px-2 sm:px-3 group/logo cursor-pointer">
-             <motion.button 
-                onClick={toggleTheme}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label="Toggle theme"
-                className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-lg transition-all duration-500 relative overflow-hidden ${
-                  theme === 'dark' 
-                    ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]' 
-                    : 'bg-black text-white shadow-[0_0_15px_rgba(0,0,0,0.3)]'
-                }`}
-             >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={theme}
-                    initial={{ y: 20, opacity: 0, rotate: -45 }}
-                    animate={{ y: 0, opacity: 1, rotate: 0 }}
-                    exit={{ y: -20, opacity: 0, rotate: 45 }}
-                    transition={{ duration: 0.3, ease: "anticipate" }}
-                  >
-                    {theme === 'dark' ? <Sun size={14} strokeWidth={3} /> : <Moon size={14} strokeWidth={3} />}
-                  </motion.div>
-                </AnimatePresence>
-                <div className={`absolute inset-0 border-2 rounded-lg opacity-0 group-hover/logo:opacity-100 transition-opacity ${theme === 'dark' ? 'border-black/10' : 'border-white/10'}`} />
-             </motion.button>
-          </div>
+          {/* Theme Toggle */}
+          {themeToggleEnabled && (
+            <>
+              <div className={`w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
+              <div className="flex items-center px-2 sm:px-3 group/logo cursor-pointer">
+                <motion.button
+                  onClick={toggleTheme}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="Toggle theme"
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center shadow-lg transition-all duration-500 relative overflow-hidden ${
+                    theme === 'dark'
+                      ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'
+                      : 'bg-black text-white shadow-[0_0_15px_rgba(0,0,0,0.3)]'
+                  }`}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={theme}
+                      initial={{ y: 20, opacity: 0, rotate: -45 }}
+                      animate={{ y: 0, opacity: 1, rotate: 0 }}
+                      exit={{ y: -20, opacity: 0, rotate: 45 }}
+                      transition={{ duration: 0.3, ease: "anticipate" }}
+                    >
+                      {theme === 'dark' ? <Sun size={14} strokeWidth={3} /> : <Moon size={14} strokeWidth={3} />}
+                    </motion.div>
+                  </AnimatePresence>
+                  <div className={`absolute inset-0 border-2 rounded-lg opacity-0 group-hover/logo:opacity-100 transition-opacity ${theme === 'dark' ? 'border-black/10' : 'border-white/10'}`} />
+                </motion.button>
+              </div>
+            </>
+          )}
 
-          {/* Section Divider */}
-          <div className={`hidden sm:block w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
-
-          {/* Connect Action (Right Side) — hidden on small screens, Contact icon in nav serves as CTA */}
-          <div className={`hidden sm:flex pl-3 pr-1 items-center gap-3`}>
-               <motion.button 
-               whileHover={{ scale: 1.02 }}
-               whileTap={{ scale: 0.98 }}
-               className={`h-9 px-5 text-[9px] font-black uppercase tracking-[0.2em] rounded-full transition-all duration-300 flex items-center gap-2 group/btn relative overflow-hidden ${
-                 theme === 'dark' ? 'bg-white text-black hover:bg-white' : 'bg-black text-white hover:bg-black'
-               }`}
-             >
-               <Link to="/contact" className="absolute inset-0 z-20"></Link>
-               <div className="absolute inset-0 bg-blue-500 translate-x-[-101%] group-hover/btn:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
-               <span className={`relative z-10 flex items-center gap-2 group-hover/btn:text-white transition-colors duration-500`}>
-                 Connect <ArrowRight size={10} className="group-hover/btn:translate-x-1 transition-transform" />
-               </span>
-             </motion.button>
-          </div>
+          {/* CTA */}
+          {ctaEnabled && (
+            <>
+              <div className={`hidden sm:block w-[1px] h-5 rounded-full ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
+              <div className="hidden sm:flex pl-3 pr-1 items-center gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`h-9 px-5 text-[9px] font-black uppercase tracking-[0.2em] rounded-full transition-all duration-300 flex items-center gap-2 group/btn relative overflow-hidden ${
+                    theme === 'dark' ? 'bg-white text-black hover:bg-white' : 'bg-black text-white hover:bg-black'
+                  }`}
+                >
+                  <Link to={ctaUrl} className="absolute inset-0 z-20"></Link>
+                  <div className="absolute inset-0 bg-blue-500 translate-x-[-101%] group-hover/btn:translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                  <span className={`relative z-10 flex items-center gap-2 group-hover/btn:text-white transition-colors duration-500`}>
+                    {ctaLabel} <ArrowRight size={10} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
+                </motion.button>
+              </div>
+            </>
+          )}
         </motion.div>
       </nav>
     </>
