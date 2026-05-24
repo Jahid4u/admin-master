@@ -24,6 +24,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as WorkIdRouteImport } from './routes/work.$id'
 import { Route as BlogIdRouteImport } from './routes/blog.$id'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminInboxRouteImport } from './routes/admin.inbox'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin.projects.index'
 import { Route as AdminBlogIndexRouteImport } from './routes/admin.blog.index'
 import { Route as AdminSystemDemoRouteImport } from './routes/admin.system.demo'
@@ -118,6 +119,11 @@ const BlogIdRoute = BlogIdRouteImport.update({
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInboxRoute = AdminInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/work': typeof WorkRouteWithChildren
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/terms': typeof TermsRoute
   '/work': typeof WorkRouteWithChildren
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/blog/$id': typeof BlogIdRoute
   '/work/$id': typeof WorkIdRoute
@@ -344,6 +353,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/terms'
     | '/work'
+    | '/admin/inbox'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -379,6 +389,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/signup'
     | '/terms'
+    | '/admin/inbox'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -416,6 +427,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/terms'
     | '/work'
+    | '/admin/inbox'
     | '/admin/settings'
     | '/blog/$id'
     | '/work/$id'
@@ -563,6 +575,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/inbox': {
+      id: '/admin/inbox'
+      path: '/inbox'
+      fullPath: '/admin/inbox'
+      preLoaderRoute: typeof AdminInboxRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/projects/': {
       id: '/admin/projects/'
       path: '/projects'
@@ -707,6 +726,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminInboxRoute: typeof AdminInboxRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminBlogIdRoute: typeof AdminBlogIdRoute
@@ -732,6 +752,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminInboxRoute: AdminInboxRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminBlogIdRoute: AdminBlogIdRoute,

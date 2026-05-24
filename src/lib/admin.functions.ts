@@ -234,3 +234,54 @@ export const adminUpdateSetting = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+// ---------- Contact inbox ----------
+
+export const adminListSubmissions = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context.userId);
+    const { data, error } = await supabaseAdmin
+      .from("contact_submissions")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(500);
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const adminUpdateSubmission = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string; is_read?: boolean; is_replied?: boolean }) =>
+    z.object({
+      id: z.string().uuid(),
+      is_read: z.boolean().optional(),
+      is_replied: z.boolean().optional(),
+    }).parse(d)
+  )
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context.userId);
+    const patch: { is_read?: boolean; is_replied?: boolean } = {};
+    if (typeof data.is_read === "boolean") patch.is_read = data.is_read;
+    if (typeof data.is_replied === "boolean") patch.is_replied = data.is_replied;
+    if (Object.keys(patch).length === 0) return { ok: true };
+    const { error } = await supabaseAdmin
+      .from("contact_submissions")
+      .update(patch)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const adminDeleteSubmission = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { id: string }) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context.userId);
+    const { error } = await supabaseAdmin
+      .from("contact_submissions")
+      .delete()
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });

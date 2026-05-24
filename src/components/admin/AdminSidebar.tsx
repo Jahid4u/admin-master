@@ -29,7 +29,10 @@ type Group = { label: string; items: Item[]; collapsible?: boolean };
 const groups: Group[] = [
   {
     label: "Workspace",
-    items: [{ title: "Dashboard", url: "/admin", icon: LayoutDashboard, exact: true }],
+    items: [
+      { title: "Dashboard", url: "/admin", icon: LayoutDashboard, exact: true },
+      { title: "Inbox", url: "/admin/inbox", icon: Mail },
+    ],
   },
   {
     label: "Content",
