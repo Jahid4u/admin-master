@@ -1472,35 +1472,6 @@ export const BlogHighlights = ({ theme }: { theme: 'dark' | 'light' }) => {
           <button className={`w-10 h-10 flex items-center justify-center rounded-full border transition-colors ${theme === 'dark' ? 'border-white/10 text-zinc-400 hover:text-white hover:bg-white/5' : 'border-black/10 text-zinc-500 hover:text-black hover:bg-black/5'}`}><ChevronDown className="w-4 h-4 -rotate-90" /></button>
         </div>
         
-        {/* Newsletter Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className={`w-full max-w-5xl mx-auto rounded-[2rem] p-10 md:p-14 lg:p-16 relative overflow-hidden flex flex-col items-center gap-8 ${theme === 'dark' ? 'bg-[#0a0a0a] border border-white/5' : 'bg-black'} shadow-2xl`}
-        >
-          <div className="flex-1 max-w-2xl z-10 text-center">
-            <h3 className="text-3xl md:text-4xl font-bold font-display tracking-tight mb-4 text-white">
-              Stay in the Loop
-            </h3>
-            <p className="text-[17px] text-zinc-400">
-              Get the latest insights, trends, and updates delivered to your inbox.
-            </p>
-          </div>
-          
-          <form className="w-full max-w-xl z-10 flex flex-col sm:flex-row gap-3 pt-2" onSubmit={(e) => e.preventDefault()}>
-             <div className="relative flex-1">
-               <input 
-                 type="email" 
-                 placeholder="Enter your email"
-                 className={`w-full px-6 py-4 rounded-xl outline-none font-medium transition-all border ${theme === 'dark' ? 'bg-[#151515] border-white/5 text-white placeholder-zinc-500 focus:border-blue-500' : 'bg-white border-black/5 text-black placeholder-zinc-400 focus:border-blue-500'}`}
-               />
-             </div>
-             <button type="submit" className="px-8 py-4 flex items-center justify-center gap-2 rounded-xl text-[15px] font-bold transition-all hover:bg-blue-700 active:scale-95 shrink-0 bg-blue-600 text-white">
-               <Send className="w-4 h-4" /> Subscribe
-             </button>
-          </form>
-        </motion.div>
       </div>
     </section>
   );
