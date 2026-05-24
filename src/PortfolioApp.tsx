@@ -1687,12 +1687,32 @@ export const Footer = ({ theme }: { theme: 'dark' | 'light' }) => {
     newsletter_enabled?: boolean;
     newsletter_title?: string;
     newsletter_desc?: string;
+    newsletter_placeholder?: string;
+    newsletter_button?: string;
+    big_name_enabled?: boolean;
+    big_name?: string;
+    copyright?: string;
+    privacy_enabled?: boolean;
+    privacy_label?: string;
+    terms_enabled?: boolean;
+    terms_label?: string;
   };
   const newsletterEnabled = footerSettings.newsletter_enabled !== false;
   const newsletterTitle = footerSettings.newsletter_title || 'Stay in the Loop';
   const newsletterDesc =
     footerSettings.newsletter_desc ||
     'Get the latest insights, trends, and updates delivered to your inbox.';
+  const newsletterPlaceholder = footerSettings.newsletter_placeholder || 'Enter your email';
+  const newsletterButton = footerSettings.newsletter_button || 'Subscribe';
+  const bigNameEnabled = footerSettings.big_name_enabled !== false;
+  const bigName = (footerSettings.big_name || 'JAHID HASAN').toUpperCase();
+  const copyrightText =
+    footerSettings.copyright ||
+    `© ${new Date().getFullYear()} JAHID HASAN. CRAFTED WITH SOUL.`;
+  const privacyEnabled = footerSettings.privacy_enabled !== false;
+  const privacyLabel = footerSettings.privacy_label || 'PRIVACY POLICY';
+  const termsEnabled = footerSettings.terms_enabled !== false;
+  const termsLabel = footerSettings.terms_label || 'TERMS OF SERVICE';
 
   useEffect(() => {
     // Fallback timer to ensure overflow-visible is set even if viewport observers are delayed
