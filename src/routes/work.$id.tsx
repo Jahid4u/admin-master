@@ -17,27 +17,41 @@ import {
   projects,
   type Project,
 } from "@/lib/projects-data";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/work/$id")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const project = getProjectBySlug(params.id);
     if (!project) throw notFound();
-    return { project };
+    const { data: dbSeo } = await supabase
+      .from("projects")
+      .select("meta_title,meta_description,og_image")
+      .eq("slug", params.id)
+      .maybeSingle();
+    return { project, dbSeo };
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     const p = loaderData?.project;
     if (!p) return { meta: [{ title: "Project — JAHID." }] };
-    const title = `${p.title} — JAHID.`;
-    const desc = p.overview;
+    const seo = loaderData?.dbSeo as
+      | { meta_title?: string | null; meta_description?: string | null; og_image?: string | null }
+      | null
+      | undefined;
+    const title = seo?.meta_title || `${p.title} — JAHID.`;
+    const desc = seo?.meta_description || p.overview;
+    const image = seo?.og_image || p.cover;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:image", content: p.cover },
-        { name: "twitter:image", content: p.cover },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: `/work/${params.id}` },
+        { property: "og:image", content: image },
+        { name: "twitter:image", content: image },
       ],
+      links: [{ rel: "canonical", href: `/work/${params.id}` }],
     };
   },
   component: WorkDetailPage,

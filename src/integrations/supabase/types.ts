@@ -22,6 +22,9 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          meta_description: string | null
+          meta_title: string | null
+          og_image: string | null
           published: boolean
           published_at: string
           read_time: string | null
@@ -36,6 +39,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           published?: boolean
           published_at?: string
           read_time?: string | null
@@ -50,6 +56,9 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           published?: boolean
           published_at?: string
           read_time?: string | null
@@ -162,6 +171,9 @@ export type Database = {
           gallery: Json
           id: string
           live_url: string | null
+          meta_description: string | null
+          meta_title: string | null
+          og_image: string | null
           overview: string | null
           published: boolean
           repo_url: string | null
@@ -186,6 +198,9 @@ export type Database = {
           gallery?: Json
           id?: string
           live_url?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           overview?: string | null
           published?: boolean
           repo_url?: string | null
@@ -210,6 +225,9 @@ export type Database = {
           gallery?: Json
           id?: string
           live_url?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           overview?: string | null
           published?: boolean
           repo_url?: string | null

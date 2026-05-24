@@ -29,7 +29,10 @@ export type PostFormValues = {
   content: string;
   read_time: string;
   published: boolean;
-  published_at: string; // ISO date (YYYY-MM-DD) for the <input type="date">
+  published_at: string;
+  meta_title: string;
+  meta_description: string;
+  og_image: string | null;
 };
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
@@ -38,6 +41,7 @@ export const emptyPost: PostFormValues = {
   slug: "", title: "", description: "", category: "",
   cover_image: null, content: "", read_time: "", published: true,
   published_at: todayISO(),
+  meta_title: "", meta_description: "", og_image: null,
 };
 
 export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues }) {
@@ -65,6 +69,9 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
             content: v.content || null,
             read_time: v.read_time || null,
             published_at: publishedAtISO,
+            meta_title: v.meta_title || null,
+            meta_description: v.meta_description || null,
+            og_image: v.og_image || null,
           },
         },
       });
@@ -279,6 +286,25 @@ export function BlogForm({ id, initial }: { id?: string; initial: PostFormValues
           </Tabs>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader><CardTitle className="text-base">SEO</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-1.5">
+            <Label>Meta title</Label>
+            <Input maxLength={200} value={v.meta_title} onChange={(e) => set("meta_title", e.target.value)} />
+            <p className="text-xs text-muted-foreground">Defaults to post title if blank. ~60 chars.</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Meta description</Label>
+            <Textarea rows={2} maxLength={500} value={v.meta_description} onChange={(e) => set("meta_description", e.target.value)} />
+            <p className="text-xs text-muted-foreground">Defaults to short description. ~155 chars.</p>
+          </div>
+          <ImageUploader label="Share image (Open Graph)" value={v.og_image} onChange={(u) => set("og_image", u)} />
+        </CardContent>
+      </Card>
+
+
 
       <div className="flex gap-2">
         <Button type="submit" disabled={mut.isPending}>{mut.isPending ? "Saving…" : "Save post"}</Button>
