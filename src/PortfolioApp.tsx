@@ -521,6 +521,7 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
     theme_toggle_enabled?: boolean;
     cta_enabled?: boolean; cta_label?: string; cta_url?: string;
     time_enabled?: boolean; time_label?: string; time_timezone?: string;
+    time_hour12?: boolean; time_show_seconds?: boolean;
   };
 
   const brandEnabled = nav.brand_enabled !== false;
@@ -535,6 +536,8 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
   const timeEnabled = nav.time_enabled !== false;
   const timeLabel = nav.time_label || 'LOCAL TIME (GMT+6)';
   const timeTimezone = nav.time_timezone || 'Asia/Dhaka';
+  const timeHour12 = nav.time_hour12 === true;
+  const timeShowSeconds = nav.time_show_seconds !== false;
 
   const iconFor = (label: string) => {
     const k = label.toLowerCase();
@@ -599,18 +602,18 @@ export const Navbar = ({ theme, toggleTheme }: { theme: 'dark' | 'light', toggle
           timeZone: timeTimezone,
           hour: '2-digit',
           minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
+          ...(timeShowSeconds ? { second: '2-digit' as const } : {}),
+          hour12: timeHour12,
         });
         setCurrentTime(t);
       } catch {
-        setCurrentTime(new Date().toLocaleTimeString('en-US', { hour12: false }));
+        setCurrentTime(new Date().toLocaleTimeString('en-US', { hour12: timeHour12 }));
       }
     };
     setTime();
     const timer = setInterval(setTime, 1000);
     return () => clearInterval(timer);
-  }, [timeTimezone]);
+  }, [timeTimezone, timeHour12, timeShowSeconds]);
 
   return (
     <>

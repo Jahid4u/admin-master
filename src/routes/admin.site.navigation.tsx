@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { Field } from "@/components/admin/SiteSectionEditor";
 import { ImageUploader } from "@/components/admin/ImageUploader";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 
 export const Route = createFileRoute("/admin/site/navigation")({ component: NavPage });
@@ -36,6 +37,8 @@ type Nav = {
   time_enabled: boolean;
   time_label: string;
   time_timezone: string;
+  time_hour12: boolean;
+  time_show_seconds: boolean;
 
   // legacy (kept so old saved data doesn't break)
   logo_text?: string;
@@ -66,6 +69,8 @@ const defaults: Nav = {
   time_enabled: true,
   time_label: "LOCAL TIME (GMT+6)",
   time_timezone: "Asia/Dhaka",
+  time_hour12: false,
+  time_show_seconds: true,
 };
 
 function SectionCard({
@@ -98,6 +103,25 @@ function SectionCard({
 }
 
 const switchCls = "border border-border data-[state=unchecked]:bg-muted";
+
+const TZ_PRESETS: { value: string; label: string }[] = [
+  { value: "Asia/Dhaka", label: "Dhaka (GMT+6)" },
+  { value: "Asia/Kolkata", label: "Kolkata (GMT+5:30)" },
+  { value: "Asia/Karachi", label: "Karachi (GMT+5)" },
+  { value: "Asia/Dubai", label: "Dubai (GMT+4)" },
+  { value: "Asia/Singapore", label: "Singapore (GMT+8)" },
+  { value: "Asia/Tokyo", label: "Tokyo (GMT+9)" },
+  { value: "Australia/Sydney", label: "Sydney (GMT+10/11)" },
+  { value: "Europe/London", label: "London (GMT+0/1)" },
+  { value: "Europe/Berlin", label: "Berlin (GMT+1/2)" },
+  { value: "Europe/Istanbul", label: "Istanbul (GMT+3)" },
+  { value: "America/New_York", label: "New York (GMT-5/-4)" },
+  { value: "America/Chicago", label: "Chicago (GMT-6/-5)" },
+  { value: "America/Denver", label: "Denver (GMT-7/-6)" },
+  { value: "America/Los_Angeles", label: "Los Angeles (GMT-8/-7)" },
+  { value: "America/Sao_Paulo", label: "São Paulo (GMT-3)" },
+  { value: "UTC", label: "UTC" },
+];
 
 function NavPage() {
   const qc = useQueryClient();
@@ -351,6 +375,26 @@ function NavPage() {
                   placeholder="LOCAL TIME (GMT+6)"
                 />
               </Field>
+              <Field label="Timezone preset">
+                <Select
+                  value={TZ_PRESETS.some((t) => t.value === v.time_timezone) ? v.time_timezone : "__custom"}
+                  onValueChange={(val) => {
+                    if (val !== "__custom") set({ time_timezone: val });
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pick a timezone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TZ_PRESETS.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="__custom">Custom…</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
               <Field label="Timezone (IANA)">
                 <Input
                   value={v.time_timezone}
@@ -358,6 +402,31 @@ function NavPage() {
                   placeholder="Asia/Dhaka"
                 />
               </Field>
+              <Field label="Time format">
+                <Select
+                  value={v.time_hour12 ? "12" : "24"}
+                  onValueChange={(val) => set({ time_hour12: val === "12" })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="24">24-hour (14:30)</SelectItem>
+                    <SelectItem value="12">12-hour (2:30 PM)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+              <div className="sm:col-span-2 flex items-center justify-between rounded-md border border-border p-3">
+                <div>
+                  <div className="text-sm font-medium">Show seconds</div>
+                  <div className="text-xs text-muted-foreground">Include seconds in the clock (e.g. 14:30:45).</div>
+                </div>
+                <Switch
+                  className={switchCls}
+                  checked={v.time_show_seconds !== false}
+                  onCheckedChange={(c) => set({ time_show_seconds: c })}
+                />
+              </div>
             </div>
           </SectionCard>
         </div>
