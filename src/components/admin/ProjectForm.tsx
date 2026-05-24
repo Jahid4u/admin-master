@@ -35,12 +35,16 @@ export type ProjectFormValues = {
   repo_url: string;
   sort_order: number;
   published: boolean;
+  meta_title: string;
+  meta_description: string;
+  og_image: string | null;
 };
 
 export const emptyProject: ProjectFormValues = {
   slug: "", title: "", category: "", year: "", client: "", timeline: "", role: "",
   overview: "", challenge: "", solution: "", cover: null, gallery: [], tags: [],
   tech: [], results: [], live_url: "", repo_url: "", sort_order: 0, published: true,
+  meta_title: "", meta_description: "", og_image: null,
 };
 
 export function ProjectForm({ id, initial }: { id?: string; initial: ProjectFormValues }) {
@@ -66,6 +70,9 @@ export function ProjectForm({ id, initial }: { id?: string; initial: ProjectForm
           cover: v.cover || null,
           live_url: v.live_url || null,
           repo_url: v.repo_url || null,
+          meta_title: v.meta_title || null,
+          meta_description: v.meta_description || null,
+          og_image: v.og_image || null,
         },
       },
     }),
