@@ -1,0 +1,118 @@
+/* ============================================================
+   JAHID PORTFOLIO — Admin Styles
+   Mirrors the React admin dashboard UI exactly
+   ============================================================ */
+
+/* ── Wrap ─────────────────────────────────────────────────── */
+.jahid-admin-wrap { max-width: 1200px; }
+.jahid-admin-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 24px; border-bottom: 1px solid #e2e8f0; margin-bottom: 28px;
+}
+.jahid-admin-header h1 { font-size: 20px; font-weight: 700; color: #0f172a; margin: 0; }
+.jahid-admin-body {}
+
+/* ── Stats dashboard ──────────────────────────────────────── */
+.jahid-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.jahid-stat-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.jahid-stat-icon { font-size: 28px; color: #3b82f6; margin-bottom: 8px; }
+.jahid-stat-value { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 4px; }
+.jahid-stat-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 12px; }
+.jahid-stat-link { font-size: 12px; color: #3b82f6; font-weight: 600; text-decoration: none; }
+.jahid-stat-link:hover { text-decoration: underline; }
+
+.jahid-quick-links h2 { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+.jahid-quick-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.jahid-quick-link {
+  padding: 8px 16px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0;
+  font-size: 13px; font-weight: 600; color: #374151; text-decoration: none; transition: all 0.15s;
+}
+.jahid-quick-link:hover { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+
+/* ── Settings form ───────────────────────────────────────── */
+.jahid-settings-form { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 28px 32px; }
+.jahid-section { margin-bottom: 36px; }
+.jahid-section h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
+.jahid-fields-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+/* Field */
+.jahid-field { display: flex; flex-direction: column; gap: 6px; }
+.jahid-field-full { grid-column: 1 / -1; }
+.jahid-field label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #374151; }
+.jahid-field input[type="text"],
+.jahid-field input[type="url"],
+.jahid-field input[type="email"],
+.jahid-field textarea,
+.jahid-field select {
+  border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; color: #0f172a; background: #f8fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+.jahid-field input:focus,
+.jahid-field textarea:focus,
+.jahid-field select:focus {
+  outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+  background: #fff;
+}
+
+/* Toggle */
+.jahid-field-toggle .jahid-toggle-label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.jahid-toggle-input { display: none; }
+.jahid-toggle-slider {
+  width: 42px; height: 24px; border-radius: 12px; background: #cbd5e1; position: relative;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.jahid-toggle-slider::after { content: ''; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.jahid-toggle-input:checked + .jahid-toggle-slider { background: #3b82f6; }
+.jahid-toggle-input:checked + .jahid-toggle-slider::after { transform: translateX(18px); }
+.jahid-toggle-text { font-size: 13px; font-weight: 600; color: #374151; }
+
+/* Image field */
+.jahid-image-field { display: flex; flex-direction: column; gap: 8px; }
+
+/* Form footer */
+.jahid-form-footer { margin-top: 28px; padding-top: 20px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; gap: 12px; }
+.jahid-form-footer .button-primary { height: 38px; padding: 0 20px; border-radius: 8px; font-weight: 700; font-size: 13px; background: #3b82f6; border-color: #3b82f6; box-shadow: none; }
+.jahid-form-footer .button-primary:hover { background: #2563eb; border-color: #2563eb; }
+
+/* Description */
+.jahid-desc { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+
+/* ── Repeater ────────────────────────────────────────────── */
+.jahid-repeater { margin-top: 12px; }
+.jahid-repeater-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.jahid-repeater-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; }
+.jahid-repeater-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.jahid-repeater-row input[type="text"],
+.jahid-repeater-row input[type="url"] { border: 1px solid #e2e8f0; border-radius: 6px; padding: 7px 12px; font-size: 13px; background: #fff; }
+.jahid-add-item { margin-top: 4px; font-size: 13px !important; background: #f1f5f9 !important; border-color: #e2e8f0 !important; color: #374151 !important; border-radius: 8px !important; }
+.jahid-add-item:hover { background: #e2e8f0 !important; }
+.jahid-remove-item { color: #ef4444 !important; border-color: #fecaca !important; font-size: 13px !important; border-radius: 6px !important; }
+
+/* Meta boxes */
+.jahid-meta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 12px; margin-bottom: 16px; }
+.jahid-meta-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.jahid-meta-field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #374151; }
+.jahid-meta-field input[type="text"],
+.jahid-meta-field input[type="url"],
+.jahid-meta-field textarea { font-size: 13px; }
+.jahid-meta-full { grid-column: 1 / -1; }
+
+/* ── Table / Inbox ───────────────────────────────────────── */
+.jahid-table { border-radius: 8px; overflow: hidden; margin-top: 0; }
+.jahid-table th { background: #f8fafc; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; padding: 10px 14px; }
+.jahid-table td { padding: 12px 14px; vertical-align: middle; font-size: 13px; border-top: 1px solid #f1f5f9; }
+.jahid-unread { background: rgba(59,130,246,0.03); }
+
+.jahid-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.jahid-badge-blue   { background: rgba(59,130,246,0.12); color: #1d4ed8; }
+.jahid-badge-green  { background: rgba(16,185,129,0.12); color: #059669; }
+.jahid-badge-muted  { background: #f1f5f9; color: #64748b; }
+
+.jahid-msg-preview { cursor: default; }
+.jahid-toggle-msg   { font-size: 11px !important; text-decoration: underline; padding: 0 !important; height: auto !important; }
+.jahid-empty-state  { padding: 48px; text-align: center; color: #94a3b8; border: 2px dashed #e2e8f0; border-radius: 12px; }
