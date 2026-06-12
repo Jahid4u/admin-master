@@ -343,6 +343,7 @@ export const importDemoContent = createServerFn({ method: "POST" })
     let postsInserted = 0;
     let subscribersInserted = 0;
     let messagesInserted = 0;
+    let settingsInserted = 0;
 
     for (const p of DEMO_PROJECTS) {
       const { data: existing } = await supabaseAdmin
@@ -389,7 +390,20 @@ export const importDemoContent = createServerFn({ method: "POST" })
       if (!error) messagesInserted++;
     }
 
-    return { projectsInserted, postsInserted, subscribersInserted, messagesInserted };
+    for (const setting of DEMO_SETTINGS) {
+      const { data: existing } = await supabaseAdmin
+        .from("site_settings")
+        .select("key")
+        .eq("key", setting.key)
+        .maybeSingle();
+      if (existing) continue;
+      const { error } = await supabaseAdmin
+        .from("site_settings")
+        .insert({ key: setting.key, value: setting.value } as never);
+      if (!error) settingsInserted++;
+    }
+
+    return { projectsInserted, postsInserted, subscribersInserted, messagesInserted, settingsInserted };
   });
 
 export const clearDemoContent = createServerFn({ method: "POST" })
