@@ -420,6 +420,7 @@ export const clearDemoContent = createServerFn({ method: "POST" })
     await supabaseAdmin.from("blog_posts").delete().in("slug", postSlugs);
     await supabaseAdmin.from("newsletter_subscribers").delete().in("email", subEmails);
     await supabaseAdmin.from("contact_submissions").delete().in("email", msgEmails);
+    await supabaseAdmin.from("site_settings").delete().in("key", DEMO_SETTINGS.map((s) => s.key));
 
     return { ok: true };
   });
