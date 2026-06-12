@@ -179,6 +179,102 @@ const DEMO_POSTS = [
   },
 ];
 
+const DEMO_ABOUT_PAGE = {
+  hero_enabled: true,
+  badge_enabled: true,
+  badge_text: "Available for work",
+  headline_pre: "Crafting digital experiences with",
+  headline_italic: "purpose",
+  headline_suffix: ".",
+  bio: "I'm Jahid Hasan, founder of Apifel DIGI. I design brands and build websites — combining strong visual thinking with solid development skills to help creators stand out.",
+  cta_enabled: true,
+  cta_label: "Hire Me Now",
+  cta_url: "#contact",
+  socials_enabled: true,
+  socials: [
+    { label: "Twitter", url: "https://twitter.com/jahid", enabled: true },
+    { label: "LinkedIn", url: "https://linkedin.com/in/jahid", enabled: true },
+    { label: "Instagram", url: "https://instagram.com/jahid", enabled: true },
+  ],
+  profile_enabled: true,
+  profile_image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=800",
+  profile_name: "Jahid Hasan",
+  profile_role: "Graphic Designer & Dev",
+  location_enabled: true,
+  location_line1: "Based in Dhaka,",
+  location_line2: "Bangladesh",
+  cv_enabled: true,
+  cv_label: "Download CV",
+  cv_url: "#",
+  experience_enabled: true,
+  experience_title: "Work Experience",
+  experiences: [
+    { company: "Apifel DIGI", period: "2021 - Present", role: "Founder — Graphic Designer & Web Developer", enabled: true },
+    { company: "FreshMind Agency", period: "2019 - 2021", role: "Senior Graphic Designer & Web Developer", enabled: true },
+    { company: "StreamFlow Media", period: "2018 - 2019", role: "Graphic Designer", enabled: true },
+    { company: "Freelance", period: "2016 - 2018", role: "Freelance Designer & WordPress Developer", enabled: true },
+  ],
+  studies_enabled: true,
+  studies_title: "Studies",
+  studies: [
+    { title: "Visual Communication", detail: "Diploma — Graphic Design & Visual Arts (2014 - 2016)", enabled: true },
+    { title: "Web Development", detail: "Full-Stack Web Development, WordPress (2016 - Present)", enabled: true },
+  ],
+  languages_enabled: true,
+  languages_title: "Languages",
+  languages: [
+    { name: "English", enabled: true },
+    { name: "Bengali", enabled: true },
+  ],
+  tech_enabled: true,
+  tech_title: "Technical Arsenal",
+  tech_description: "The tools and technologies I use to bring ideas to life.",
+  tech_items: [
+    { icon: "Ps", name: "Photoshop", enabled: true },
+    { icon: "Ai", name: "Illustrator", enabled: true },
+    { icon: "Fg", name: "Figma", enabled: true },
+    { icon: "Wp", name: "WordPress", enabled: true },
+    { icon: "{ }", name: "HTML/CSS", enabled: true },
+    { icon: "Php", name: "PHP", enabled: true },
+  ],
+};
+
+const DEMO_PAGE_SEO = {
+  home: {
+    title: "Jahid Hasan — Design Engineer & WordPress Developer",
+    description: "Portfolio of Jahid Hasan — design engineer crafting brands, websites and WordPress products from Dhaka.",
+  },
+  about: {
+    title: "About Jahid Hasan — Design Engineer in Dhaka",
+    description: "Founder of Apifel DIGI. I design brands and ship production-ready websites with strong visual and engineering craft.",
+  },
+  work: {
+    title: "Selected Work — Jahid Hasan",
+    description: "A curated selection of brand, product and WordPress work shipped over the last 8 years.",
+  },
+  blog: {
+    title: "Notes on design, code and shipping — Jahid Hasan",
+    description: "Essays and tutorials on WordPress theming, design systems and Framer Motion.",
+  },
+  contact: {
+    title: "Contact Jahid Hasan — Start a project",
+    description: "Tell me about your project. Replies usually within 24 hours on business days.",
+  },
+  privacy: {
+    title: "Privacy Policy — Jahid Hasan",
+    description: "How this site collects, uses and protects your data.",
+  },
+  terms: {
+    title: "Terms of Service — Jahid Hasan",
+    description: "The terms that govern your use of this website and any services offered.",
+  },
+};
+
+const DEMO_SETTINGS: Array<{ key: string; value: unknown }> = [
+  { key: "about_page", value: DEMO_ABOUT_PAGE },
+  { key: "page_seo", value: DEMO_PAGE_SEO },
+];
+
 const DEMO_SUBSCRIBERS = [
   { email: "alex.morgan@example.com", source: "footer", is_active: true },
   { email: "priya.shah@example.com", source: "footer", is_active: true },
