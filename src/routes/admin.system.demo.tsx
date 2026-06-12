@@ -20,7 +20,7 @@ function DemoPage() {
     mutationFn: () => importFn(),
     onSuccess: (r) => {
       toast.success(
-        `Imported ${r.projectsInserted} projects, ${r.postsInserted} posts, ${r.subscribersInserted} subscribers, ${r.messagesInserted} messages`
+        `Imported ${r.projectsInserted} projects, ${r.postsInserted} posts, ${r.subscribersInserted} subscribers, ${r.messagesInserted} messages, ${r.settingsInserted} page settings`
       );
       qc.invalidateQueries();
     },
